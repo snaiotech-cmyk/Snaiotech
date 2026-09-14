@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import logoSrc from '@/imports/logo.png'
+
+const logoSrc = '/logo.png'
 
 const NAV_ITEMS = ['Home', 'About', 'Blog', 'Contact']
 
@@ -100,7 +101,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
           >
             <img
               src={logoSrc}
-              alt="Snaiotech logo"
+              alt="SNAiO Tech logo"
               className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-110"
             />
             <span
