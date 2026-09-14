@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-
-const logoSrc = '/logo.png'
+import { logoSrc } from '@/imports/logoBase64'
 
 const MARQUEE_ITEMS = [
   'WCAG Compliant', 'SEO Optimized', 'AEO & GEO Ready',
