@@ -1,7 +1,8 @@
 {
-  "description": "Streamline project management with an intuitive platform designed for teams to collaborate, track progress, and enhance productivity.",
+  "title": "SNAiO Tech | Web Dev, PDF Accessibility & Zoho Solutions",
+  "description": "SNAiO Tech delivers premium web development, SEO/AEO/GEO, PDF accessibility (WCAG), and Zoho deployment services from Chennai, India.",
   "robots": {
-    "index": false
+    "index": true
   },
   "accessibility": {
     "addBypassLinks": false,
