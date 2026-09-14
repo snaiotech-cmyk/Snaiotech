@@ -36,11 +36,6 @@ const IconArrow = ({ className = 'w-4 h-4' }) => (
     <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
   </svg>
 )
-const IconStar = ({ className = 'w-4 h-4' }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" className={className}>
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-  </svg>
-)
 
 // ── Animated particle network ─────────────────────────────────────────────────
 function ParticleCanvas() {
@@ -192,16 +187,8 @@ export default function Home({ onNavigate }: HomeProps) {
   const { ref: servicesRef, visible: servicesVisible } = useReveal()
   const { ref: statsRef, visible: statsVisible } = useReveal()
   const { ref: processRef, visible: processVisible } = useReveal()
-  const { ref: testiRef, visible: testiVisible } = useReveal()
   const { ref: blogRef, visible: blogVisible } = useReveal()
   const { ref: ctaRef, visible: ctaVisible } = useReveal()
-  const [testiIndex, setTestiIndex] = useState(0)
-
-  const testimonials = [
-    { name: 'Marcus O.', role: 'CEO, Kestral Logistics', avatar: img('1500648767791-00dcc994a43e', 80, 80), text: 'Snaiotech rebuilt our web presence from the ground up. Traffic is up 210% and we rank for queries we never thought possible. Their SEO depth is extraordinary.', stars: 5 },
-    { name: 'Priya S.', role: 'Head of Compliance, Vertex Health', avatar: img('1506863530036-1efeddceb993', 80, 80), text: 'Our PDFs had 300+ accessibility failures. Within two weeks they were fully WCAG 2.1 AA compliant. The audit report alone was worth the engagement.', stars: 5 },
-    { name: 'Daniel K.', role: 'Ops Director, Meridian Partners', avatar: img('1507003211169-0a1dd7228f2d', 80, 80), text: "We bought Zoho CRM and had no idea what to do with it. Snaiotech's deployment and automation work saved us 15 hours a week. Remarkable ROI.", stars: 5 },
-  ]
 
   const steps = [
     { n: '01', title: 'Discovery Call', desc: 'We audit your current state, goals, and gaps in a focused 60-minute session.', imgId: '1556761175-b413da4baf72' },
@@ -253,7 +240,7 @@ export default function Home({ onNavigate }: HomeProps) {
                 </button>
               </div>
               <div className="flex flex-wrap gap-8">
-                {[{ val: '200+', label: 'Projects' }, { val: '98%', label: 'Satisfaction' }, { val: '48h', label: 'Response SLA' }].map((b) => (
+                {[{ val: '3', label: 'Core Services' }, { val: '48h', label: 'Response SLA' }, { val: '100%', label: 'Transparent Pricing' }].map((b) => (
                   <div key={b.val}>
                     <div className="text-2xl font-black text-white stat-num">{b.val}</div>
                     <div className="text-xs text-white/35 mt-0.5" style={{ fontFamily: 'Space Mono, monospace' }}>{b.label}</div>
@@ -381,17 +368,17 @@ export default function Home({ onNavigate }: HomeProps) {
           <div ref={statsRef as React.RefObject<HTMLDivElement>}>
             <div className={`grid lg:grid-cols-5 gap-12 items-start mb-14 reveal ${statsVisible ? 'visible' : ''}`}>
               <div className="lg:col-span-3">
-                <p className="eyebrow mb-4">By the numbers</p>
+                <p className="eyebrow mb-4">What we bring to the table</p>
                 <h2 className="text-4xl lg:text-5xl font-extrabold display-snug mb-5" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                  Why businesses <span className="gradient-text">choose Snaiotech</span>
+                  Fresh start.{' '}<span className="gradient-text">Serious commitment.</span>
                 </h2>
-                <p className="text-white/50 text-base leading-relaxed max-w-lg">We set KPIs before we start and report against them. No vanity metrics, no vague deliverables — just measurable results that compound over time.</p>
+                <p className="text-white/50 text-base leading-relaxed max-w-lg">We're a brand-new company — and that means you get our full attention, sharp pricing, and a team that has everything to prove. No corporate layers, no handoffs, no excuses.</p>
               </div>
               <div className={`lg:col-span-2 grid grid-cols-2 gap-4 stagger ${statsVisible ? 'visible' : ''}`}>
-                <StatCounter value={200} label="Projects delivered" suffix="+" start={statsVisible} />
-                <StatCounter value={98} label="Satisfaction rate" suffix="%" start={statsVisible} />
-                <StatCounter value={12} label="Enterprise clients" suffix="+" start={statsVisible} />
-                <StatCounter value={5} label="Years running" suffix="+" start={statsVisible} />
+                <StatCounter value={3} label="Specialised services" suffix="" start={statsVisible} />
+                <StatCounter value={48} label="Hour response SLA" suffix="h" start={statsVisible} />
+                <StatCounter value={100} label="Transparent pricing" suffix="%" start={statsVisible} />
+                <StatCounter value={0} label="Hidden fees, ever" suffix="" start={statsVisible} />
               </div>
             </div>
 
@@ -461,51 +448,7 @@ export default function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS — photo avatars ──────────────────────────────── */}
-      <section className="py-24 gradient-mesh">
-        <div className="max-w-5xl mx-auto px-6">
-          <div ref={testiRef as React.RefObject<HTMLDivElement>}>
-            <div className={`text-center mb-14 reveal ${testiVisible ? 'visible' : ''}`}>
-              <p className="eyebrow mb-3">Client stories</p>
-              <h2 className="text-4xl font-extrabold display-snug" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                Trusted by teams who care about <span className="gradient-text">results.</span>
-              </h2>
-            </div>
 
-            <div className={`reveal ${testiVisible ? 'visible' : ''}`}>
-              <div className="glass rounded-2xl overflow-hidden max-w-3xl mx-auto">
-                <div className="relative h-48 overflow-hidden">
-                  <img src={img('1522071820081-009f0129c71c', 900, 384)} alt="Team collaborating" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,14,26,0.2), rgba(10,14,26,0.88))' }} />
-                </div>
-                <div className="p-10">
-                  <div className="flex gap-1 mb-5">
-                    {Array.from({ length: testimonials[testiIndex].stars }).map((_, i) => <IconStar key={i} className="w-4 h-4 text-yellow-400" />)}
-                  </div>
-                  <blockquote className="text-xl text-white/85 leading-relaxed mb-8 font-light italic" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                    "{testimonials[testiIndex].text}"
-                  </blockquote>
-                  <div className="flex items-center gap-4">
-                    <img src={testimonials[testiIndex].avatar} alt={testimonials[testiIndex].name} className="w-11 h-11 rounded-full object-cover ring-2 ring-cyan-500/40 flex-shrink-0" />
-                    <div>
-                      <div className="font-bold text-white text-sm" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{testimonials[testiIndex].name}</div>
-                      <div className="text-xs text-cyan-400" style={{ fontFamily: 'Space Mono, monospace' }}>{testimonials[testiIndex].role}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-center gap-3 mt-6">
-                {testimonials.map((t, i) => (
-                  <button key={i} onClick={() => setTestiIndex(i)} className="rounded-full transition-all duration-200 overflow-hidden border-2 flex-shrink-0" style={{ width: 36, height: 36, borderColor: i === testiIndex ? '#00B4D8' : 'transparent', opacity: i === testiIndex ? 1 : 0.45 }}>
-                    <img src={t.avatar} alt={t.name} className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── BLOG — asymmetric 3+2 ──────────────────────────────────────── */}
       <section className="py-24 gradient-mesh-light">
