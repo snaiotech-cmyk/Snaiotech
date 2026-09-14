@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { logoSrc } from '@/imports/logoBase64'
+import logoSrc from '@/imports/logo.png'
 
 const NAV_ITEMS = ['Home', 'About', 'Blog', 'Contact']
 
