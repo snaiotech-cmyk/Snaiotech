@@ -7,17 +7,25 @@ export function useReveal<T extends Element = HTMLDivElement>(threshold = 0.12) 
   useEffect(() => {
     const el = ref.current
     if (!el) return
+
+    // Fallback: force visible after 400ms so inputs are never permanently locked
+    const fallback = setTimeout(() => setVisible(true), 400)
+
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true)
+          clearTimeout(fallback)
           obs.disconnect()
         }
       },
-      { threshold }
+      { threshold, root: null }
     )
     obs.observe(el)
-    return () => obs.disconnect()
+    return () => {
+      clearTimeout(fallback)
+      obs.disconnect()
+    }
   }, [threshold])
 
   return { ref, visible }
