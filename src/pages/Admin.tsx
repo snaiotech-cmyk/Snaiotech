@@ -175,6 +175,8 @@ export default function Admin({ onNavigate }: AdminProps) {
   const [busy, setBusy] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
   const [filterStatus, setFilterStatus] = useState<Status | 'all'>('all')
+  const [isSignUp, setIsSignUp] = useState(false)
+  const [authSuccess, setAuthSuccess] = useState('')
 
   useEffect(() => {
     if (!supabase) return
@@ -202,13 +204,33 @@ export default function Admin({ onNavigate }: AdminProps) {
     if (session) loadData()
   }, [session, loadData])
 
-  const signIn = async (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!supabase) return
     setBusy(true)
     setSaveMsg('')
-    const { error } = await supabase.auth.signInWithPassword({ email: loginEmail, password: loginPassword })
-    if (error) setSaveMsg(error.message)
+    setAuthSuccess('')
+
+    if (isSignUp) {
+      const { data, error } = await supabase.auth.signUp({
+        email: loginEmail,
+        password: loginPassword,
+      })
+      if (error) {
+        setSaveMsg(error.message)
+      } else if (data.session) {
+        setSession(data.session)
+      } else {
+        setAuthSuccess('Account created successfully! If email confirmation is required, check your inbox, or sign in now.')
+        setIsSignUp(false)
+      }
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: loginEmail,
+        password: loginPassword,
+      })
+      if (error) setSaveMsg(error.message)
+    }
     setBusy(false)
   }
 
@@ -258,12 +280,14 @@ export default function Admin({ onNavigate }: AdminProps) {
             </div>
             <p className="eyebrow mb-2">Private workspace</p>
             <h1 className="text-3xl font-black text-white" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-              Admin <span className="gradient-text">Portal</span>
+              {isSignUp ? 'Create Admin Account' : <>Admin <span className="gradient-text">Portal</span></>}
             </h1>
-            <p className="text-sm text-white/45 mt-2">Sign in with your Supabase admin account.</p>
+            <p className="text-sm text-white/45 mt-2">
+              {isSignUp ? 'Register your administrator credentials in Supabase.' : 'Sign in with your Supabase admin account.'}
+            </p>
           </div>
 
-          <form onSubmit={signIn} className="glass rounded-2xl p-8 space-y-5">
+          <form onSubmit={handleAuth} className="glass rounded-2xl p-8 space-y-5">
             <AdminInput label="Email address" value={loginEmail} onChange={setLoginEmail} type="email" placeholder="admin@example.com" />
             <AdminInput label="Password" value={loginPassword} onChange={setLoginPassword} type="password" placeholder="••••••••" />
 
@@ -273,9 +297,25 @@ export default function Admin({ onNavigate }: AdminProps) {
               </p>
             )}
 
+            {authSuccess && (
+              <p role="status" className="text-sm text-emerald-300 bg-emerald-400/10 border border-emerald-400/20 rounded-xl px-4 py-3">
+                {authSuccess}
+              </p>
+            )}
+
             <button disabled={busy} className="btn-primary w-full rounded-xl py-3.5 text-sm" type="submit">
-              {busy ? 'Signing in…' : 'Sign in to Admin'}
+              {busy ? (isSignUp ? 'Creating account…' : 'Signing in…') : (isSignUp ? 'Create Account & Enter' : 'Sign in to Admin')}
             </button>
+
+            <div className="text-center pt-2">
+              <button
+                type="button"
+                onClick={() => { setIsSignUp(!isSignUp); setSaveMsg(''); setAuthSuccess('') }}
+                className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors underline underline-offset-4"
+              >
+                {isSignUp ? 'Already created an account? Sign in instead' : "First time? Click here to create your admin account"}
+              </button>
+            </div>
           </form>
 
           <p className="text-center text-xs text-white/25 mt-6">
