@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useReveal } from '@/hooks/useReveal'
+import { supabase } from '@/lib/supabase'
 
 interface ContactProps { onNavigate: (page: string) => void }
 
@@ -8,10 +9,32 @@ export default function Contact({ onNavigate }: ContactProps) {
   const [form, setForm] = useState({ name: '', email: '', company: '', service: '', message: '' })
   const [sent, setSent] = useState(false)
   const [focused, setFocused] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSent(true)
+    setSubmitting(true)
+    setError('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      if (!response.ok) throw new Error('Unable to send your message right now.')
+      if (supabase) {
+        const { error: databaseError } = await supabase.from('submissions').insert(form)
+        if (databaseError) throw new Error('Your message was emailed, but could not be saved to the admin inbox.')
+      }
+      setSent(true)
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : 'Unable to send your message right now.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const Field = ({
@@ -31,12 +54,15 @@ export default function Contact({ onNavigate }: ContactProps) {
         {label}{required && ' *'}
       </label>
       <input
+        id={name}
+        name={name}
         type={type}
         value={form[name]}
+        autoComplete={name === 'name' ? 'name' : name === 'email' ? 'email' : 'organization'}
         onFocus={() => setFocused(name)}
         onBlur={() => setFocused(null)}
         onChange={(e) => setForm({ ...form, [name]: e.target.value })}
-        className="glass-input w-full rounded-xl px-4 pt-7 pb-3 text-sm"
+        className="glass-input w-full rounded-xl px-4 pt-7 pb-3 text-sm caret-cyan-300"
         required={required}
       />
     </div>
@@ -99,6 +125,8 @@ export default function Contact({ onNavigate }: ContactProps) {
                           Service of interest
                         </label>
                         <select
+                          id="service"
+                          name="service"
                           value={form.service}
                           onChange={(e) => setForm({ ...form, service: e.target.value })}
                           className="glass-input w-full rounded-xl px-4 pt-7 pb-3 text-sm appearance-none cursor-pointer"
@@ -122,18 +150,23 @@ export default function Contact({ onNavigate }: ContactProps) {
                           Tell us about your project *
                         </label>
                         <textarea
+                          id="message"
+                          name="message"
                           rows={5}
                           value={form.message}
+                          autoComplete="off"
                           onFocus={() => setFocused('message')}
                           onBlur={() => setFocused(null)}
                           onChange={(e) => setForm({ ...form, message: e.target.value })}
-                          className="glass-input w-full rounded-xl px-4 pt-7 pb-3 text-sm resize-none"
+                          className="glass-input w-full rounded-xl px-4 pt-7 pb-3 text-sm resize-none caret-cyan-300"
                           required
                         />
                       </div>
 
-                      <button type="submit" className="btn-primary w-full py-3.5 rounded-xl text-sm">
-                        Send message
+                      {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
+
+                      <button type="submit" disabled={submitting} className="btn-primary w-full py-3.5 rounded-xl text-sm disabled:cursor-wait disabled:opacity-70">
+                        {submitting ? 'Sending…' : 'Send message'}
                       </button>
 
                       <p className="text-center text-xs text-white/30">

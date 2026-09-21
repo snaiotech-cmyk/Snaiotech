@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-const logoSrc = 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo'
-
+const defaultLogoSrc = 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo'
+const getLogoSrc = () => {
+  try { return JSON.parse(localStorage.getItem('snaiotech-site-settings') || '{}').logoUrl || defaultLogoSrc } catch { return defaultLogoSrc }
+}
 const MARQUEE_ITEMS = [
   'WCAG Compliant', 'SEO Optimized', 'AEO & GEO Ready',
   'Zoho Certified', 'ADA Section 508', 'Web Accessibility',
@@ -65,7 +67,7 @@ export default function Footer({ onNavigate }: FooterProps) {
             {/* Brand col */}
             <div className="lg:col-span-1">
               <button onClick={() => navigate('home')} className="flex items-center gap-3 mb-4 group">
-                <img src={logoSrc} alt="Snaiotech" className="w-9 h-9 object-contain group-hover:scale-110 transition-transform" />
+                <img src={getLogoSrc()} alt="Snaiotech" className="w-9 h-9 object-contain group-hover:scale-110 transition-transform" />
                 <span className="font-bold text-xl gradient-text" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>Snaiotech</span>
               </button>
               <p className="text-white/50 text-sm leading-relaxed mb-5">
@@ -73,13 +75,15 @@ export default function Footer({ onNavigate }: FooterProps) {
               </p>
               <div className="flex gap-3">
                 {[
-                  { label: 'LinkedIn', path: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z' },
-                  { label: 'Twitter', path: 'M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z' },
-                  { label: 'GitHub', path: 'M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22' },
+                  { label: 'Instagram', href: 'https://www.instagram.com/snaiotech/', path: 'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M17.5 6.5h.01' },
+                  { label: 'Facebook', href: 'https://www.facebook.com/snaiotech', path: 'M14 8h3V4h-3a5 5 0 0 0-5 5v3H6v4h3v6h4v-6h3l1-4h-4V9a1 1 0 0 1 1-1z' },
+                  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/snaiotech/', path: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z' },
                 ].map((social) => (
                   <a
                     key={social.label}
-                    href="#"
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
                     aria-label={social.label}
                     className="w-9 h-9 glass rounded-full flex items-center justify-center text-white/50 hover:text-cyan-400 hover:border-cyan-400/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-200"
                   >
@@ -169,6 +173,9 @@ export default function Footer({ onNavigate }: FooterProps) {
                   {item}
                 </button>
               ))}
+              <button onClick={() => navigate('admin')} className="text-xs text-white/35 hover:text-cyan-400 transition-colors">
+                Admin Portal
+              </button>
             </div>
           </div>
         </div>

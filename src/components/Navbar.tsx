@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-const logoSrc = 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo'
+const defaultLogoSrc = 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo'
+const getLogoSrc = () => {
+  try { return JSON.parse(localStorage.getItem('snaiotech-site-settings') || '{}').logoUrl || defaultLogoSrc } catch { return defaultLogoSrc }
+}
 
 const NAV_ITEMS = ['Home', 'About', 'Blog', 'Contact']
 
@@ -99,7 +102,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             className="flex items-center gap-3 group"
           >
             <img
-              src={logoSrc}
+              src={getLogoSrc()}
               alt="SNAiO Tech logo"
               className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-110"
             />

@@ -8,8 +8,9 @@ import Zoho from '@/pages/Zoho'
 import About from '@/pages/About'
 import Blog from '@/pages/Blog'
 import Contact from '@/pages/Contact'
+import Admin from '@/pages/Admin'
 
-type Page = 'home' | 'webdev' | 'pdf' | 'zoho' | 'about' | 'blog' | 'contact'
+type Page = 'home' | 'webdev' | 'pdf' | 'zoho' | 'about' | 'blog' | 'contact' | 'admin'
 
 const PAGE_TITLES: Record<Page, string> = {
   home: 'Snaiotech — Digital Services Built to Dominate',
@@ -19,6 +20,7 @@ const PAGE_TITLES: Record<Page, string> = {
   about: 'Who We Are — Snaiotech',
   blog: 'Blog — Snaiotech',
   contact: 'Contact Us — Snaiotech',
+  admin: 'Admin Portal — Snaiotech',
 }
 
 export default function App() {
@@ -31,7 +33,21 @@ export default function App() {
   }
 
   useEffect(() => {
-    document.title = PAGE_TITLES[page]
+    const savedPages = JSON.parse(localStorage.getItem('snaiotech-page-settings') || '[]') as { page?: string; title?: string; description?: string; indexable?: boolean }[]
+    const savedSite = JSON.parse(localStorage.getItem('snaiotech-site-settings') || '{}') as { defaultDescription?: string; canonicalUrl?: string; faviconUrl?: string }
+    const pageName = page === 'home' ? 'Home' : page === 'pdf' ? 'PDF' : page === 'zoho' ? 'Zoho' : page.charAt(0).toUpperCase() + page.slice(1)
+    const pageSettings = savedPages.find(item => item.page === pageName)
+    document.title = pageSettings?.title || PAGE_TITLES[page]
+    const description = document.querySelector('meta[name="description"]') || document.head.appendChild(Object.assign(document.createElement('meta'), { name: 'description' }))
+    description.setAttribute('content', pageSettings?.description || savedSite.defaultDescription || 'Premium digital services from Snaiotech.')
+    if (savedSite.canonicalUrl) {
+      const canonical = document.querySelector('link[rel="canonical"]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'canonical' }))
+      canonical.setAttribute('href', `${savedSite.canonicalUrl.replace(/\/$/, '')}${page === 'home' ? '/' : `/${page}`}`)
+    }
+    if (savedSite.faviconUrl) {
+      const favicon = document.querySelector('link[rel="icon"]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'icon' }))
+      favicon.setAttribute('href', savedSite.faviconUrl)
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [page])
 
@@ -43,15 +59,18 @@ export default function App() {
     about: <About onNavigate={navigate} />,
     blog: <Blog onNavigate={navigate} />,
     contact: <Contact onNavigate={navigate} />,
+    admin: <Admin onNavigate={navigate} />,
   }[page]
+
+  const isAdmin = page === 'admin'
 
   return (
     <div className="min-h-full flex flex-col" style={{ background: '#0A0E1A' }}>
-      <Navbar currentPage={page} onNavigate={navigate} />
+      {!isAdmin && <Navbar currentPage={page} onNavigate={navigate} />}
       <main className="flex-1">
         {PageComponent}
       </main>
-      <Footer onNavigate={navigate} />
+      {!isAdmin && <Footer onNavigate={navigate} />}
     </div>
   )
 }
