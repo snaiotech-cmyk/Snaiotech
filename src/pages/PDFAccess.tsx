@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useReveal } from '@/hooks/useReveal'
+import PageHero from '@/components/PageHero'
+import PageCTA from '@/components/PageCTA'
 
 const img = (id: string, w: number, h: number) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&auto=format&q=80`
@@ -7,11 +9,6 @@ const img = (id: string, w: number, h: number) =>
 const IconCheck = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4 flex-shrink-0">
     <polyline points="20 6 9 17 4 12"/>
-  </svg>
-)
-const IconArrow = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
   </svg>
 )
 const IconEye = () => (
@@ -137,7 +134,7 @@ function Lightbox({ doc, onClose }: { doc: typeof SAMPLES[0]; onClose: () => voi
           <div className="flex items-center gap-2">
             <button
               className="btn-ghost px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5"
-              onClick={() => alert('Download would start here — no real file in preview')}
+              onClick={() => alert('Download would start here - no real file in preview')}
             >
               <IconDownload /> Download
             </button>
@@ -181,7 +178,7 @@ function BeforeAfter() {
             className={`flex-1 py-3 text-sm font-semibold transition-colors ${showAfter === after ? 'bg-cyan-500/15 text-cyan-300' : 'text-white/40 hover:text-white/60'}`}
             style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}
           >
-            {after ? '✓ After — Remediated' : '✗ Before — Untagged'}
+            {after ? '✓ After - Remediated' : '✗ Before - Untagged'}
           </button>
         ))}
       </div>
@@ -198,7 +195,7 @@ function BeforeAfter() {
               <h2 className="text-base font-bold mb-2 text-blue-900">Annual Report 2025 <span className="text-xs text-green-600 font-normal ml-2">[Tagged H1]</span></h2>
               <p className="mb-3 text-gray-700 leading-relaxed">This report summarizes financial performance... <span className="text-xs text-green-600">[Alt: Chart showing revenue growth]</span></p>
               <div className="bg-blue-50 border border-blue-100 rounded p-2 text-xs text-blue-700">
-                Screen reader: "Heading level 1: Annual Report 2025 — Paragraph: This report summarizes…"
+                Screen reader: "Heading level 1: Annual Report 2025 - Paragraph: This report summarizes…"
               </div>
             </div>
           </div>
@@ -209,7 +206,7 @@ function BeforeAfter() {
               <p className="font-bold text-base mb-2">Annual Report 2025</p>
               <p className="mb-3 text-gray-700 leading-relaxed">[Image] This report summarizes financial performance...</p>
               <div className="bg-red-50 border border-red-200 rounded p-2 text-xs text-red-700">
-                Screen reader: "Image — This report summar…" ⚠ No heading structure, no alt text, unordered reading
+                Screen reader: "Image - This report summar…" ⚠ No heading structure, no alt text, unordered reading
               </div>
             </div>
           </div>
@@ -221,7 +218,7 @@ function BeforeAfter() {
 
 // ── Sample remediation data ──────────────────────────────────────────────────
 const SAMPLES = [
-  { id: 1, title: 'Annual Report', org: 'Meridian Capital Group', year: '2025', badge: 'WCAG 2.1 AA', pages: 48, tag: 'Finance', imgId: '1778873750399-338b94f7feda', desc: 'Full remediation of 48-page annual report — tagged structure, alt text, table headers, and color contrast.' },
+  { id: 1, title: 'Annual Report', org: 'Meridian Capital Group', year: '2025', badge: 'WCAG 2.1 AA', pages: 48, tag: 'Finance', imgId: '1778873750399-338b94f7feda', desc: 'Full remediation of 48-page annual report - tagged structure, alt text, table headers, and color contrast.' },
   { id: 2, title: 'Government Application Form', org: 'State Licensing Board', year: '2024', badge: 'Section 508', pages: 12, tag: 'Government', imgId: '1772588627342-5ec373e236d8', desc: 'Form fields labeled, tab order corrected, reading order verified. Passes PAC 3 and manual JAWS testing.' },
   { id: 3, title: 'University Student Handbook', org: 'Westbrook University', year: '2025', badge: 'PDF/UA', pages: 86, tag: 'Education', imgId: '1461749280684-dccba630e2f6', desc: 'Screen-reader optimized. Heading hierarchy, bookmarks, navigational links, and image alt text throughout.' },
   { id: 4, title: 'Medical Consent Form', org: 'Apex Health Network', year: '2026', badge: 'WCAG 2.2 AA', pages: 6, tag: 'Healthcare', imgId: '1542831371-29b0f74f9713', desc: 'Form labels, required field markup, error identification, and reading order for clinical consent workflow.' },
@@ -245,7 +242,6 @@ const FAQ_ITEMS = [
 interface PDFAccessProps { onNavigate: (page: string) => void }
 
 export default function PDFAccess({ onNavigate }: PDFAccessProps) {
-  const { ref: heroRef, visible: heroVis } = useReveal()
   const { ref: servRef, visible: servVis } = useReveal()
   const { ref: showcaseRef, visible: showcaseVis } = useReveal()
   const { ref: faqRef, visible: faqVis } = useReveal()
@@ -255,17 +251,8 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
   const services = [
     { title: 'PDF Remediation', icon: '📄', desc: 'We tag, reorder, and annotate existing PDFs to meet WCAG 2.1 AA, PDF/UA-1, and Section 508 standards.', points: ['Document tagging & structure', 'Reading order correction', 'Table header remediation', 'Form field labeling'] },
     { title: 'Accessibility Audits', icon: '🔍', desc: 'Comprehensive audits of your PDF library and web content against current WCAG criteria, with prioritized findings.', points: ['Automated + manual testing', 'WCAG 2.2 criteria mapping', 'Prioritized issue backlog', 'Retest verification included'] },
-    { title: 'Alt Text & Images', icon: '🖼️', desc: "Every image, chart, and figure gets meaningful, context-aware alt text written by humans — not AI fill-ins.", points: ['Descriptive alt text writing', 'Decorative image artifact tagging', 'Complex figure descriptions', 'Consistency standards guide'] },
+    { title: 'Alt Text & Images', icon: '🖼️', desc: "Every image, chart, and figure gets meaningful, context-aware alt text written by humans - not AI fill-ins.", points: ['Descriptive alt text writing', 'Decorative image artifact tagging', 'Complex figure descriptions', 'Consistency standards guide'] },
     { title: 'Compliance Reporting', icon: '📋', desc: 'Formal VPAT and conformance reports suitable for RFP responses, legal review, and regulatory submissions.', points: ['VPAT 2.5 WCAG edition', 'Custom conformance report', 'Section 508 mapping', 'Annual review program'] },
-  ]
-
-  const complianceStandards = [
-    { name: 'WCAG 2.1 AA', desc: 'Current de facto US legal standard' },
-    { name: 'WCAG 2.2 AA', desc: 'Latest W3C guidelines (2023)' },
-    { name: 'PDF/UA-1', desc: 'ISO standard for accessible PDFs' },
-    { name: 'Section 508', desc: 'US federal accessibility law' },
-    { name: 'ADA Title III', desc: 'For public-facing businesses' },
-    { name: 'EN 301 549', desc: 'European accessibility standard' },
   ]
 
   return (
@@ -273,39 +260,19 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
       {/* Lightbox */}
       {lightboxDoc && <Lightbox doc={lightboxDoc} onClose={() => setLightboxDoc(null)} />}
 
-      {/* Hero */}
-      <section className="gradient-mesh grid-overlay pt-32 pb-20 relative">
-        <div className="absolute w-72 h-72 rounded-full opacity-20 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #00B4D8, transparent)', filter: 'blur(60px)', top: '20%', right: '8%' }} />
-        <div ref={heroRef as React.RefObject<HTMLDivElement>} className="max-w-6xl mx-auto px-6">
-          <div className={`reveal ${heroVis ? 'visible' : ''}`}>
-            <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-6">
-              <span className="eyebrow">Service 02</span>
-            </div>
-            <h1 className="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 display-tight" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-              PDF Accessibility{' '}
-              <span className="gradient-text">&amp; WCAG Compliance</span>
-            </h1>
-            <p className="text-white/60 text-xl leading-relaxed max-w-2xl mb-10">
-              Inaccessible documents are a legal liability and a failure of inclusion. We remediate, audit, and certify — so your content works for everyone, and your organization is protected.
-            </p>
-            <div className="flex flex-wrap gap-4 mb-10">
-              <button onClick={() => onNavigate('contact')} className="btn-primary px-7 py-3.5 rounded-full text-sm">Request an Audit</button>
-              <button onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })} className="btn-ghost px-7 py-3.5 rounded-full text-sm flex items-center gap-2">
-                See our work <IconArrow />
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {complianceStandards.map((s) => (
-                <div key={s.name} className="glass-blue rounded-xl px-4 py-2.5">
-                  <div className="text-xs font-bold text-cyan-300 mb-0.5" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{s.name}</div>
-                  <div className="text-xs text-white/45">{s.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        service="PDF accessibility"
+        title="Documents everyone"
+        accent="can use."
+        description="We remediate and review PDFs for accessibility, with clear findings so your team knows what changed and why."
+        image="/images/discipline-pdf-accessibility.png"
+        imageAlt="SNAiO Tech illustration for accessible documents"
+        highlights={["WCAG 2.2 AA", "PDF/UA", "Document reports"]}
+        primaryLabel="Request a PDF audit"
+        secondaryLabel="View sample work"
+        secondaryTarget="showcase"
+        onNavigate={onNavigate}
+      />
 
       {/* Why it matters */}
       <section className="py-20 gradient-mesh-light">
@@ -315,10 +282,10 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
               <p className="eyebrow mb-3">The stakes</p>
               <h2 className="text-3xl font-extrabold text-white mb-6 display-snug" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
                 1 in 4 US adults has a disability. Is your content{' '}
-                <span className="gradient-text">working for them?</span>
+                <span className="gradient-text">working for them-</span>
               </h2>
               <p className="text-white/55 text-sm leading-relaxed mb-4">
-                Screen readers, refreshable Braille displays, switch controls, and voice navigation all depend on properly structured documents. When your PDFs lack tags, proper reading order, or alt text, an entire segment of your audience hits a wall — and your organization faces real legal exposure.
+                Screen readers, refreshable Braille displays, switch controls, and voice navigation all depend on properly structured documents. When your PDFs lack tags, proper reading order, or alt text, an entire segment of your audience hits a wall - and your organization faces real legal exposure.
               </p>
               <p className="text-white/55 text-sm leading-relaxed">
                 Accessibility isn't a niche concern. It's a legal requirement, a moral imperative, and increasingly a procurement requirement for enterprise and government contracts.
@@ -381,7 +348,7 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
                 Sample <span className="gradient-text">remediations</span>
               </h2>
               <p className="text-white/50 text-sm mt-3 max-w-lg mx-auto">
-                Real documents we've remediated. Click View to open an in-page preview — no downloading required.
+                Real documents we've remediated. Click View to open an in-page preview - no downloading required.
               </p>
             </div>
 
@@ -433,7 +400,7 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
                         <IconEye /> View
                       </button>
                       <button
-                        onClick={() => alert('Download would start here — no real file in preview')}
+                        onClick={() => alert('Download would start here - no real file in preview')}
                         className="btn-ghost px-3 py-2 rounded-lg text-xs flex items-center gap-1.5"
                         title="Download"
                       >
@@ -479,16 +446,13 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
       </section>
 
       {/* CTA */}
-      <section className="py-20 gradient-cta relative overflow-hidden">
-        <div className="absolute inset-0 grid-overlay opacity-20" />
-        <div className="max-w-3xl mx-auto px-6 text-center relative">
-          <h2 className="text-4xl font-extrabold text-white mb-4 display-snug" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-            Make your content <span className="gradient-text">accessible to all.</span>
-          </h2>
-          <p className="text-white/55 mb-8">Start with a free accessibility review — we'll identify your highest-risk documents and propose a remediation plan.</p>
-          <button onClick={() => onNavigate('contact')} className="btn-primary px-8 py-4 rounded-full text-base">Request a Free Review</button>
-        </div>
-      </section>
+      <PageCTA
+        title="Make your documents"
+        accent="work for everyone."
+        description="Tell us what you publish and where accessibility matters most. We'll recommend a clear next step."
+        buttonLabel="Request a PDF audit"
+        onNavigate={onNavigate}
+      />
     </div>
   )
 }

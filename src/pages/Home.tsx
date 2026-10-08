@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useReveal } from '@/hooks/useReveal'
-import { useCountUp } from '@/hooks/useCountUp'
+import ArcFlowCarousel from '@/components/ArcFlowCarousel'
 
 // ── Image CDN helper ─────────────────────────────────────────────────────────
 const img = (id: string, w: number, h: number) =>
@@ -37,139 +37,29 @@ const IconArrow = ({ className = 'w-4 h-4' }) => (
   </svg>
 )
 
-// ── Animated particle network ─────────────────────────────────────────────────
-function ParticleCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+const valueCards = [
+  { icon: 'target', title: 'Precision Engineering', desc: 'We architect before we build. Every engagement starts with deep discovery to ensure the solution fits the problem.' },
+  { icon: 'pulse', title: 'Fast, Reliable Delivery', desc: "48-hour response SLA and sprint-based delivery means you're never left waiting for progress updates." },
+  { icon: 'shield', title: 'Compliance-First Mindset', desc: "Accessibility, security, and standards compliance aren't afterthoughts - they're baked into every build." },
+  { icon: 'globe', title: 'Global Reach, Local Care', desc: 'Remote-first team with global client success - yet every engagement feels like a boutique partnership.' },
+  { icon: 'chart', title: 'Measurable ROI', desc: 'We set KPIs before we start and report against them. No vanity metrics, no vague deliverables.' },
+  { icon: 'link', title: 'Long-term Partnership', desc: "We don't ship and disappear. Post-launch support and growth planning are part of the deal." },
+] as const
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-    }
-    resize()
-    window.addEventListener('resize', resize)
-
-    type P = { x: number; y: number; vx: number; vy: number; r: number; a: number }
-    const W = () => canvas.offsetWidth
-    const H = () => canvas.offsetHeight
-    const particles: P[] = []
-
-    for (let i = 0; i < 70; i++) {
-      particles.push({
-        x: Math.random() * W(), y: Math.random() * H(),
-        vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
-        r: Math.random() * 1.8 + 0.5, a: Math.random() * 0.5 + 0.2,
-      })
-    }
-
-    let hubs = [
-      { x: W() * 0.2, y: H() * 0.3, phase: 0 },
-      { x: W() * 0.75, y: H() * 0.5, phase: Math.PI },
-      { x: W() * 0.5, y: H() * 0.75, phase: Math.PI / 2 },
-    ]
-
-    let raf: number
-    let t = 0
-
-    const draw = () => {
-      t += 0.016
-      ctx.clearRect(0, 0, W(), H())
-
-      for (const p of particles) {
-        p.x += p.vx; p.y += p.vy
-        if (p.x < -20) p.x = W() + 20
-        if (p.x > W() + 20) p.x = -20
-        if (p.y < -20) p.y = H() + 20
-        if (p.y > H() + 20) p.y = -20
-      }
-
-      // particle-particle links
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const d = Math.hypot(dx, dy)
-          if (d < 100) {
-            ctx.beginPath()
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = `rgba(0,180,216,${(1 - d / 100) * 0.16})`
-            ctx.lineWidth = 0.6
-            ctx.stroke()
-          }
-        }
-      }
-
-      // hub nodes
-      for (const hub of hubs) {
-        hub.x += Math.sin(t * 0.5 + hub.phase) * 0.28
-        hub.y += Math.cos(t * 0.4 + hub.phase) * 0.22
-        const pulse = (Math.sin(t * 2 + hub.phase) + 1) / 2
-
-        for (const p of particles) {
-          const d = Math.hypot(hub.x - p.x, hub.y - p.y)
-          if (d < 170) {
-            ctx.beginPath()
-            ctx.moveTo(hub.x, hub.y)
-            ctx.lineTo(p.x, p.y)
-            ctx.strokeStyle = `rgba(47,211,232,${(1 - d / 170) * 0.32})`
-            ctx.lineWidth = 0.8
-            ctx.stroke()
-          }
-        }
-
-        const gr = ctx.createRadialGradient(hub.x, hub.y, 0, hub.x, hub.y, 22 + pulse * 8)
-        gr.addColorStop(0, `rgba(0,180,216,${0.55 + pulse * 0.25})`)
-        gr.addColorStop(1, 'rgba(0,180,216,0)')
-        ctx.beginPath(); ctx.arc(hub.x, hub.y, 22 + pulse * 8, 0, Math.PI * 2)
-        ctx.fillStyle = gr; ctx.fill()
-
-        ctx.beginPath(); ctx.arc(hub.x, hub.y, 3.5 + pulse, 0, Math.PI * 2)
-        ctx.fillStyle = '#2FD3E8'; ctx.fill()
-      }
-
-      for (const p of particles) {
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(0,180,216,${p.a})`; ctx.fill()
-      }
-
-      raf = requestAnimationFrame(draw)
-    }
-
-    draw()
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize) }
-  }, [])
-
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ opacity: 0.55 }} />
-}
-
-// ── Card tilt ────────────────────────────────────────────────────────────────
-function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = ref.current; if (!el) return
-    const r = el.getBoundingClientRect()
-    const x = e.clientX - r.left - r.width / 2
-    const y = e.clientY - r.top - r.height / 2
-    el.style.transform = `perspective(900px) rotateX(${-(y / r.height) * 9}deg) rotateY(${(x / r.width) * 9}deg) translateZ(8px)`
+function ValueIcon({ name }: { name: typeof valueCards[number]['icon'] }) {
+  const paths = {
+    target: <><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></>,
+    pulse: <><path d="M3 12h4l2.5-7 5 14 2.5-7H21"/><path d="M5 4h14"/></>,
+    shield: <><path d="M12 3 19 6v5c0 4.5-3 7.7-7 10-4-2.3-7-5.5-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></>,
+    globe: <><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></>,
+    chart: <><path d="M4 19V5M4 19h17"/><path d="m7 15 4-4 3 2 6-7"/><path d="M16 6h4v4"/></>,
+    link: <><path d="m10 13.5 4-4"/><path d="M7.5 15.5 6 17a4 4 0 0 1-5.5-5.8l4-4A4 4 0 0 1 10 7"/><path d="m16.5 8.5 1.5-1.5a4 4 0 0 1 5.5 5.8l-4 4A4 4 0 0 1 14 17"/></>,
   }
-  const onLeave = () => { if (ref.current) ref.current.style.transform = '' }
-  return <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave} className={`card-tilt transition-transform duration-200 ${className}`}>{children}</div>
-}
 
-// ── Stat counter ─────────────────────────────────────────────────────────────
-function StatCounter({ value, label, suffix = '', start }: { value: number; label: string; suffix?: string; start: boolean }) {
-  const count = useCountUp(value, 2200, start)
   return (
-    <div className="neumorph rounded-2xl p-6 text-center">
-      <div className="text-4xl font-black gradient-text mb-1 stat-num">{count.toLocaleString()}{suffix}</div>
-      <div className="text-xs text-white/45 leading-snug" style={{ fontFamily: 'Space Mono, monospace' }}>{label}</div>
-    </div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {paths[name]}
+    </svg>
   )
 }
 
@@ -177,12 +67,13 @@ function StatCounter({ value, label, suffix = '', start }: { value: number; labe
 interface HomeProps { onNavigate: (page: string) => void }
 
 export default function Home({ onNavigate }: HomeProps) {
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
-  useEffect(() => {
-    const h = (e: MouseEvent) => setMouse({ x: (e.clientX / window.innerWidth - 0.5) * 22, y: (e.clientY / window.innerHeight - 0.5) * 14 })
-    window.addEventListener('mousemove', h)
-    return () => window.removeEventListener('mousemove', h)
-  }, [])
+  const [heroSlide, setHeroSlide] = useState(0)
+  const [activeServiceIndex, setActiveServiceIndex] = useState(0)
+  const [galleryPaused, setGalleryPaused] = useState(false)
+  const [activeValueIndex, setActiveValueIndex] = useState(0)
+  const [valueCarouselPaused, setValueCarouselPaused] = useState(false)
+  const serviceGalleryRef = useRef<HTMLDivElement>(null)
+  const [galleryVisible, setGalleryVisible] = useState(false)
 
   const { ref: servicesRef, visible: servicesVisible } = useReveal()
   const { ref: statsRef, visible: statsVisible } = useReveal()
@@ -190,104 +81,183 @@ export default function Home({ onNavigate }: HomeProps) {
   const { ref: blogRef, visible: blogVisible } = useReveal()
   const { ref: ctaRef, visible: ctaVisible } = useReveal()
 
+  useEffect(() => {
+    const handleBlogNavigation = (event: MessageEvent<{ type?: string }>) => {
+      if (event.origin === window.location.origin && event.data?.type === 'snaiotech-blog-navigate') {
+        onNavigate('blog')
+      }
+    }
+    window.addEventListener('message', handleBlogNavigation)
+    return () => window.removeEventListener('message', handleBlogNavigation)
+  }, [onNavigate])
+
+  useEffect(() => {
+    if (valueCarouselPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const timer = window.setInterval(() => {
+      setActiveValueIndex((current) => (current + 1) % valueCards.length)
+    }, 4800)
+    return () => window.clearInterval(timer)
+  }, [valueCarouselPaused])
+
   const steps = [
-    { n: '01', title: 'Discovery Call', desc: 'We audit your current state, goals, and gaps in a focused 60-minute session.', imgId: '1556761175-b413da4baf72' },
-    { n: '02', title: 'Strategy & Scope', desc: 'A tailored roadmap with clear deliverables, timeline, and measurable KPIs.', imgId: '1551288049-bebda4e38f71' },
-    { n: '03', title: 'Build & Implement', desc: 'Our engineers execute with precision — no handoffs, no surprises.', imgId: '1515879218367-8466d910aaa4' },
-    { n: '04', title: 'Test & Refine', desc: 'QA across devices, browsers, and accessibility standards before go-live.', imgId: '1778873750399-338b94f7feda' },
-    { n: '05', title: 'Launch & Grow', desc: 'We stay on as partners — monitoring, optimizing, and scaling with you.', imgId: '1572021335469-31706a17aaef' },
+    { n: '01', title: 'Discovery Call', desc: 'We understand your current setup, goals, and biggest opportunities before mapping the next steps.', image: '/images/process-discovery.png' },
+    { n: '02', title: 'Strategy & Scope', desc: 'A tailored roadmap with clear deliverables, timeline, and measurable KPIs.', image: '/images/process-strategy-scope.png' },
+    { n: '03', title: 'Build & Implement', desc: 'Our engineers execute with precision - no handoffs, no surprises.', image: '/images/process-build-implement.png' },
+    { n: '04', title: 'Test & Refine', desc: 'QA across devices, browsers, and accessibility standards before go-live.', image: '/images/process-qa-testing.png' },
+    { n: '05', title: 'Launch & Grow', desc: 'We stay on as partners - monitoring, optimizing, and scaling with you.', image: '/images/process-launch-grow.png' },
   ]
 
   const techItems = ['React', 'Next.js', 'Zoho CRM', 'Zoho Books', 'Zoho Desk', 'Figma', 'TypeScript', 'Python', 'WordPress', 'Webflow', 'PostgreSQL', 'AWS', 'Zoho Analytics', 'WCAG 2.2', 'PDF/UA', 'Google Search Console', 'Semrush']
 
   const posts = [
-    { cat: 'SEO/AI', date: 'Sep 2, 2026', title: 'What is GEO? How to Rank in AI-Generated Search Results', excerpt: "Generative Engine Optimization is the new frontier. Here's what it means and how to prepare your content.", imgId: '1686061593213-98dad7c599b9', readTime: '7 min' },
-    { cat: 'Accessibility', date: 'Aug 28, 2026', title: 'WCAG 2.2 — What Changed and Why It Matters for Your Business', excerpt: 'The latest WCAG update brings 9 new success criteria. We break down each with practical remediation steps.', imgId: '1778873750399-338b94f7feda', readTime: '10 min' },
+    { cat: 'SEO/AI', date: 'Sep 2, 2026', title: 'What is GEO- How to Rank in AI-Generated Search Results', excerpt: "Generative Engine Optimization is the new frontier. Here's what it means and how to prepare your content.", imgId: '1686061593213-98dad7c599b9', readTime: '7 min' },
+    { cat: 'Accessibility', date: 'Aug 28, 2026', title: 'WCAG 2.2 - What Changed and Why It Matters for Your Business', excerpt: 'The latest WCAG update brings 9 new success criteria. We break down each with practical remediation steps.', imgId: '1778873750399-338b94f7feda', readTime: '10 min' },
     { cat: 'Zoho', date: 'Aug 20, 2026', title: 'Zoho CRM vs Salesforce: The 2026 Honest Comparison', excerpt: "We've implemented both. Here's what teams actually experience, and when Zoho wins on value.", imgId: '1551288049-bebda4e38f71', readTime: '12 min' },
   ]
 
+  const heroServices = [
+    {
+      id: 'pdf',
+      tab: 'Documents',
+      eyebrow: 'PDF ACCESSIBILITY',
+      title: 'Documents everyone can use.',
+      description: 'WCAG 2.2 AA and PDF/UA remediation, with a report to prove it.',
+      action: 'Explore document accessibility',
+      poster: img('1586281380349-632531db7ed4', 1800, 1000),
+      video: '/videos/pdf-accessibility.mp4',
+    },
+    {
+      id: 'zoho',
+      tab: 'Systems',
+      eyebrow: 'ZOHO IMPLEMENTATION',
+      title: 'Systems that work together.',
+      description: 'Zoho configured, connected and ready for your team.',
+      action: 'Explore Zoho services',
+      poster: img('1551288049-bebda4e38f71', 1800, 1000),
+      video: '/videos/zoho-implementation.mp4',
+    },
+    {
+      id: 'webdev',
+      tab: 'Web',
+      eyebrow: 'WEB DEVELOPMENT',
+      title: 'Websites built to be found.',
+      description: 'Fast, accessible websites and apps, built for search from day one.',
+      action: 'Explore web development',
+      poster: img('1498050108023-c5249f4df085', 1800, 1000),
+      video: '/videos/web-development.mp4',
+    },
+  ]
+  const activeHeroService = heroServices[heroSlide]
   const BG_OVERLAY = { background: 'linear-gradient(to bottom, rgba(10,14,26,0.15), rgba(10,14,26,0.88))' }
+  const showcaseServices = [
+    {
+      id: 'webdev',
+      title: 'Websites built to be found.',
+      cardTitle: 'Web development',
+      description: 'Fast, accessible websites and web apps, designed to perform in search and in the real world.',
+      image: '/images/discipline-web-development.png',
+      detail: 'SEO · GEO · AEO',
+    },
+    {
+      id: 'pdf',
+      title: 'Documents everyone can use.',
+      cardTitle: 'PDF accessibility',
+      description: 'WCAG 2.2 AA and PDF/UA remediation, with a clear report your team can rely on.',
+      image: '/images/discipline-pdf-accessibility.png',
+      detail: 'WCAG 2.2 AA · PDF/UA',
+    },
+    {
+      id: 'zoho',
+      title: 'Systems that work together.',
+      cardTitle: 'Zoho implementation',
+      description: 'Zoho configured around your team: connected, practical and ready for everyday work.',
+      image: '/images/discipline-zoho-implementation.png',
+      detail: 'Setup · Migration · Training',
+    },
+  ]
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const timer = window.setInterval(() => {
+      if (!document.hidden) setHeroSlide((current) => (current + 1) % heroServices.length)
+    }, 7000)
+    return () => window.clearInterval(timer)
+  }, [heroServices.length])
+
+  useEffect(() => {
+    const element = serviceGalleryRef.current
+    if (!element) return
+    const observer = new IntersectionObserver(([entry]) => setGalleryVisible(entry.isIntersecting), { threshold: 0.25 })
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!galleryVisible || galleryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const timer = window.setInterval(() => {
+      setActiveServiceIndex((current) => (current + 1) % showcaseServices.length)
+    }, 5600)
+    return () => window.clearInterval(timer)
+  }, [galleryVisible, galleryPaused, showcaseServices.length])
 
   return (
     <div className="overflow-x-hidden">
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden" style={{ background: '#050912' }}>
-        <ParticleCanvas />
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(21,101,192,0.14) 0%, transparent 70%), rgba(5,9,18,0.5)' }} />
-        <div className="absolute inset-0 grid-overlay opacity-35 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-6 w-full relative">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-            <div className="animate-fadeUp" style={{ animationDelay: '0.1s' }}>
-              <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-8">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse flex-shrink-0" />
-                <span className="eyebrow">Global · Dev · Automation</span>
-              </div>
-              <h1 className="text-5xl lg:text-[4.5rem] xl:text-[5.5rem] font-extrabold leading-[0.95] mb-6 display-tight" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                Digital services{' '}
-                <em className="gradient-text not-italic block">built to dominate.</em>
-              </h1>
-              <p className="text-white/55 text-lg leading-relaxed mb-8 max-w-lg">
-                From custom web applications to WCAG-compliant PDFs and enterprise Zoho implementations — Snaiotech delivers with precision, not promises.
-              </p>
-              <div className="flex flex-wrap gap-4 mb-12">
-                <button onClick={() => onNavigate('contact')} className="btn-primary px-7 py-3.5 rounded-full text-sm">Get a Free Consultation</button>
-                <button onClick={() => document.getElementById('services-section')?.scrollIntoView({ behavior: 'smooth' })} className="btn-ghost px-7 py-3.5 rounded-full text-sm flex items-center gap-2">
-                  Explore Services <IconArrow />
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-8">
-                {[{ val: '3', label: 'Core Services' }, { val: '48h', label: 'Response SLA' }, { val: '100%', label: 'Transparent Pricing' }].map((b) => (
-                  <div key={b.val}>
-                    <div className="text-2xl font-black text-white stat-num">{b.val}</div>
-                    <div className="text-xs text-white/35 mt-0.5" style={{ fontFamily: 'Space Mono, monospace' }}>{b.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Floating service cards with images */}
-            <div className="relative h-[440px] lg:h-[520px] animate-fadeIn" style={{ animationDelay: '0.35s' }}>
-              <div className="absolute w-72 h-72 rounded-full pointer-events-none"
-                style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.16), transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', filter: 'blur(24px)' }} />
-
-              {[
-                { id: 'webdev', imgId: '1611078489935-0cb964de46d6', icon: <IconGlobe className="w-4 h-4 text-white" />, title: 'Web Dev & SEO/AEO/GEO', desc: 'Rank everywhere — Google, AI engines, and beyond.', accent: '#1565C0', pos: 'top-0 left-0', animClass: 'animate-float', delay: '0s', dur: '7s', mx: 0.4, my: 0.35 },
-                { id: 'pdf', imgId: '1778873750399-338b94f7feda', icon: <IconCode className="w-4 h-4 text-white" />, title: 'PDF Accessibility & WCAG', desc: 'ADA-compliant documents. Audit-ready in days.', accent: '#00B4D8', pos: 'top-36 right-0', animClass: 'animate-float-b', delay: '1.5s', dur: '9s', mx: -0.5, my: 0.55 },
-                { id: 'zoho', imgId: '1551288049-bebda4e38f71', icon: <IconGear className="w-4 h-4 text-white" />, title: 'Zoho Deployment', desc: 'Implementation, automation, ongoing support.', accent: '#2FD3E8', pos: 'bottom-0 left-6', animClass: 'animate-float', delay: '3s', dur: '8s', mx: 0.3, my: -0.4 },
-              ].map((card) => (
-                <div
-                  key={card.id}
-                  className={`absolute w-[248px] glass rounded-2xl overflow-hidden shadow-2xl ${card.animClass} ${card.pos}`}
-                  style={{ animationDelay: card.delay, animationDuration: card.dur, transform: `translate(${mouse.x * card.mx}px, ${mouse.y * card.my}px)` }}
-                >
-                  <div className="relative h-28 overflow-hidden">
-                    <img src={img(card.imgId, 496, 224)} alt={card.title} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, rgba(10,14,26,0.2), rgba(10,14,26,0.86))` }} />
-                    <div className="absolute top-2.5 left-3 w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${card.accent}bb` }}>
-                      {card.icon}
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <div className="font-bold text-white text-sm mb-1" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{card.title}</div>
-                    <div className="text-white/40 text-xs leading-relaxed">{card.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+      <section className="hero-slider relative isolate h-[100vh] h-[100svh] w-screen overflow-hidden bg-[#050912]" aria-label="SNAiO Tech services">
+        <video
+          key={`hero-video-${activeHeroService.id}`}
+          className="hero-slider__video absolute inset-0 h-full w-full object-cover"
+          src={activeHeroService.video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={activeHeroService.poster}
+          aria-label={`${activeHeroService.tab} background video`}
+        />
+        <div className="hero-slider__shade absolute inset-0" aria-hidden="true" />
+        <div key={`hero-content-${activeHeroService.id}`} className="hero-slider__content relative z-10 flex h-full w-full items-center px-6 pb-14 pt-28 sm:px-12 lg:px-[10vw]">
+          <div className="max-w-3xl">
+            <h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] tracking-[-0.045em] text-white sm:text-7xl lg:text-[6.25rem]" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
+              {activeHeroService.title}
+            </h1>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/85 sm:text-xl">
+              {activeHeroService.description}
+            </p>
+            <button onClick={() => onNavigate(activeHeroService.id)} className="btn-primary mt-8 inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm sm:text-base">
+              {activeHeroService.action}<IconArrow />
+            </button>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-35">
-          <span className="eyebrow text-white/30">scroll</span>
-          <div className="w-px h-10 bg-gradient-to-b from-cyan-400 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-6 px-6 pb-7 sm:px-12 lg:px-[10vw] lg:pb-10">
+          <div className="flex min-w-0 flex-1 gap-5 sm:gap-8" role="group" aria-label="Choose a service slide">
+            {heroServices.map((service, index) => (
+              <button
+                key={service.id}
+                type="button"
+                onClick={() => setHeroSlide(index)}
+                aria-label={`Show ${service.tab} slide`}
+                aria-current={heroSlide === index ? 'true' : undefined}
+                className={`hero-slider__nav min-w-0 flex-1 text-left text-xs font-semibold uppercase tracking-[0.14em] transition-colors sm:max-w-52 sm:text-sm ${heroSlide === index ? 'text-white' : 'text-white/55 hover:text-white/90'}`}
+              >
+                <span className="mb-3 block h-1 overflow-hidden rounded-full bg-white/25">
+                  <span className={`hero-slider__progress block h-full rounded-full bg-cyan-300 ${heroSlide === index ? 'is-active' : ''}`} />
+                </span>
+                {service.tab}
+              </button>
+            ))}
+          </div>
+          <div className="hidden items-center gap-3 sm:flex">
+            <span className="font-mono text-sm text-white/75">{String(heroSlide + 1).padStart(2, '0')} <span className="text-white/40">/</span> {String(heroServices.length).padStart(2, '0')}</span>
+            <button type="button" onClick={() => setHeroSlide((heroSlide + heroServices.length - 1) % heroServices.length)} aria-label="Previous slide" className="hero-slider__arrow">←</button>
+            <button type="button" onClick={() => setHeroSlide((heroSlide + 1) % heroServices.length)} aria-label="Next slide" className="hero-slider__arrow">→</button>
+          </div>
         </div>
       </section>
 
-      {/* ── SERVICES — asymmetric grid ─────────────────────────────────── */}
+      {/* ── SERVICES ─────────────────────────────────────────────────── */}
       <section id="services-section" className="py-24 gradient-mesh-light relative">
         <div className="max-w-7xl mx-auto px-6">
           <div ref={servicesRef as React.RefObject<HTMLDivElement>}>
@@ -295,162 +265,208 @@ export default function Home({ onNavigate }: HomeProps) {
               <p className="eyebrow mb-3">What we deliver</p>
               <h2 className="text-4xl lg:text-6xl font-extrabold display-snug" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
                 Three disciplines.{' '}
-                <span className="gradient-text">One committed team.</span>
-              </h2>
-            </div>
-
-            <div className={`grid lg:grid-cols-5 gap-5 stagger ${servicesVisible ? 'visible' : ''}`}>
-              {/* Hero card — 3 cols */}
-              <TiltCard className="lg:col-span-3">
-                <div className="glass rounded-2xl overflow-hidden h-full min-h-[380px] flex flex-col group hover:border-blue-500/30 transition-colors duration-300 cursor-pointer" onClick={() => onNavigate('webdev')}>
-                  <div className="relative h-52 overflow-hidden flex-shrink-0">
-                    <img src={img('1515879218367-8466d910aaa4', 800, 416)} alt="Code on screen" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(11,79,138,0.35), rgba(10,14,26,0.92))' }} />
-                    <div className="absolute top-4 left-4 flex items-center gap-2">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(21,101,192,0.7)', border: '1px solid rgba(0,180,216,0.4)' }}>
-                        <IconGlobe className="w-5 h-5 text-cyan-300" />
-                      </div>
-                      <span className="eyebrow px-2.5 py-1 rounded-full" style={{ background: 'rgba(21,101,192,0.4)', border: '1px solid rgba(0,180,216,0.3)' }}>Service 01</span>
-                    </div>
-                  </div>
-                  <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="text-2xl font-extrabold text-white mb-3 display-close" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>Web Dev & SEO / AEO / GEO</h3>
-                    <p className="text-white/50 text-sm leading-relaxed mb-5 flex-1">Custom websites and web applications built for performance, with technical SEO, Answer Engine Optimization for voice/AI, and Generative Engine Optimization for AI-generated search.</p>
-                    <div className="flex flex-wrap gap-x-5 gap-y-1.5 mb-6">
-                      {['Custom apps', 'Core Web Vitals', 'AEO strategy', 'Schema markup'].map((f) => (
-                        <span key={f} className="flex items-center gap-1.5 text-xs text-white/60"><span className="text-blue-400"><IconCheck className="w-3 h-3" /></span> {f}</span>
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-2 text-cyan-400 text-sm font-semibold group-hover:gap-3 transition-all" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                      Learn more <IconArrow />
-                    </div>
-                  </div>
-                </div>
-              </TiltCard>
-
-              {/* Two stacked cards — 2 cols */}
-              <div className="lg:col-span-2 flex flex-col gap-5">
-                {[
-                  { id: 'pdf', n: '02', imgId: '1772588627342-5ec373e236d8', accent: '#00B4D8', icon: <IconCode className="w-4 h-4 text-cyan-300" />, title: 'PDF Accessibility & WCAG', desc: 'Make your documents ADA, Section 508, and WCAG 2.2 compliant. Audits, remediation, and certification.', features: ['PDF remediation', 'WCAG audits', 'ADA compliance'] },
-                  { id: 'zoho', n: '03', imgId: '1560472354-b33ff0c44a43', accent: '#2FD3E8', icon: <IconGear className="w-4 h-4 text-cyan-300" />, title: 'Zoho Deployment & Customization', desc: "Got Zoho? We implement, automate, and customize across the full suite so your team actually uses it.", features: ['Full deployment', 'Workflow automation', 'Custom integrations'] },
-                ].map((s) => (
-                  <TiltCard key={s.id} className="flex-1">
-                    <div className="glass rounded-2xl overflow-hidden h-full flex flex-col group hover:border-cyan-500/30 transition-colors duration-300 cursor-pointer" onClick={() => onNavigate(s.id)}>
-                      <div className="relative h-32 overflow-hidden flex-shrink-0">
-                        <img src={img(s.imgId, 600, 256)} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        <div className="absolute inset-0" style={BG_OVERLAY} />
-                        <div className="absolute top-3 left-3 flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${s.accent}44`, border: `1px solid ${s.accent}55` }}>{s.icon}</div>
-                          <span className="eyebrow" style={{ color: s.accent }}>Service {s.n}</span>
+                  <span className="gradient-text">One committed team.</span>
+                </h2>
+              </div>
+              <div
+                ref={serviceGalleryRef}
+                className="service-flip-gallery"
+                role="group"
+                onMouseEnter={() => setGalleryPaused(true)}
+                onMouseLeave={() => setGalleryPaused(false)}
+                onFocus={() => setGalleryPaused(true)}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) setGalleryPaused(false)
+                }}
+                aria-label="Explore our three services"
+              >
+                {showcaseServices.map((service, index) => {
+                  const active = activeServiceIndex === index
+                  return (
+                    <article
+                      key={service.id}
+                      className={`service-flip-card ${active ? 'is-active' : ''}`}
+                      style={{ backgroundImage: `linear-gradient(0deg, rgba(5,9,18,.96), rgba(5,9,18,.08) 85%), url("${service.image}")` }}
+                      onMouseEnter={() => setActiveServiceIndex(index)}
+                    >
+                      <button
+                        type="button"
+                        className="service-flip-card__select"
+                        onClick={() => setActiveServiceIndex(index)}
+                        aria-label={`Feature ${service.cardTitle}`}
+                        aria-pressed={active}
+                      />
+                      <span className="service-flip-card__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                      <div className="service-flip-card__copy">
+                        <h3>{service.cardTitle}</h3>
+                        <div className="service-flip-card__details">
+                          <p>{service.description}</p>
+                          <span>{service.detail}</span>
+                          <button type="button" onClick={() => onNavigate(service.id)}>
+                            Explore service <IconArrow />
+                          </button>
                         </div>
                       </div>
-                      <div className="p-5 flex-1 flex flex-col">
-                        <h3 className="font-extrabold text-white mb-2 text-base leading-snug" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{s.title}</h3>
-                        <p className="text-white/45 text-xs leading-relaxed mb-4 flex-1">{s.desc}</p>
-                        <div className="flex flex-wrap gap-x-3 gap-y-1">
-                          {s.features.map((f) => (
-                            <span key={f} className="text-xs text-white/50 flex items-center gap-1"><span style={{ color: s.accent }}><IconCheck className="w-3 h-3" /></span> {f}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </TiltCard>
-                ))}
+                    </article>
+                  )
+                })}
               </div>
             </div>
           </div>
-        </div>
       </section>
 
-      {/* ── STATS ─────────────────────────────────────────────────────── */}
-      <section className="py-24 gradient-mesh relative">
+      {/* ── WHY SNAIOTECH ─────────────────────────────────────────────── */}
+      <section className="stats-showcase-section gradient-mesh relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div ref={statsRef as React.RefObject<HTMLDivElement>}>
-            <div className={`grid lg:grid-cols-5 gap-12 items-start mb-14 reveal ${statsVisible ? 'visible' : ''}`}>
-              <div className="lg:col-span-3">
-                <p className="eyebrow mb-4">What we bring to the table</p>
-                <h2 className="text-4xl lg:text-5xl font-extrabold display-snug mb-5" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                  Fresh start.{' '}<span className="gradient-text">Serious commitment.</span>
-                </h2>
-                <p className="text-white/50 text-base leading-relaxed max-w-lg">We're a brand-new company — and that means you get our full attention, sharp pricing, and a team that has everything to prove. No corporate layers, no handoffs, no excuses.</p>
+            <div className={`stats-showcase reveal ${statsVisible ? 'visible' : ''}`}>
+              <div className="stats-showcase__mascot" aria-hidden="true">
+                <img src="/images/snaiotech-wolf.png" alt="" />
               </div>
-              <div className={`lg:col-span-2 grid grid-cols-2 gap-4 stagger ${statsVisible ? 'visible' : ''}`}>
-                <StatCounter value={3} label="Specialised services" suffix="" start={statsVisible} />
-                <StatCounter value={48} label="Hour response SLA" suffix="h" start={statsVisible} />
-                <StatCounter value={100} label="Transparent pricing" suffix="%" start={statsVisible} />
-                <StatCounter value={0} label="Hidden fees, ever" suffix="" start={statsVisible} />
+              <div className="stats-showcase__intro">
+                <h2 className="text-4xl font-extrabold display-snug sm:text-5xl" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
+                  Fresh start.<br /><span className="gradient-text">Serious commitment.</span>
+                </h2>
+                <p>Small studio, full attention. Clear pricing, direct communication, and people who stay accountable from first call to final handoff.</p>
+                <div className="stats-showcase__signature">
+                  <span>Smart mind. Builds better.</span>
+                  <span>Built · Automate · Grow</span>
+                </div>
               </div>
             </div>
 
-            <div className={`grid md:grid-cols-3 gap-5 stagger ${statsVisible ? 'visible' : ''}`}>
-              {[
-                { icon: '🎯', title: 'Precision Engineering', desc: "We architect before we build. Every engagement starts with deep discovery to ensure the solution fits the problem." },
-                { icon: '⚡', title: 'Fast, Reliable Delivery', desc: "48-hour response SLA and sprint-based delivery means you're never left waiting for progress updates." },
-                { icon: '🔒', title: 'Compliance-First Mindset', desc: "Accessibility, security, and standards compliance aren't afterthoughts — they're baked into every build." },
-                { icon: '🌍', title: 'Global Reach, Local Care', desc: "Remote-first team with global client success — yet every engagement feels like a boutique partnership." },
-                { icon: '📈', title: 'Measurable ROI', desc: "We set KPIs before we start and report against them. No vanity metrics, no vague deliverables." },
-                { icon: '🤝', title: 'Long-term Partnership', desc: "We don't ship and disappear. Post-launch support and growth planning are part of the deal." },
-              ].map((vp) => (
-                <div key={vp.title} className="glass rounded-2xl p-6 flex items-start gap-4">
-                  <span className="text-2xl flex-shrink-0">{vp.icon}</span>
-                  <div>
-                    <h4 className="font-bold text-white mb-1.5 text-sm" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{vp.title}</h4>
-                    <p className="text-white/45 text-xs leading-relaxed">{vp.desc}</p>
-                  </div>
+            <div
+              className={`value-orbit reveal ${statsVisible ? 'visible' : ''}`}
+              role="region"
+              aria-roledescription="carousel"
+              aria-label="How we work"
+              onMouseEnter={() => setValueCarouselPaused(true)}
+              onMouseLeave={() => setValueCarouselPaused(false)}
+              onFocus={() => setValueCarouselPaused(true)}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setValueCarouselPaused(false)
+              }}
+            >
+              <div className="value-orbit__track" aria-live="polite">
+                {valueCards.map((card, index) => {
+                  const offset = (index - activeValueIndex + valueCards.length) % valueCards.length
+                  const slot = offset === 0 ? 'current' : offset === 1 ? 'right' : offset === valueCards.length - 1 ? 'left' : 'hidden'
+
+                  return (
+                    <article
+                      key={card.title}
+                      className={`value-orbit__card value-orbit__card--${slot}`}
+                      aria-hidden={slot === 'hidden'}
+                    >
+                      <span className="value-orbit__icon"><ValueIcon name={card.icon} /></span>
+                      <div>
+                        <h3>{card.title}</h3>
+                        <p>{card.desc}</p>
+                      </div>
+                      <span className="value-orbit__index">{String(index + 1).padStart(2, '0')}</span>
+                    </article>
+                  )
+                })}
+              </div>
+              <div className="value-orbit__controls">
+                <span className="value-orbit__count">
+                  {String(activeValueIndex + 1).padStart(2, '0')}
+                  <span> / {String(valueCards.length).padStart(2, '0')}</span>
+                </span>
+                <div className="value-orbit__dots" aria-label="Choose a principle">
+                  {valueCards.map((card, index) => (
+                    <button
+                      key={card.title}
+                      type="button"
+                      className={index === activeValueIndex ? 'is-active' : ''}
+                      aria-label={`Show ${card.title}`}
+                      aria-current={index === activeValueIndex ? 'true' : undefined}
+                      onClick={() => setActiveValueIndex(index)}
+                    />
+                  ))}
                 </div>
-              ))}
+                <div className="value-orbit__arrows">
+                  <button
+                    type="button"
+                    aria-label="Previous principle"
+                    onClick={() => setActiveValueIndex((current) => (current - 1 + valueCards.length) % valueCards.length)}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next principle"
+                    onClick={() => setActiveValueIndex((current) => (current + 1) % valueCards.length)}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── PROCESS — with step images ─────────────────────────────────── */}
-      <section className="py-24 gradient-mesh-light">
-        <div className="max-w-7xl mx-auto px-6">
+      {/* ── PROCESS ───────────────────────────────────────────────────── */}
+      <section className="process-section py-24 gradient-mesh-light">
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div ref={processRef as React.RefObject<HTMLDivElement>}>
             <div className={`text-center mb-16 reveal ${processVisible ? 'visible' : ''}`}>
               <p className="eyebrow mb-3">How it works</p>
               <h2 className="text-4xl lg:text-5xl font-extrabold display-snug" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                Our process — <span className="gradient-text">no ambiguity.</span>
+                Our process - <span className="gradient-text">no ambiguity.</span>
               </h2>
             </div>
-            <div className={`grid md:grid-cols-5 gap-4 stagger ${processVisible ? 'visible' : ''}`}>
-              {steps.map((step, i) => (
-                <div key={step.n} className="relative">
-                  {i < steps.length - 1 && <div className="hidden md:block absolute top-12 left-[62%] right-0 h-px bg-gradient-to-r from-cyan-500/30 to-transparent z-10" />}
-                  <div className="neumorph rounded-2xl overflow-hidden h-full flex flex-col">
-                    <div className="relative h-28 overflow-hidden flex-shrink-0">
-                      <img src={img(step.imgId, 320, 224)} alt={step.title} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,14,26,0.1), rgba(13,24,41,0.92))' }} />
-                      <span className="absolute bottom-2 left-3 text-2xl font-black stat-num gradient-text">{step.n}</span>
-                    </div>
-                    <div className="p-4 flex-1">
-                      <h4 className="font-bold text-white text-sm mb-1.5" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{step.title}</h4>
-                      <p className="text-white/40 text-xs leading-relaxed">{step.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ArcFlowCarousel
+              items={steps.map((step) => ({
+                src: step.image,
+                alt: `${step.title} process`,
+                label: `STEP ${step.n}`,
+                title: step.title,
+                description: step.desc,
+              }))}
+            />
           </div>
         </div>
       </section>
 
       {/* ── TECH MARQUEE ──────────────────────────────────────────────── */}
-      <section className="py-14 relative overflow-hidden border-y border-white/5">
-        <div className="max-w-7xl mx-auto px-6 mb-8">
-          <p className="text-center eyebrow text-white/35">Technologies & standards we work with</p>
-        </div>
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...techItems, ...techItems].map((item, i) => (
-            <span key={i} className="mx-5 neumorph rounded-full px-5 py-2 text-sm text-white/55 font-medium flex-shrink-0" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{item}</span>
+      <section className="tech-marquee-section" aria-label="Technologies and standards we work with">
+        <div className="tech-marquee__inner">
+          <div className="tech-marquee__heading">
+            <div>
+              <p className="eyebrow mb-3">Our digital toolkit</p>
+              <h2>Good work starts with <span className="gradient-text">the right tools.</span></h2>
+            </div>
+            <p>Thoughtfully chosen technology, accessibility standards, and platforms - all working together.</p>
+          </div>
+          <p className="sr-only">{techItems.join(', ')}</p>
+          {[techItems, [...techItems].reverse()].map((laneItems, laneIndex) => (
+            <div className={`tech-marquee__viewport tech-marquee__viewport--${laneIndex + 1}`} key={laneIndex}>
+              <div className={`tech-marquee__track ${laneIndex === 0 ? 'animate-marquee' : 'animate-marquee-rev'}`} aria-hidden="true">
+                {[0, 1].map((copy) => (
+                  <div className="tech-marquee__group" key={copy}>
+                    {laneItems.map((item) => {
+                      const mark = item === 'WCAG 2.2' ? 'AA' : item === 'PDF/UA' ? 'PDF' : item.split(/[ .]+/).map((part) => part[0]).join('').slice(0, 2)
+                      return (
+                        <span className="tech-marquee__chip" key={`${copy}-${item}`}>
+                          <span className="tech-marquee__mark">{mark}</span>
+                          <span>{item}</span>
+                          <span className="tech-marquee__spark" aria-hidden="true" />
+                        </span>
+                      )
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
 
 
-      {/* ── BLOG — asymmetric 3+2 ──────────────────────────────────────── */}
+      {/* ── BLOG - asymmetric 3+2 ──────────────────────────────────────── */}
       <section className="py-24 gradient-mesh-light">
         <div className="max-w-7xl mx-auto px-6">
           <div ref={blogRef as React.RefObject<HTMLDivElement>}>
@@ -464,66 +480,45 @@ export default function Home({ onNavigate }: HomeProps) {
               <button onClick={() => onNavigate('blog')} className="hidden sm:flex btn-ghost px-5 py-2.5 rounded-full text-sm items-center gap-2">All posts <IconArrow /></button>
             </div>
 
-            <div className={`grid lg:grid-cols-5 gap-5 stagger ${blogVisible ? 'visible' : ''}`}>
-              <TiltCard className="lg:col-span-3">
-                <button onClick={() => onNavigate('blog')} className="glass rounded-2xl overflow-hidden text-left flex flex-col h-full group w-full hover:border-cyan-500/25 transition-colors duration-200">
-                  <div className="relative h-56 overflow-hidden flex-shrink-0">
-                    <img src={img(posts[0].imgId, 800, 448)} alt={posts[0].title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute inset-0" style={BG_OVERLAY} />
-                    <span className="absolute top-4 left-4 eyebrow px-3 py-1 rounded-full" style={{ background: 'rgba(0,180,216,0.2)', border: '1px solid rgba(0,180,216,0.3)', color: '#2FD3E8' }}>{posts[0].cat}</span>
-                  </div>
-                  <div className="p-7 flex-1 flex flex-col">
-                    <span className="text-xs text-white/35 mb-2">{posts[0].date} · {posts[0].readTime} read</span>
-                    <h3 className="font-bold text-white text-lg leading-snug mb-3 flex-1 group-hover:text-cyan-300 transition-colors" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{posts[0].title}</h3>
-                    <p className="text-xs text-white/45 leading-relaxed">{posts[0].excerpt}</p>
-                    <div className="flex items-center gap-1.5 mt-5 text-cyan-400 text-sm font-semibold">Read article <IconArrow /></div>
-                  </div>
-                </button>
-              </TiltCard>
-
-              <div className="lg:col-span-2 flex flex-col gap-5">
-                {posts.slice(1).map((post) => (
-                  <TiltCard key={post.title} className="flex-1">
-                    <button onClick={() => onNavigate('blog')} className="glass rounded-2xl overflow-hidden text-left flex flex-col h-full group w-full hover:border-cyan-500/25 transition-colors duration-200">
-                      <div className="relative h-36 overflow-hidden flex-shrink-0">
-                        <img src={img(post.imgId, 600, 288)} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        <div className="absolute inset-0" style={BG_OVERLAY} />
-                        <span className="absolute top-3 left-3 eyebrow px-2.5 py-0.5 rounded-full text-xs" style={{ background: 'rgba(0,180,216,0.18)', border: '1px solid rgba(0,180,216,0.25)', color: '#2FD3E8' }}>{post.cat}</span>
-                      </div>
-                      <div className="p-5 flex-1 flex flex-col">
-                        <span className="text-xs text-white/30 mb-2">{post.date} · {post.readTime} read</span>
-                        <h3 className="font-bold text-white text-sm leading-snug flex-1 group-hover:text-cyan-300 transition-colors" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>{post.title}</h3>
-                        <div className="flex items-center gap-1.5 mt-4 text-cyan-400 text-xs font-semibold">Read more <IconArrow className="w-3 h-3" /></div>
-                      </div>
-                    </button>
-                  </TiltCard>
-                ))}
-              </div>
+            <div className={`blog-flip-gallery reveal ${blogVisible ? 'visible' : ''}`}>
+              <iframe
+                src="/blog-flip-gallery.html"
+                title="Featured Snaiotech blog articles"
+                loading="lazy"
+                className="blog-flip-gallery__frame"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* ── CTA BANNER ────────────────────────────────────────────────── */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 gradient-cta" />
-        <div className="absolute inset-0 grid-overlay opacity-20" />
-        <div className="absolute w-[600px] h-[600px] rounded-full pointer-events-none opacity-12 animate-spin-slow"
-          style={{ background: 'conic-gradient(from 0deg, #1565C0, #00B4D8, #1565C0)', filter: 'blur(80px)', top: '-30%', right: '-10%' }} />
-
-        <div ref={ctaRef as React.RefObject<HTMLDivElement>} className="max-w-4xl mx-auto px-6 text-center relative">
-          <div className={`reveal ${ctaVisible ? 'visible' : ''}`}>
-            <p className="eyebrow mb-4">Ready to get started?</p>
-            <h2 className="text-5xl lg:text-7xl font-extrabold text-white mb-6 display-tight" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-              Your competition is{' '}
-              <em className="gradient-text not-italic">already moving.</em>
+      <section className="final-cta-section">
+        <div className="final-cta__backdrop" aria-hidden="true">
+          <div className="final-cta__glow final-cta__glow--left" />
+          <div className="final-cta__glow final-cta__glow--right" />
+          <div className="final-cta__orbit final-cta__orbit--outer" />
+          <div className="final-cta__orbit final-cta__orbit--inner" />
+        </div>
+        <div ref={ctaRef as React.RefObject<HTMLDivElement>} className="final-cta__content">
+          <div className={`final-cta__panel reveal ${ctaVisible ? 'visible' : ''}`}>
+            <h2>
+              Your competition is
+              <span className="final-cta__headline-accent"> already moving.</span>
             </h2>
-            <p className="text-white/50 text-lg mb-10 max-w-xl mx-auto">
-              Book a free 60-minute strategy call. No pitch deck, no pressure — just honest diagnosis and a path forward.
+            <p className="final-cta__description">
+              Tell us what you need. We’ll help you find a clear, practical next step - no pitch deck, no pressure.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <button onClick={() => onNavigate('contact')} className="btn-primary px-8 py-4 rounded-full text-base">Get a Free Consultation</button>
-              <button onClick={() => onNavigate('about')} className="btn-ghost px-8 py-4 rounded-full text-base">Learn about us</button>
+            <div className="final-cta__actions">
+              <button onClick={() => onNavigate('contact')} className="final-cta__primary">
+                Get a free consultation <IconArrow />
+              </button>
+              <button onClick={() => onNavigate('about')} className="final-cta__secondary">Get to know us</button>
+            </div>
+            <div className="final-cta__assurances" aria-label="What to expect">
+              <span><IconCheck /> Fixed-price quotes</span>
+              <span><IconCheck /> Work directly with our team</span>
+              <span><IconCheck /> Clear next steps</span>
             </div>
           </div>
         </div>

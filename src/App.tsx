@@ -13,14 +13,14 @@ import Admin from '@/pages/Admin'
 type Page = 'home' | 'webdev' | 'pdf' | 'zoho' | 'about' | 'blog' | 'contact' | 'admin'
 
 const PAGE_TITLES: Record<Page, string> = {
-  home: 'Snaiotech — Digital Services Built to Dominate',
-  webdev: 'Web Dev & SEO/AEO/GEO — Snaiotech',
-  pdf: 'PDF Accessibility & WCAG Compliance — Snaiotech',
-  zoho: 'Zoho Deployment & Customization — Snaiotech',
-  about: 'Who We Are — Snaiotech',
-  blog: 'Blog — Snaiotech',
-  contact: 'Contact Us — Snaiotech',
-  admin: 'Admin Portal — Snaiotech',
+  home: 'Snaiotech - Digital Services Built to Dominate',
+  webdev: 'Web Dev & SEO/AEO/GEO - Snaiotech',
+  pdf: 'PDF Accessibility & WCAG Compliance - Snaiotech',
+  zoho: 'Zoho Deployment & Customization - Snaiotech',
+  about: 'Who We Are - Snaiotech',
+  blog: 'Blog - Snaiotech',
+  contact: 'Contact Us - Snaiotech',
+  admin: 'Admin Portal - Snaiotech',
 }
 
 export default function App() {

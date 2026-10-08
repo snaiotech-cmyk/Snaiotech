@@ -95,7 +95,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
       from: `"Snaiotech Website" <${user}>`,
       to: process.env.CONTACT_TO || 'sales@snaiotech.com',
       replyTo: `"${name}" <${email}>`,
-      subject: `New enquiry from ${name} — Snaiotech`,
+      subject: `New enquiry from ${name} - Snaiotech`,
       text: [
         `Name: ${name}`,
         `Email: ${email}`,

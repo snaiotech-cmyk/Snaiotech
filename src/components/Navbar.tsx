@@ -8,19 +8,9 @@ const NAV_ITEMS = ['Home', 'About', 'Blog', 'Contact']
 
 const SERVICES = [
   {
-    id: 'webdev',
-    label: 'Web Dev & SEO/AEO/GEO',
-    desc: 'Custom websites, apps, and next-gen search visibility.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
-        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-      </svg>
-    ),
-  },
-  {
     id: 'pdf',
-    label: 'PDF Accessibility & WCAG',
-    desc: 'ADA-compliant documents and accessibility audits.',
+    label: 'PDF Accessibility',
+    desc: 'Accessible PDFs with clear remediation findings.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -31,13 +21,23 @@ const SERVICES = [
   },
   {
     id: 'zoho',
-    label: 'Zoho Deployment & Customization',
+    label: 'Zoho Implementation',
     desc: 'Implementation, automation, and custom integrations.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <circle cx="12" cy="12" r="3"/>
         <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
         <path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'webdev',
+    label: 'Web Development',
+    desc: 'Fast, accessible websites and web apps built to be found.',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
+        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
       </svg>
     ),
   },
@@ -50,13 +50,27 @@ interface NavbarProps {
 
 export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
   const dropRef = useRef<HTMLLIElement>(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80)
+    let lastScrollY = window.scrollY
+    const onScroll = () => {
+      const currentScrollY = window.scrollY
+      setScrolled(currentScrollY > 80)
+      if (currentScrollY <= 24) {
+        setHidden(false)
+      } else if (currentScrollY > lastScrollY + 3) {
+        setHidden(true)
+        setServicesOpen(false)
+      } else if (currentScrollY < lastScrollY - 3) {
+        setHidden(false)
+      }
+      lastScrollY = currentScrollY
+    }
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -81,16 +95,16 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
+        className={`site-header fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${hidden ? 'site-header--hidden' : ''}`}
         style={{
           background: scrolled
-            ? 'rgba(10,14,26,0.82)'
-            : 'rgba(10,14,26,0.4)',
-          backdropFilter: scrolled ? 'blur(28px)' : 'blur(12px)',
-          WebkitBackdropFilter: scrolled ? 'blur(28px)' : 'blur(12px)',
+            ? 'rgba(10,14,26,0.96)'
+            : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
           borderBottom: scrolled
-            ? '1px solid rgba(0,180,216,0.18)'
-            : '1px solid rgba(255,255,255,0.05)',
+            ? '1px solid rgba(0,180,216,0.2)'
+            : '1px solid transparent',
           boxShadow: scrolled ? '0 4px 30px rgba(0,0,0,0.4)' : 'none',
           padding: scrolled ? '10px 0' : '18px 0',
         }}
@@ -141,27 +155,41 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               </button>
 
               {servicesOpen && (
-                <div className="absolute top-8 left-1/2 -translate-x-1/2 w-80 glass-strong rounded-2xl p-2 shadow-2xl animate-fadeIn">
-                  <div className="px-3 pt-2 pb-1">
-                    <p className="eyebrow text-xs mb-2">What we do</p>
+                <div className="services-mega-menu absolute left-1/2 top-8 w-[min(620px,calc(100vw-32px))] -translate-x-1/2 overflow-hidden rounded-3xl p-3 shadow-2xl animate-fadeIn">
+                  <div className="services-mega-menu__heading flex items-end justify-between gap-4 px-4 pb-3 pt-4">
+                    <div>
+                      <h2 className="text-xl font-bold text-white" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>Digital work, made practical.</h2>
+                      <p className="mt-1 text-xs text-white/55">Three focused services. One hands-on team.</p>
+                    </div>
+                    <span className="mb-1 font-mono text-[10px] tracking-widest text-cyan-300">01 - 03</span>
                   </div>
-                  {SERVICES.map((s) => (
-                    <button
-                      key={s.id}
-                      onClick={() => navigate(s.id)}
-                      className="w-full flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left group"
-                    >
-                      <span className="text-cyan-400 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform">
-                        {s.icon}
-                      </span>
-                      <div>
-                        <div className="text-sm font-semibold text-white/90" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
+                  <div className="grid gap-2 sm:grid-cols-3">
+                    {SERVICES.map((s, index) => (
+                      <button
+                        key={s.id}
+                        onClick={() => navigate(s.id)}
+                        className={`services-mega-menu__item group relative flex min-h-40 flex-col items-start overflow-hidden rounded-2xl p-4 text-left ${currentPage === s.id ? 'is-current' : ''}`}
+                      >
+                        <span className="services-mega-menu__item-number">{String(index + 1).padStart(2, '0')}</span>
+                        <span className="services-mega-menu__icon mb-5 flex h-10 w-10 items-center justify-center rounded-xl text-cyan-200 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
+                          {s.icon}
+                        </span>
+                        <span className="relative z-10 text-sm font-semibold leading-snug text-white" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
                           {s.label}
-                        </div>
-                        <div className="text-xs text-white/50 mt-0.5">{s.desc}</div>
-                      </div>
+                        </span>
+                        <span className="relative z-10 mt-2 text-[11px] leading-relaxed text-white/55">
+                          {s.desc}
+                        </span>
+                        <span className="services-mega-menu__arrow" aria-hidden="true">↗</span>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="mt-3 flex items-center justify-between rounded-2xl bg-cyan-300/[0.07] px-4 py-3">
+                    <span className="text-xs text-white/70">Not sure where to start-</span>
+                    <button type="button" onClick={() => navigate('contact')} className="text-xs font-semibold text-cyan-200 transition-colors hover:text-white">
+                      Talk it through <span aria-hidden="true">→</span>
                     </button>
-                  ))}
+                  </div>
                 </div>
               )}
             </li>

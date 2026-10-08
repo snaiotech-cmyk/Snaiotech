@@ -75,22 +75,33 @@ export default function Contact({ onNavigate }: ContactProps) {
   return (
     <div className="overflow-x-hidden">
       {/* Hero */}
-      <section className="gradient-mesh grid-overlay pt-32 pb-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="gradient-mesh grid-overlay pt-32 pb-16 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-10 items-center">
           <div className="animate-fadeUp">
-            <p className="eyebrow mb-3">Let's work together</p>
-            <h1 className="text-5xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-              Contact <span className="gradient-text">Snaiotech</span>
-            </h1>
-            <p className="text-white/55 text-lg max-w-xl">
-              Every engagement starts with an honest conversation. No pitch deck, no pressure — just a direct discussion about your goals.
-            </p>
+            <div className="max-w-3xl">
+              <h1 className="text-5xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
+                Let's talk about <span className="gradient-text">what you need.</span>
+              </h1>
+              <p className="text-white/55 text-lg max-w-xl">
+                Share what you're working on. We'll listen, answer your questions, and help you find a practical next step.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-2.5" aria-label="Our services">
+                {["PDF accessibility", "Zoho implementation", "Web development"].map((service) => (
+                  <span key={service} className="glass-blue rounded-full px-4 py-2 text-xs font-medium text-cyan-100">{service}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="contact-hero__art" aria-hidden="true">
+            <img src="/images/snaiotech-wolf.png" alt="" />
+            <span>Digital work that works for everyone.</span>
           </div>
         </div>
+        <div className="contact-hero__glow" aria-hidden="true" />
       </section>
 
       {/* Form + info */}
-      <section className="py-16 pb-28 gradient-mesh-light">
+      <section id="contact-form" className="py-16 pb-28 gradient-mesh-light">
         <div className="max-w-6xl mx-auto px-6">
           <div ref={formRef as React.RefObject<HTMLDivElement>}>
             <div className="grid lg:grid-cols-5 gap-10">
@@ -225,9 +236,9 @@ export default function Contact({ onNavigate }: ContactProps) {
                           style={{ background: 'rgba(255,255,255,0.04)', zIndex: 1 }}
                         >
                           <option value="" style={{ background: '#0d1829' }}></option>
-                          <option value="webdev" style={{ background: '#0d1829' }}>Web Dev &amp; SEO/AEO/GEO</option>
-                          <option value="pdf" style={{ background: '#0d1829' }}>PDF Accessibility &amp; WCAG</option>
-                          <option value="zoho" style={{ background: '#0d1829' }}>Zoho Deployment &amp; Customization</option>
+                          <option value="pdf" style={{ background: '#0d1829' }}>PDF Accessibility</option>
+                          <option value="zoho" style={{ background: '#0d1829' }}>Zoho Implementation</option>
+                          <option value="webdev" style={{ background: '#0d1829' }}>Web Development</option>
                           <option value="multiple" style={{ background: '#0d1829' }}>Multiple services</option>
                           <option value="other" style={{ background: '#0d1829' }}>Not sure yet</option>
                         </select>
@@ -347,7 +358,7 @@ export default function Contact({ onNavigate }: ContactProps) {
                 </div>
 
                 <div className="glass-blue rounded-2xl p-6">
-                  <h3 className="font-bold text-white mb-2" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>Not sure where to start?</h3>
+                  <h3 className="font-bold text-white mb-2" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>Not sure where to start-</h3>
                   <p className="text-white/55 text-sm mb-4">Browse our services or read our blog to get a feel for how we think before reaching out.</p>
                   <div className="flex gap-3">
                     <button onClick={() => onNavigate('webdev')} className="btn-ghost px-4 py-2 rounded-lg text-xs flex-1">

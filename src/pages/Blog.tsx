@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PageHero from '@/components/PageHero'
 
 const img = (id: string, w: number, h: number) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&auto=format&q=80`
@@ -6,15 +7,15 @@ const img = (id: string, w: number, h: number) =>
 const CATEGORIES = ['All', 'Web Dev', 'Accessibility', 'Zoho', 'SEO/AI']
 
 const POSTS = [
-  { cat: 'SEO/AI', date: 'Sep 2, 2026', title: 'What is GEO? How to Rank in AI-Generated Search Results', excerpt: "Generative Engine Optimization is the new frontier of search visibility. As Google SGE and Bing Copilot synthesize answers, being 'found' means being cited. Here's what it means and how to prepare your content now.", imgId: '1686061593213-98dad7c599b9', readTime: '7 min' },
-  { cat: 'Accessibility', date: 'Aug 28, 2026', title: 'WCAG 2.2 — What Changed and Why It Matters for Your Business', excerpt: 'The latest WCAG update introduces 9 new success criteria. We break down each with practical remediation steps, real-world impact examples, and a prioritization framework.', imgId: '1778873750399-338b94f7feda', readTime: '10 min' },
+  { cat: 'SEO/AI', date: 'Sep 2, 2026', title: 'What is GEO- How to Rank in AI-Generated Search Results', excerpt: "Generative Engine Optimization is the new frontier of search visibility. As Google SGE and Bing Copilot synthesize answers, being 'found' means being cited. Here's what it means and how to prepare your content now.", imgId: '1686061593213-98dad7c599b9', readTime: '7 min' },
+  { cat: 'Accessibility', date: 'Aug 28, 2026', title: 'WCAG 2.2 - What Changed and Why It Matters for Your Business', excerpt: 'The latest WCAG update introduces 9 new success criteria. We break down each with practical remediation steps, real-world impact examples, and a prioritization framework.', imgId: '1778873750399-338b94f7feda', readTime: '10 min' },
   { cat: 'Zoho', date: 'Aug 20, 2026', title: 'Zoho CRM vs Salesforce: The 2026 Honest Comparison', excerpt: "We've implemented both extensively. Here's what teams actually experience, when Zoho wins on value and flexibility, and when Salesforce is genuinely the better choice.", imgId: '1551288049-bebda4e38f71', readTime: '12 min' },
   { cat: 'Web Dev', date: 'Aug 12, 2026', title: 'Core Web Vitals in 2026: What Still Matters and What Changed', excerpt: "Google's ranking signals have evolved. We audit dozens of sites per year and see the same Core Web Vitals failures repeatedly. This is what actually moves the needle.", imgId: '1611078489935-0cb964de46d6', readTime: '8 min' },
   { cat: 'SEO/AI', date: 'Aug 5, 2026', title: 'Answer Engine Optimization: A Practical Guide for Non-Technical Teams', excerpt: "AEO doesn't require an engineering team. It requires understanding how AI assistants select answers, and structuring your content to be chosen.", imgId: '1515879218367-8466d910aaa4', readTime: '9 min' },
   { cat: 'Accessibility', date: 'Jul 28, 2026', title: 'The ADA PDF Lawsuit Landscape: What Businesses Need to Know', excerpt: 'Over 4,600 ADA digital accessibility lawsuits were filed in 2024. A significant portion target inaccessible PDFs. We explain the legal landscape and what remediation actually costs.', imgId: '1772588627342-5ec373e236d8', readTime: '11 min' },
   { cat: 'Zoho', date: 'Jul 15, 2026', title: "Zoho Blueprint: How to Actually Use It (and Why Most Teams Don't)", excerpt: "Blueprint is one of Zoho CRM's most powerful features and one of the most underused. This step-by-step guide shows how to design and deploy a process your team will actually follow.", imgId: '1560472354-b33ff0c44a43', readTime: '13 min' },
   { cat: 'Web Dev', date: 'Jul 8, 2026', title: "Headless CMS in 2026: When It's Worth It and When It's Overkill", excerpt: 'Headless architecture is often recommended for the wrong reasons. We lay out a decision framework based on team size, publishing frequency, personalization needs, and performance goals.', imgId: '1542831371-29b0f74f9713', readTime: '8 min' },
-  { cat: 'SEO/AI', date: 'Jun 30, 2026', title: "E-E-A-T: Google's Hidden Ranking Factor That Most Teams Get Wrong", excerpt: "Experience, Expertise, Authoritativeness, Trustworthiness — Google's quality rater guidelines describe what AI-era ranking actually rewards. Here's how to demonstrate all four.", imgId: '1461749280684-dccba630e2f6', readTime: '10 min' },
+  { cat: 'SEO/AI', date: 'Jun 30, 2026', title: "E-E-A-T: Google's Hidden Ranking Factor That Most Teams Get Wrong", excerpt: "Experience, Expertise, Authoritativeness, Trustworthiness - Google's quality rater guidelines describe what AI-era ranking actually rewards. Here's how to demonstrate all four.", imgId: '1461749280684-dccba630e2f6', readTime: '10 min' },
 ]
 
 const CAT_COLORS: Record<string, string> = {
@@ -40,20 +41,19 @@ export default function Blog({ onNavigate }: BlogProps) {
 
   return (
     <div className="overflow-x-hidden">
-      {/* Hero */}
-      <section className="gradient-mesh grid-overlay pt-32 pb-16">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="animate-fadeUp">
-            <p className="eyebrow mb-3">Insights & expertise</p>
-            <h1 className="text-5xl lg:text-6xl font-extrabold text-white mb-4 display-tight" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-              The Snaiotech <span className="gradient-text">Blog</span>
-            </h1>
-            <p className="text-white/55 text-lg max-w-xl">
-              Practical thinking on web development, digital accessibility, Zoho, and the evolving landscape of AI-driven search.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        service="SNAiO Tech journal"
+        title="Ideas for"
+        accent="better digital work."
+        description="Practical thinking on accessible documents, connected systems, web development, and the changing search landscape."
+        image="/images/discipline-web-development.png"
+        imageAlt="SNAiO Tech illustration for web development"
+        highlights={["Accessibility", "Zoho", "Web & search"]}
+        primaryLabel="Talk about a project"
+        secondaryLabel="Browse the articles"
+        secondaryTarget="blog-posts"
+        onNavigate={onNavigate}
+      />
 
       {/* Featured post with real image */}
       <section className="py-12 gradient-mesh-light">
@@ -119,7 +119,7 @@ export default function Blog({ onNavigate }: BlogProps) {
       </section>
 
       {/* Post grid with real images */}
-      <section className="py-6 pb-24 gradient-mesh-light">
+      <section id="blog-posts" className="py-6 pb-24 gradient-mesh-light">
         <div className="max-w-6xl mx-auto px-6">
           {filtered.length === 0 ? (
             <div className="text-center py-20">
@@ -160,6 +160,38 @@ export default function Blog({ onNavigate }: BlogProps) {
               ))}
             </div>
           )}
+        </div>
+      </section>
+      <section className="blog-cta-wrap gradient-mesh-light">
+        <div className="blog-cta max-w-6xl mx-auto">
+          <div className="blog-cta__content">
+            <p className="blog-cta__eyebrow">From reading to doing</p>
+            <h2 className="blog-cta__title">
+              An idea is a good place <span className="gradient-text">to start.</span>
+            </h2>
+            <p className="blog-cta__description">
+              Have a question about accessibility, Zoho, or your website? Tell us what you’re working through.
+            </p>
+            <button onClick={() => onNavigate('contact')} className="btn-primary px-7 py-3.5 rounded-full text-sm">
+              Talk with our team <span aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          <article className="blog-cta__feature">
+            <img
+              src={img(POSTS[1].imgId, 760, 520)}
+              alt=""
+              className="blog-cta__feature-image"
+              loading="lazy"
+            />
+            <div className="blog-cta__feature-shade" />
+            <div className="blog-cta__feature-copy">
+              <span className="blog-cta__feature-tag">A note from the journal</span>
+              <h3>{POSTS[1].title}</h3>
+              <span className="blog-cta__feature-meta">{POSTS[1].cat} <i /> {POSTS[1].readTime} read</span>
+            </div>
+            <span className="blog-cta__feature-index" aria-hidden="true">01 / 09</span>
+          </article>
         </div>
       </section>
     </div>

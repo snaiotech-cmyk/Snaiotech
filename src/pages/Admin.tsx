@@ -313,7 +313,7 @@ export default function Admin({ onNavigate }: AdminProps) {
                 onClick={() => { setIsSignUp(!isSignUp); setSaveMsg(''); setAuthSuccess('') }}
                 className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors underline underline-offset-4"
               >
-                {isSignUp ? 'Already created an account? Sign in instead' : "First time? Click here to create your admin account"}
+                {isSignUp ? 'Already created an account- Sign in instead' : "First time- Click here to create your admin account"}
               </button>
             </div>
           </form>
@@ -631,7 +631,7 @@ export default function Admin({ onNavigate }: AdminProps) {
                               {expandedId === item.id ? 'Collapse' : 'Read'}
                             </button>
                             <a
-                              href={`mailto:${item.email}?subject=Re: Your Snaiotech enquiry`}
+                              href={`mailto:${item.email}-subject=Re: Your Snaiotech enquiry`}
                               className="btn-primary rounded-lg px-3 py-2 text-xs"
                             >
                               Reply
@@ -668,7 +668,7 @@ export default function Admin({ onNavigate }: AdminProps) {
                 </SectionCard>
 
                 {/* SEO */}
-                <SectionCard title="🔍 SEO — Search Engine Optimization">
+                <SectionCard title="🔍 SEO - Search Engine Optimization">
                   <AdminInput label="Canonical base URL" value={site.canonical_url} onChange={v => setSite(s => ({ ...s, canonical_url: v }))} placeholder="https://snaiotech.com" />
                   <AdminInput label="Robots directive" value={site.robots} onChange={v => setSite(s => ({ ...s, robots: v }))} placeholder="index, follow" />
                   <AdminInput label="Schema.org type" value={site.schema_type} onChange={v => setSite(s => ({ ...s, schema_type: v }))} placeholder="ProfessionalService" />
@@ -696,7 +696,7 @@ export default function Admin({ onNavigate }: AdminProps) {
                 </SectionCard>
 
                 {/* GEO / AEO */}
-                <SectionCard title="🌍 GEO & AEO — Geo & Answer Engine Optimization">
+                <SectionCard title="🌍 GEO & AEO - Geo & Answer Engine Optimization">
                   <AdminInput label="GEO region code (ISO 3166-2)" value={site.geo_region} onChange={v => setSite(s => ({ ...s, geo_region: v }))} placeholder="IN-TN" />
                   <AdminInput label="GEO placename" value={site.geo_placename} onChange={v => setSite(s => ({ ...s, geo_placename: v }))} placeholder="Chennai, Tamil Nadu, India" />
                   <AdminInput label="GEO position (lat;lon)" value={site.geo_position} onChange={v => setSite(s => ({ ...s, geo_position: v }))} placeholder="13.0827;80.2707" />

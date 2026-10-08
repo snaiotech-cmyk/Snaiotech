@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>Snaiotech Blog - Featured Articles</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #0a0e1a;
+      color: #f7f9fc;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+    body { overflow: hidden; background: #0a0e1a; }
+    button { font: inherit; }
+
+    #root {
+      position: relative;
+      width: 100%;
+      height: 700px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 78% 48%, rgba(0, 151, 196, .13), transparent 44%),
+        linear-gradient(135deg, #101c2e, #080d18 68%);
+      isolation: isolate;
+    }
+
+    #stage { position: relative; width: 100%; height: 100%; }
+
+    .card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(103, 205, 230, .38);
+      background: #102137;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, .42), 0 0 24px rgba(0, 180, 216, .08);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .card img, .hero img, .th img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
+    }
+
+    .card::after, .hero::after, .th::after {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(3, 9, 18, .02) 15%, rgba(3, 9, 18, .18) 44%, rgba(3, 9, 18, .9) 100%);
+      content: "";
+      pointer-events: none;
+    }
+
+    .card:focus-visible, .th:focus-visible, .control:focus-visible, .read:focus-visible {
+      outline: 2px solid #54d8eb;
+      outline-offset: 3px;
+    }
+
+    .chrome {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease .2s;
+    }
+
+    .opened .chrome { opacity: 1; }
+
+    #counter {
+      position: absolute;
+      z-index: 60;
+      top: 24px;
+      left: 28px;
+      color: #eef7fb;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 12px;
+      letter-spacing: .08em;
+    }
+
+    #counter span { color: rgba(222, 237, 245, .44); }
+
+    #content {
+      position: absolute;
+      top: 50%;
+      z-index: 30;
+      width: min(28%, 360px);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    #content h2 {
+      max-height: 132px;
+      margin: 0;
+      overflow: hidden;
+      color: #f7f9fc;
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 700;
+      letter-spacing: -.045em;
+      line-height: 1.06;
+    }
+
+    #content .meta {
+      max-height: 28px;
+      margin: 14px 0 10px;
+      overflow: hidden;
+      color: #43d3e8;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    #content .description {
+      max-height: 150px;
+      margin: 0;
+      overflow: hidden;
+      color: rgba(225, 237, 245, .68);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    #content .excerpt {
+      max-height: 64px;
+      margin: 13px 0 0;
+      overflow: hidden;
+      color: rgba(225, 237, 245, .44);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    [data-line] { display: block; }
+
+    .gallery-controls {
+      position: absolute;
+      z-index: 80;
+      top: 18px;
+      right: 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .control {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid rgba(163, 198, 216, .22);
+      border-radius: 50%;
+      background: rgba(8, 18, 31, .8);
+      color: #e8f6fb;
+      cursor: pointer;
+      transition: border-color .2s ease, color .2s ease, background .2s ease;
+    }
+
+    .control:hover {
+      border-color: rgba(47, 211, 232, .65);
+      background: rgba(0, 180, 216, .14);
+      color: #70e4f2;
+    }
+
+    .control svg { width: 16px; height: 16px; }
+
+    .close-control {
+      width: auto;
+      padding: 0 13px;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: .03em;
+    }
+
+    .read {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #53d7e9;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .read svg { width: 15px; height: 15px; }
+
+    .read:hover { color: #a0f0fa; }
+
+    .mob {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      gap: 18px;
+      padding: 20px;
+    }
+
+    .mob #counter {
+      position: static;
+      display: block;
+      order: 0;
+      font-size: 11px;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 240px;
+      flex: 1 1 240px;
+      overflow: hidden;
+      border: 1px solid rgba(103, 205, 230, .35);
+      background: #102137;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .4);
+    }
+
+    .mob #content {
+      position: static;
+      order: 2;
+      width: 100%;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    .mob #content h2 { max-height: 96px; font-size: clamp(25px, 7vw, 34px); }
+    .mob #content .meta { max-height: 24px; margin: 9px 0; font-size: 9px; }
+    .mob #content .description { max-height: 96px; font-size: 13px; line-height: 1.6; }
+    .mob #content .excerpt { max-height: 42px; margin-top: 8px; font-size: 11px; }
+    .mob .read { margin-top: 12px; }
+
+    .mob .gallery-controls {
+      top: 14px;
+      right: 14px;
+      gap: 6px;
+    }
+
+    .mob .control { width: 32px; height: 32px; }
+    .mob .close-control { width: auto; padding: 0 10px; }
+
+    .mobile-reopen {
+      display: none;
+      align-self: center;
+      padding: 11px 18px;
+      border: 1px solid rgba(75, 205, 226, .42);
+      border-radius: 999px;
+      background: rgba(0, 180, 216, .12);
+      color: #76e3f1;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .mob.is-closed .hero,
+    .mob.is-closed #counter,
+    .mob.is-closed #content,
+    .mob.is-closed .thumbs,
+    .mob.is-closed .close-control,
+    .mob.is-closed .previous,
+    .mob.is-closed .next { display: none; }
+
+    .mob.is-closed .mobile-reopen { display: inline-flex; }
+
+    .thumbs {
+      display: grid;
+      order: 3;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .th {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(123, 180, 205, .24);
+      background: #102137;
+      cursor: pointer;
+    }
+
+    .th[aria-current="true"] { border-color: #43d3e8; }
+    .th[aria-current="true"]::before {
+      position: absolute;
+      z-index: 2;
+      inset: auto 0 0;
+      height: 3px;
+      background: #43d3e8;
+      content: "";
+    }
+
+    @media (max-width: 420px) {
+      #root { height: 720px; }
+      .mob { gap: 14px; padding: 16px; }
+      .hero { min-height: 210px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main id="root" aria-label="Featured Snaiotech blog articles"></main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Flip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+  <script>
+    gsap.registerPlugin(Flip, SplitText);
+
+    const items = [
+      {
+        title: "What is GEO? How to Rank in AI-Generated Search Results",
+        meta: "SEO / AI · SEP 2, 2026 · 7 MIN READ",
+        description: "Generative Engine Optimization is the new frontier. Learn what it means and how to prepare your content for AI-generated answers.",
+        excerpt: "A practical introduction to visibility across generative search.",
+        image: "https://images.unsplash.com/photo-1686061593213-98dad7c599b9?auto=format&fit=crop&w=1100&q=85",
+        alt: "A modern web development workspace",
+      },
+      {
+        title: "WCAG 2.2 - What Changed and Why It Matters for Your Business",
+        meta: "ACCESSIBILITY · AUG 28, 2026 · 10 MIN READ",
+        description: "The latest WCAG update brings nine new success criteria. We break down each change with practical remediation steps.",
+        excerpt: "Understand the updates and what your organization should do next.",
+        image: "https://images.unsplash.com/photo-1778873750399-338b94f7feda?auto=format&fit=crop&w=1100&q=85",
+        alt: "A quality assurance dashboard with accessibility checks",
+      },
+      {
+        title: "Zoho CRM vs Salesforce: The 2026 Honest Comparison",
+        meta: "ZOHO · AUG 20, 2026 · 12 MIN READ",
+        description: "We have implemented both platforms. Here is what teams actually experience, and when Zoho wins on value.",
+        excerpt: "Compare the platforms based on implementation and day-to-day use.",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1100&q=85",
+        alt: "A connected business software ecosystem",
+      },
+      {
+        title: "Core Web Vitals in 2026: What Still Matters and What Changed",
+        meta: "WEB DEVELOPMENT · AUG 12, 2026 · 8 MIN READ",
+        description: "Google's ranking signals keep evolving. See the Core Web Vitals issues we find most often and the fixes that make a measurable difference.",
+        excerpt: "A practical guide to improving speed, stability, and search performance.",
+        image: "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?auto=format&fit=crop&w=1100&q=85",
+        alt: "A developer working on a modern website",
+      },
+      {
+        title: "Answer Engine Optimization: A Practical Guide for Non-Technical Teams",
+        meta: "SEO / AI · AUG 5, 2026 · 9 MIN READ",
+        description: "Answer engine optimization does not require an engineering team. Learn how to structure useful content so AI assistants can understand and cite it.",
+        excerpt: "Make your expertise easier for people and AI tools to find.",
+        image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1100&q=85",
+        alt: "A team planning a digital content strategy",
+      },
+    ];
+
+    const options = { duration: .7, ease: "power3.inOut", radius: 18, thumbWidth: 92, thumbHeight: 124, gap: 12, heroWidth: 510, heroHeight: 610, offsetX: 3, offsetY: 9 };
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    const root = document.getElementById("root");
+    let width = 0;
+    let order = items.map((_, index) => index);
+    let opened = false;
+    let busy = false;
+    let mobile = false;
+    let visible = false;
+    let manuallyClosed = false;
+    let cards = [];
+    let content;
+    let counter;
+    let timer;
+    let textTween;
+    let split;
+
+    function measurements() {
+      const compact = width < 900;
+      const scale = compact ? Math.min(1, width / 900) : 1;
+      const heroWidth = Math.min(options.heroWidth * scale, width * .48);
+      const railX = Math.max(20, width * .035);
+      const thumbWidth = Math.min(options.thumbWidth * scale, width * .18);
+      return {
+        compact,
+        scale,
+        thumbWidth,
+        thumbHeight: options.thumbHeight * scale,
+        gap: options.gap * scale,
+        heroWidth,
+        heroHeight: options.heroHeight * (heroWidth / options.heroWidth),
+        railX,
+        heroX: width - heroWidth - railX,
+        stackWidth: Math.min(210 * scale, width * .38),
+      };
+    }
+
+    function place(card, slot) {
+      const m = measurements();
+      const style = card.style;
+      if (!opened) {
+        style.left = `${width / 2 - m.stackWidth / 2}px`;
+        style.top = "50%";
+        style.width = `${m.stackWidth}px`;
+        style.height = `${m.stackWidth * 1.32}px`;
+        style.borderRadius = `${options.radius * .75 * m.scale}px`;
+        style.transform = `translateY(-50%) translate(${slot * options.offsetX}px,${slot * options.offsetY}px)`;
+        style.zIndex = `${items.length - slot}`;
+        return;
+      }
+
+      let x, y, w, h, z;
+      if (slot === 0) {
+        x = m.heroX; y = 0; w = m.heroWidth; h = m.heroHeight; z = items.length + 1;
+      } else {
+        const railHeight = (items.length - 1) * m.thumbHeight + (items.length - 2) * m.gap;
+        y = -railHeight / 2 + (slot - 1) * (m.thumbHeight + m.gap) + m.thumbHeight / 2;
+        x = m.railX; w = m.thumbWidth; h = m.thumbHeight; z = items.length - slot;
+      }
+      style.left = `${x}px`;
+      style.top = "50%";
+      style.width = `${w}px`;
+      style.height = `${h}px`;
+      style.borderRadius = `${options.radius * m.scale}px`;
+      style.transform = `translateY(calc(-50% + ${y}px))`;
+      style.zIndex = `${z}`;
+    }
+
+    function updateLayout() {
+      if (mobile || !cards.length) return;
+      const m = measurements();
+      order.forEach((index, slot) => place(cards[index], slot));
+      root.classList.toggle("opened", opened);
+      content.style.display = m.compact ? "none" : "block";
+      content.style.left = `${m.railX + m.thumbWidth + Math.max(38, width * .045)}px`;
+      content.style.width = `${Math.max(220, m.heroX - (m.railX + m.thumbWidth + Math.max(38, width * .045)) - 34)}px`;
+      cards.forEach((card, index) => {
+        const featured = index === order[0];
+        card.setAttribute("aria-label", opened ? items[index].alt : `Open featured blog articles`);
+        if (opened && featured) card.setAttribute("aria-current", "true");
+        else card.removeAttribute("aria-current");
+        card.tabIndex = !opened ? (featured ? 0 : -1) : (featured ? -1 : 0);
+      });
+      counter.innerHTML = `<b>${String(order[0] + 1).padStart(2, "0")}</b><span> / ${String(items.length).padStart(2, "0")}</span>`;
+    }
+
+    function clearSplit() {
+      if (textTween) textTween.kill();
+      if (split) split.revert();
+      split = null;
+    }
+
+    function revealText() {
+      clearSplit();
+      const sections = content.querySelectorAll("[data-line]");
+      gsap.set(sections, { opacity: 1, y: 0 });
+      if (reducedMotion.matches) return;
+      split = SplitText.create(sections, { type: "lines", mask: "lines" });
+      gsap.set(split.lines, { yPercent: 100 });
+      textTween = gsap.to(split.lines, { yPercent: 0, duration: .55, stagger: .07, ease: "power3.out" });
+    }
+
+    function setText() {
+      const item = items[order[0]];
+      content.innerHTML = `
+        <h2 data-line>${item.title}</h2>
+        <p class="meta" data-line>${item.meta}</p>
+        <p class="description" data-line>${item.description}</p>
+        <p class="excerpt" data-line>${item.excerpt}</p>
+        <button class="read" type="button">Read article
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>`;
+      content.querySelector(".read").addEventListener("click", navigateToBlog);
+      revealText();
+    }
+
+    function swapText() {
+      if (reducedMotion.matches) { setText(); return; }
+      clearSplit();
+      textTween = gsap.to(content.querySelectorAll("[data-line]"), {
+        opacity: 0, y: -8, duration: .22, ease: "power2.in", onComplete: setText,
+      });
+    }
+
+    function flip(update, config = {}) {
+      const state = Flip.getState(cards, { props: "borderRadius" });
+      update();
+      if (reducedMotion.matches) return;
+      busy = true;
+      Flip.from(state, Object.assign({
+        duration: options.duration,
+        ease: options.ease,
+        absolute: true,
+        props: "borderRadius",
+        onComplete: () => { busy = false; },
+      }, config));
+    }
+
+    function stopAuto() {
+      window.clearTimeout(timer);
+      timer = undefined;
+    }
+
+    function startAuto() {
+      stopAuto();
+      if (!visible || document.hidden || !opened || reducedMotion.matches) return;
+      timer = window.setTimeout(advance, 7000);
+    }
+
+    function advance() {
+      if (busy) {
+        timer = window.setTimeout(advance, 350);
+        return;
+      }
+      select((order[0] + 1) % items.length);
+    }
+
+    function goPrevious() {
+      select((order[0] - 1 + items.length) % items.length);
+    }
+
+    function openGallery() {
+      if (opened || busy || !width) return;
+      manuallyClosed = false;
+      if (mobile) {
+        opened = true;
+        root.classList.remove("is-closed");
+        root.classList.add("opened");
+        startAuto();
+        return;
+      }
+      flip(() => { opened = true; updateLayout(); }, { stagger: .035 });
+      startAuto();
+    }
+
+    function closeGallery() {
+      if (!opened) return;
+      stopAuto();
+      manuallyClosed = true;
+      if (mobile) {
+        opened = false;
+        root.classList.remove("opened");
+        root.classList.add("is-closed");
+        return;
+      }
+      if (busy) return;
+      flip(() => { opened = false; updateLayout(); }, { duration: options.duration * .9, stagger: { each: .035, from: "end" } });
+    }
+
+    function select(index) {
+      if (index === order[0] || busy) return;
+      const next = order.slice();
+      const from = next.indexOf(index);
+      next[from] = next[0];
+      next[0] = index;
+      if (mobile) {
+        order = next;
+        buildMobile();
+        swapText();
+      } else {
+        flip(() => { order = next; updateLayout(); });
+        swapText();
+      }
+      startAuto();
+    }
+
+    function navigateToBlog() {
+      window.parent.postMessage({ type: "snaiotech-blog-navigate" }, window.location.origin);
+    }
+
+    function renderCounter() {
+      if (!counter) return;
+      counter.innerHTML = `<b>${String(order[0] + 1).padStart(2, "0")}</b><span> / ${String(items.length).padStart(2, "0")}</span>`;
+    }
+
+    function buildDesktop() {
+      clearSplit();
+      root.className = "";
+      root.innerHTML = `
+        <div id="counter" class="chrome" aria-live="polite"></div>
+        <div class="gallery-controls chrome">
+          <button class="control previous" type="button" aria-label="Previous article">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button class="control next" type="button" aria-label="Next article">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <button class="control close-control" type="button" aria-label="Close gallery">Close</button>
+        </div>
+        <div id="stage">
+          <div id="content" class="chrome"></div>
+        </div>`;
+      counter = document.getElementById("counter");
+      content = document.getElementById("content");
+      const stage = document.getElementById("stage");
+      stage.addEventListener("click", event => { if (event.target === stage) closeGallery(); });
+      stage.addEventListener("pointerdown", event => {
+        if (opened) return;
+        const card = event.target.closest(".card");
+        if (card) {
+          const index = cards.indexOf(card);
+          if (index > -1) order = [index, ...order.filter(item => item !== index)];
+        }
+        openGallery();
+      });
+      root.querySelector(".previous").addEventListener("click", goPrevious);
+      root.querySelector(".next").addEventListener("click", advance);
+      root.querySelector(".close-control").addEventListener("click", closeGallery);
+      cards = items.map((item, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "card";
+        button.setAttribute("aria-label", `Open ${item.title}`);
+        button.innerHTML = `<img src="${item.image}" alt="${item.alt}" draggable="false">`;
+        button.addEventListener("click", () => opened ? select(index) : openGallery());
+        stage.appendChild(button);
+        return button;
+      });
+      updateLayout();
+      setText();
+    }
+
+    function buildMobile() {
+      clearSplit();
+      const item = items[order[0]];
+      opened = true;
+      root.className = "mob opened";
+      root.innerHTML = `
+        <div id="counter" aria-live="polite"></div>
+        <div class="gallery-controls">
+          <button class="control previous" type="button" aria-label="Previous article">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button class="control next" type="button" aria-label="Next article">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <button class="control close-control" type="button" aria-label="Close gallery">Close</button>
+        </div>
+        <button class="mobile-reopen" type="button">Open featured articles</button>
+        <div class="hero"><img src="${item.image}" alt="${item.alt}"></div>
+        <div id="content"></div>
+        <div class="thumbs"></div>`;
+      counter = document.getElementById("counter");
+      content = document.getElementById("content");
+      const thumbs = root.querySelector(".thumbs");
+      order.slice(1).forEach(index => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "th";
+        button.setAttribute("aria-label", `Show ${items[index].title}`);
+        button.innerHTML = `<img src="${items[index].image}" alt="" draggable="false">`;
+        button.addEventListener("click", () => select(index));
+        thumbs.appendChild(button);
+      });
+      root.querySelector(".previous").addEventListener("click", goPrevious);
+      root.querySelector(".next").addEventListener("click", advance);
+      root.querySelector(".close-control").addEventListener("click", closeGallery);
+      root.querySelector(".mobile-reopen").addEventListener("click", openGallery);
+      renderCounter();
+      setText();
+    }
+
+    function syncLayout() {
+      width = root.clientWidth;
+      const useMobile = width <= 900;
+      if (!counter || useMobile !== mobile) {
+        mobile = useMobile;
+        if (mobile) buildMobile();
+        else buildDesktop();
+        if (visible && !mobile && !opened && !manuallyClosed) window.setTimeout(openGallery, 450);
+        else startAuto();
+      } else {
+        updateLayout();
+      }
+    }
+
+    root.addEventListener("keydown", event => {
+      if (event.key === "Escape") { closeGallery(); return; }
+      if (!opened) {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openGallery(); }
+        return;
+      }
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        event.preventDefault();
+        advance();
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        event.preventDefault();
+        goPrevious();
+      }
+    });
+
+    new ResizeObserver(syncLayout).observe(root);
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+      if (!visible) {
+        stopAuto();
+      } else if (!manuallyClosed) {
+        if (!mobile && !opened) window.setTimeout(openGallery, 450);
+        else startAuto();
+      }
+      if (!visible) manuallyClosed = false;
+    }, { threshold: .3 }).observe(root);
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopAuto();
+      else if (visible && !manuallyClosed) {
+        if (!mobile && !opened) openGallery();
+        else startAuto();
+      }
+    });
+
+    reducedMotion.addEventListener("change", () => {
+      if (reducedMotion.matches) stopAuto();
+      else if (visible && opened) startAuto();
+    });
+  </script>
+</body>
+</html>
