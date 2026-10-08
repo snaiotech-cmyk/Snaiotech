@@ -33,6 +33,9 @@
 
 # Vercel static assets must contain the actual MP4 bytes, not an LFS pointer.
 public/videos/*.mp4  -filter -diff -merge -text
+public/images/*.png  -filter -diff -merge -text
+public/logo.png      -filter -diff -merge -text
+src/imports/logo.png -filter -diff -merge -text
 
 # ---------------------------------------------------------------------------
 # Audio
