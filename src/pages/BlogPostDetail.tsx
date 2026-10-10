@@ -145,10 +145,12 @@ export default function BlogPostDetail({ onNavigate }: BlogPostDetailProps) {
         {/* Metadata bar & Share tools */}
         <div className="flex flex-wrap items-center justify-between gap-6 py-6 border-y border-white/10 text-sm">
           <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex-shrink-0">
-              <div className="w-full h-full rounded-full bg-[#0B101D] flex items-center justify-center text-xs font-bold text-cyan-300">
-                SN
-              </div>
+            <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex-shrink-0 overflow-hidden shadow-[0_0_10px_rgba(0,180,216,0.3)]">
+              <img
+                src="/images/mascot-portrait.png"
+                alt="SNAiO Tech author avatar"
+                className="w-full h-full object-cover rounded-full"
+              />
             </div>
             <div>
               <div className="text-white font-semibold">SNAiO Tech Engineering Team</div>
@@ -690,8 +692,12 @@ if (rootElement.hasChildNodes()) {
             {/* Author Signature Box */}
             <div className="mt-16 pt-8 border-t border-white/10">
               <div className="p-6 rounded-2xl glass border border-white/10 flex flex-col sm:flex-row items-center gap-6">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center text-white font-extrabold text-xl flex-shrink-0">
-                  SN
+                <div className="w-16 h-16 rounded-2xl overflow-hidden p-0.5 bg-gradient-to-tr from-cyan-400 to-blue-600 flex-shrink-0 shadow-[0_0_15px_rgba(0,180,216,0.4)]">
+                  <img
+                    src="/images/mascot-portrait.png"
+                    alt="SNAiO Tech Engineering Mascot"
+                    className="w-full h-full object-cover rounded-[14px]"
+                  />
                 </div>
                 <div>
                   <h4 className="text-base font-bold text-white mb-1" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>

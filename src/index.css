@@ -714,6 +714,11 @@ h1, h2, h3, h4, h5, h6 {
   100%{ transform: scale(1); }
 }
 
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(200%) skewX(-12deg); }
+}
+
 .animate-float       { animation: float 6s ease-in-out infinite; }
 .animate-float-b     { animation: floatB 8s ease-in-out infinite; }
 .animate-float-slow  { animation: float 10s ease-in-out infinite; }

@@ -283,57 +283,114 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
         </nav>
       </header>
 
-      {/* Mobile menu */}
+      {/* Interactive Cybernetic Mobile Drawer */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 pt-20 md:hidden">
+        <div className="fixed inset-0 z-50 md:hidden overflow-y-auto">
+          {/* Backdrop blur with soft glow */}
           <div
-            className="absolute inset-0 bg-[#0A0E1A]/90"
-            style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
+            className="fixed inset-0 bg-[#070B14]/95 backdrop-blur-2xl transition-opacity animate-fadeIn"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="relative glass-strong mx-4 mt-2 rounded-2xl p-6 animate-fadeUp">
-            <nav className="flex flex-col gap-1" aria-label="Mobile Navigation">
+
+          <div className="relative min-h-full flex flex-col p-6 z-10 animate-fadeUp">
+            {/* Header row inside drawer */}
+            <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
               <a
                 href="/"
                 onClick={(e) => {
                   e.preventDefault()
                   navigate('home')
                 }}
-                className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors block"
+                className="flex items-center gap-3"
               >
-                Home
+                <img src={getLogoSrc()} alt="SNAiO Tech" className="w-8 h-8 object-contain" />
+                <span className="font-bold text-lg tracking-tight gradient-text" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
+                  Snaiotech
+                </span>
               </a>
-
               <button
                 type="button"
-                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors flex items-center justify-between w-full"
+                className="w-10 h-10 rounded-full glass border border-white/15 flex items-center justify-center text-white/80 hover:text-white"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
               >
-                Services
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`w-4 h-4 transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`}>
-                  <polyline points="6 9 12 15 18 9"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
               </button>
+            </div>
 
-              {mobileServicesOpen && (
-                <div className="pl-4 flex flex-col gap-1">
-                  {SERVICES.map((s) => (
-                    <a
-                      key={s.id}
-                      href={getPathForPage(s.id)}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        navigate(s.id)
-                      }}
-                      className="text-left px-4 py-2.5 rounded-xl hover:bg-white/5 text-sm text-cyan-300 transition-colors flex items-center gap-2"
-                    >
-                      <span className="text-cyan-400">{s.icon}</span> {s.label}
-                    </a>
-                  ))}
-                </div>
-              )}
+            <nav className="flex-1 flex flex-col gap-2" aria-label="Mobile Navigation">
+              {/* Home */}
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate('home')
+                }}
+                className={`flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all ${currentPage === 'home' ? 'bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 font-semibold' : 'glass border border-white/5 text-white/85 hover:bg-white/10'}`}
+              >
+                <span className="text-base font-medium">Home</span>
+                <span className="text-xs font-mono text-white/30">00</span>
+              </a>
 
-              {NAV_ITEMS.slice(1).map((item) => (
+              {/* Interactive Services Section with Accordion */}
+              <div className="rounded-2xl border border-white/10 overflow-hidden bg-gradient-to-b from-white/[0.04] to-transparent">
+                <button
+                  type="button"
+                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                  className={`w-full flex items-center justify-between px-4 py-3.5 transition-all text-left ${['webdev', 'pdf', 'zoho'].includes(currentPage) ? 'text-cyan-300 font-semibold' : 'text-white/85'}`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="text-base font-medium">Services</span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-cyan-400/10 text-cyan-300 border border-cyan-400/30">
+                      03 Solutions
+                    </span>
+                  </div>
+                  <div className={`w-7 h-7 rounded-full glass border border-white/10 flex items-center justify-center transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180 bg-cyan-400/20 text-cyan-300' : 'text-white/60'}`}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </div>
+                </button>
+
+                {mobileServicesOpen && (
+                  <div className="p-3 pt-0 flex flex-col gap-2.5 animate-fadeIn">
+                    {SERVICES.map((s, idx) => (
+                      <a
+                        key={s.id}
+                        href={getPathForPage(s.id)}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          navigate(s.id)
+                        }}
+                        className={`group relative flex items-start gap-3.5 p-3.5 rounded-xl border transition-all ${currentPage === s.id ? 'bg-cyan-500/20 border-cyan-400/50 shadow-[0_0_20px_rgba(0,180,216,0.2)]' : 'bg-[#0B1526]/80 border-white/10 hover:border-cyan-400/30'}`}
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-300 flex-shrink-0 group-hover:scale-105 transition-transform">
+                          {s.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-bold text-sm text-white group-hover:text-cyan-300 transition-colors" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
+                              {s.label}
+                            </span>
+                            <span className="text-[10px] font-mono text-cyan-400/60">0{idx + 1}</span>
+                          </div>
+                          <p className="text-[11px] text-white/55 leading-relaxed line-clamp-2">
+                            {s.desc}
+                          </p>
+                        </div>
+                        <span className="text-xs text-cyan-400/60 group-hover:text-cyan-300 group-hover:translate-x-0.5 transition-all">↗</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Other Navigation Items */}
+              {NAV_ITEMS.slice(1).map((item, idx) => (
                 <a
                   key={item.id}
                   href={getPathForPage(item.id)}
@@ -341,25 +398,45 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
                     e.preventDefault()
                     navigate(item.id)
                   }}
-                  className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors block"
+                  className={`flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all ${currentPage === item.id ? 'bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 font-semibold' : 'glass border border-white/5 text-white/85 hover:bg-white/10'}`}
                 >
-                  {item.label}
+                  <span className="text-base font-medium">{item.label}</span>
+                  <span className="text-xs font-mono text-white/30">0{idx + 4}</span>
                 </a>
               ))}
+            </nav>
 
-              <div className="pt-4 border-t border-white/10">
+            {/* Quick Action Contacts & Consultation */}
+            <div className="mt-8 pt-6 border-t border-white/10 space-y-3">
+              <a
+                href="/contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate('contact')
+                }}
+                className="btn-primary w-full py-3.5 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(0,180,216,0.3)]"
+              >
+                <span>Get a Free Consultation</span>
+                <span>→</span>
+              </a>
+
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                 <a
-                  href="/contact"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    navigate('contact')
-                  }}
-                  className="btn-primary w-full py-3 rounded-xl text-sm block text-center"
+                  href="tel:+919585010283"
+                  className="p-3 rounded-xl glass border border-white/10 flex flex-col items-center justify-center text-center text-white/70 hover:text-white hover:border-cyan-400/40 transition-colors"
                 >
-                  Get a Free Consultation
+                  <span className="text-[10px] text-cyan-400">Call Engineering</span>
+                  <span className="truncate">+91 95850 10283</span>
+                </a>
+                <a
+                  href="mailto:Info@snaiotech.com"
+                  className="p-3 rounded-xl glass border border-white/10 flex flex-col items-center justify-center text-center text-white/70 hover:text-white hover:border-cyan-400/40 transition-colors"
+                >
+                  <span className="text-[10px] text-cyan-400">Direct Email</span>
+                  <span className="truncate">Info@snaiotech.com</span>
                 </a>
               </div>
-            </nav>
+            </div>
           </div>
         </div>
       )}
