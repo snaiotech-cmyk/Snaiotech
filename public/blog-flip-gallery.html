@@ -321,6 +321,15 @@
 
     const items = [
       {
+        title: "Why AI Agents & Search Engines Can't Read Your React Website",
+        meta: "WEB DEV · OCT 11, 2026 · 8 MIN READ",
+        description: "Most modern React and Vite websites are completely invisible to AI search agents like Perplexity, ChatGPT, and Claude. Here is why client-side SPAs fail the AEO test, and how static pre-rendering bridges the gap.",
+        excerpt: "Why client-side SPAs fail the AEO test and how static pre-rendering bridges the gap.",
+        image: "/images/blog-ai-react-indexing.png",
+        alt: "Futuristic AI search crawlers inspecting a React website wireframe matrix",
+        slug: "why-ai-agents-cant-read-your-react-website",
+      },
+      {
         title: "IT Infrastructure and Cybersecurity: Building a Resilient Digital Foundation",
         meta: "IT & SECURITY · OCT 10, 2026 · 9 MIN READ",
         description: "A resilient business depends on secure infrastructure. Explore practical foundations for protecting systems, connecting services, and keeping your organization ready for change.",
@@ -577,7 +586,8 @@
     }
 
     function navigateToBlog() {
-      window.parent.postMessage({ type: "snaiotech-blog-navigate" }, window.location.origin);
+      const current = items[order[0]];
+      window.parent.postMessage({ type: "snaiotech-blog-navigate", slug: current.slug || "blog-detail" }, window.location.origin);
     }
 
     function renderCounter() {

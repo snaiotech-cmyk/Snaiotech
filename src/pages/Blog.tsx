@@ -10,9 +10,19 @@ interface BlogPost {
   excerpt: string
   image: string
   readTime: string
+  slug?: string
 }
 
 const POSTS: BlogPost[] = [
+  {
+    cat: 'Web Dev',
+    date: 'Oct 11, 2026',
+    title: "Why AI Agents & Search Engines Can't Read Your React Website (And How We Solved It)",
+    excerpt: "Most modern React and Vite websites are completely invisible to AI search agents like Perplexity, ChatGPT, and Claude. Here is why client-side SPAs fail the AEO test, and how static pre-rendering bridges the gap.",
+    image: '/images/blog-ai-react-indexing.png',
+    readTime: '8 min',
+    slug: 'why-ai-agents-cant-read-your-react-website',
+  },
   { cat: 'IT & Security', date: 'Oct 10, 2026', title: 'IT Infrastructure and Cybersecurity: Building a Resilient Digital Foundation', excerpt: 'A resilient business depends on secure infrastructure. Explore practical foundations for protecting systems, connecting services, and keeping your organization ready for change.', image: '/images/blog-it-cybersecurity.png', readTime: '9 min' },
   { cat: 'SEO/AI', date: 'Sep 2, 2026', title: 'What is GEO- How to Rank in AI-Generated Search Results', excerpt: "Generative Engine Optimization is the new frontier of search visibility. As Google SGE and Bing Copilot synthesize answers, being 'found' means being cited. Here's what it means and how to prepare your content now.", image: '/images/blog-aeo-ai-search.png', readTime: '7 min' },
   { cat: 'Accessibility', date: 'Aug 28, 2026', title: 'WCAG 2.2 - What Changed and Why It Matters for Your Business', excerpt: 'The latest WCAG update introduces 9 new success criteria. We break down each with practical remediation steps, real-world impact examples, and a prioritization framework.', image: '/images/blog-pdf-accessibility-wcag.png', readTime: '10 min' },
@@ -86,7 +96,16 @@ export default function Blog({ onNavigate }: BlogProps) {
                   <div className="flex items-center gap-3 text-xs text-white/35" style={{ fontFamily: 'Space Mono, monospace' }}>
                     <span>{featured.date}</span><span>·</span><span>{featured.readTime} read</span>
                   </div>
-                  <button className="btn-primary px-5 py-2.5 rounded-full text-sm">Read article</button>
+                  <a
+                    href="/blog/why-ai-agents-cant-read-your-react-website"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onNavigate('blog-detail')
+                    }}
+                    className="btn-primary px-5 py-2.5 rounded-full text-sm inline-block"
+                  >
+                    Read article
+                  </a>
                 </div>
               </div>
             </div>
@@ -136,7 +155,17 @@ export default function Blog({ onNavigate }: BlogProps) {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((post) => (
-                <button key={post.title} className="glass rounded-2xl overflow-hidden text-left flex flex-col h-full group hover:border-cyan-500/30 transition-all duration-200">
+                <a
+                  key={post.title}
+                  href={post.slug ? `/blog/${post.slug}` : `/blog`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    if (post.slug) {
+                      onNavigate('blog-detail')
+                    }
+                  }}
+                  className="glass rounded-2xl overflow-hidden text-left flex flex-col h-full group hover:border-cyan-500/30 transition-all duration-200 block"
+                >
                   <div className="relative h-44 overflow-hidden flex-shrink-0">
                     <img
                       src={post.image}
@@ -164,7 +193,7 @@ export default function Blog({ onNavigate }: BlogProps) {
                       </svg>
                     </div>
                   </div>
-                </button>
+                </a>
               ))}
             </div>
           )}

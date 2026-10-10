@@ -3,7 +3,23 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "all" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "all" }
+      ]
+    }
+  ],
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|.*\\.[a-zA-Z0-9]+$).*)", "destination": "/index.html" }
   ]
 }

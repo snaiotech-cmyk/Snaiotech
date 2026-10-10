@@ -82,9 +82,13 @@ export default function Home({ onNavigate }: HomeProps) {
   const { ref: ctaRef, visible: ctaVisible } = useReveal()
 
   useEffect(() => {
-    const handleBlogNavigation = (event: MessageEvent<{ type?: string }>) => {
+    const handleBlogNavigation = (event: MessageEvent<{ type?: string; slug?: string }>) => {
       if (event.origin === window.location.origin && event.data?.type === 'snaiotech-blog-navigate') {
-        onNavigate('blog')
+        if (event.data?.slug) {
+          onNavigate('blog-detail')
+        } else {
+          onNavigate('blog')
+        }
       }
     }
     window.addEventListener('message', handleBlogNavigation)

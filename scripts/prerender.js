@@ -320,6 +320,55 @@ const ROUTES = [
       },
     ],
   },
+  {
+    id: 'blog-detail',
+    path: '/blog/why-ai-agents-cant-read-your-react-website',
+    outDir: 'blog/why-ai-agents-cant-read-your-react-website',
+    title: "Why AI Agents & Search Engines Can't Read Your React Website | SNAiO Tech",
+    description:
+      'Most modern React and Vite websites are completely invisible to AI search agents like Perplexity, ChatGPT, and Claude. Here is why client-side SPAs fail the AEO test, and how static pre-rendering bridges the gap.',
+    canonical: 'https://snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
+    image: 'https://snaiotech.com/images/blog-ai-react-indexing.png',
+    schemas: [
+      ORGANIZATION_SCHEMA,
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: "Why AI Agents & Search Engines Can't Read Your React Website (And How We Solved It)",
+        description:
+          'Most modern React and Vite websites are completely invisible to AI search agents like Perplexity, ChatGPT, and Claude. Here is why client-side SPAs fail the AEO test, and how static pre-rendering bridges the gap.',
+        image: 'https://snaiotech.com/images/blog-ai-react-indexing.png',
+        author: {
+          '@type': 'Organization',
+          name: 'SNAiO Tech Engineering Team',
+          url: 'https://snaiotech.com',
+        },
+        publisher: {
+          '@id': 'https://snaiotech.com/#organization',
+        },
+        datePublished: '2026-10-11',
+        dateModified: '2026-10-11',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
+        },
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://snaiotech.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://snaiotech.com/blog' },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: "Why AI Agents Can't Read React Websites",
+            item: 'https://snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 // 6. Pre-render each route
@@ -362,16 +411,19 @@ for (const route of ROUTES) {
     `<meta property="og:description" content="${route.description}" />`,
   )
 
+  const ogImage = route.image || 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo'
+
   const extraMeta = `
     <meta name="author" content="SNAiO Tech" />
-    <meta name="keywords" content="SNAiO Tech, Snaiotech, web development Chennai, PDF accessibility, WCAG 2.2 AA remediation, Zoho implementation, Zoho CRM customization, SEO AEO GEO" />
+    <meta name="keywords" content="SNAiO Tech, Snaiotech, React SPA indexing, AI search engines, Perplexity SEO, ChatGPT Browse, AEO, GEO, static prerendering, Vite SSG" />
     <meta property="og:url" content="${route.canonical}" />
     <meta property="og:site_name" content="SNAiO Tech" />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="${ogImage}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${route.title}" />
     <meta name="twitter:description" content="${route.description}" />
-    <meta name="twitter:image" content="https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo" />
+    <meta name="twitter:image" content="${ogImage}" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 `
 
@@ -390,18 +442,24 @@ for (const route of ROUTES) {
     writeFileSync(resolve(DIST_DIR, 'index.html'), html, 'utf8')
     console.log(`   ✅ Wrote: dist/index.html (${html.length.toLocaleString()} bytes)`)
   } else {
-    const routeDir = resolve(DIST_DIR, route.id)
+    const subpath = route.outDir || route.id
+    const routeDir = resolve(DIST_DIR, subpath)
     if (!existsSync(routeDir)) {
       mkdirSync(routeDir, { recursive: true })
     }
     writeFileSync(resolve(routeDir, 'index.html'), html, 'utf8')
-    writeFileSync(resolve(DIST_DIR, `${route.id}.html`), html, 'utf8')
-    console.log(`   ✅ Wrote: dist/${route.id}/index.html and dist/${route.id}.html (${html.length.toLocaleString()} bytes)`)
+    writeFileSync(resolve(DIST_DIR, `${subpath}.html`), html, 'utf8')
+    console.log(`   ✅ Wrote: dist/${subpath}/index.html and dist/${subpath}.html (${html.length.toLocaleString()} bytes)`)
   }
 }
 
 // 7. Cleanup SSR build directory
 console.log('\n🧹 Cleaning up temporary SSR artifacts...')
-rmSync(SSR_DIR, { recursive: true, force: true })
+try {
+  rmSync(SSR_DIR, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 })
+} catch (err) {
+  // On Windows, dynamically loaded modules can retain file locks until node exits
+}
 
-console.log('✨ All 7 routes successfully pre-rendered into static HTML!')
+console.log('✨ All routes successfully pre-rendered into static HTML!')
+
