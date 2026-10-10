@@ -1,10 +1,22 @@
 import { useState, useEffect, useRef } from 'react'
 const defaultLogoSrc = 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo'
 const getLogoSrc = () => {
-  try { return JSON.parse(localStorage.getItem('snaiotech-site-settings') || '{}').logoUrl || defaultLogoSrc } catch { return defaultLogoSrc }
+  try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return defaultLogoSrc
+    return JSON.parse(localStorage.getItem('snaiotech-site-settings') || '{}').logoUrl || defaultLogoSrc
+  } catch {
+    return defaultLogoSrc
+  }
 }
 
-const NAV_ITEMS = ['Home', 'About', 'Blog', 'Contact']
+const getPathForPage = (page: string) => (page === 'home' ? '/' : `/${page}`)
+
+const NAV_ITEMS = [
+  { label: 'Home', id: 'home' },
+  { label: 'About', id: 'about' },
+  { label: 'Blog', id: 'blog' },
+  { label: 'Contact', id: 'contact' },
+]
 
 const SERVICES = [
   {
@@ -15,7 +27,7 @@ const SERVICES = [
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
         <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
-        <line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+        <line x1="17" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
       </svg>
     ),
   },
@@ -89,7 +101,9 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
     onNavigate(page)
     setMobileOpen(false)
     setServicesOpen(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   return (
@@ -109,16 +123,23 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
           padding: scrolled ? '10px 0' : '18px 0',
         }}
       >
-        <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between" aria-label="Main Navigation">
           {/* Logo */}
-          <button
-            onClick={() => navigate('home')}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate('home')
+            }}
             className="flex items-center gap-3 group"
+            aria-label="SNAiO Tech Home"
           >
             <img
               src={getLogoSrc()}
               alt="SNAiO Tech logo"
               className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-110"
+              width={36}
+              height={36}
             />
             <span
               className="font-bold text-xl tracking-tight gradient-text"
@@ -126,23 +147,30 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             >
               Snaiotech
             </span>
-          </button>
+          </a>
 
           {/* Desktop nav */}
           <ul className="hidden md:flex items-center gap-8">
             <li>
-              <button
-                onClick={() => navigate('home')}
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate('home')
+                }}
                 className={`nav-link text-sm font-medium ${currentPage === 'home' ? 'active text-cyan-400' : 'text-white/80'}`}
               >
                 Home
-              </button>
+              </a>
             </li>
 
             {/* Services dropdown */}
             <li className="relative" ref={dropRef}>
               <button
+                type="button"
                 onClick={() => setServicesOpen(!servicesOpen)}
+                aria-expanded={servicesOpen}
+                aria-haspopup="true"
                 className={`nav-link text-sm font-medium flex items-center gap-1 ${['webdev','pdf','zoho'].includes(currentPage) ? 'active text-cyan-400' : 'text-white/80'}`}
               >
                 Services
@@ -165,9 +193,13 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
                   </div>
                   <div className="grid gap-2 sm:grid-cols-3">
                     {SERVICES.map((s, index) => (
-                      <button
+                      <a
                         key={s.id}
-                        onClick={() => navigate(s.id)}
+                        href={getPathForPage(s.id)}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          navigate(s.id)
+                        }}
                         className={`services-mega-menu__item group relative flex min-h-40 flex-col items-start overflow-hidden rounded-2xl p-4 text-left ${currentPage === s.id ? 'is-current' : ''}`}
                       >
                         <span className="services-mega-menu__item-number">{String(index + 1).padStart(2, '0')}</span>
@@ -181,45 +213,62 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
                           {s.desc}
                         </span>
                         <span className="services-mega-menu__arrow" aria-hidden="true">↗</span>
-                      </button>
+                      </a>
                     ))}
                   </div>
                   <div className="mt-3 flex items-center justify-between rounded-2xl bg-cyan-300/[0.07] px-4 py-3">
-                    <span className="text-xs text-white/70">Not sure where to start-</span>
-                    <button type="button" onClick={() => navigate('contact')} className="text-xs font-semibold text-cyan-200 transition-colors hover:text-white">
+                    <span className="text-xs text-white/70">Not sure where to start?</span>
+                    <a
+                      href="/contact"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        navigate('contact')
+                      }}
+                      className="text-xs font-semibold text-cyan-200 transition-colors hover:text-white"
+                    >
                       Talk it through <span aria-hidden="true">→</span>
-                    </button>
+                    </a>
                   </div>
                 </div>
               )}
             </li>
 
             {NAV_ITEMS.slice(1).map((item) => (
-              <li key={item}>
-                <button
-                  onClick={() => navigate(item.toLowerCase())}
-                  className={`nav-link text-sm font-medium ${currentPage === item.toLowerCase() ? 'active text-cyan-400' : 'text-white/80'}`}
+              <li key={item.id}>
+                <a
+                  href={getPathForPage(item.id)}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate(item.id)
+                  }}
+                  className={`nav-link text-sm font-medium ${currentPage === item.id ? 'active text-cyan-400' : 'text-white/80'}`}
                 >
-                  {item}
-                </button>
+                  {item.label}
+                </a>
               </li>
             ))}
           </ul>
 
           {/* CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => navigate('contact')}
-              className="btn-primary px-5 py-2.5 rounded-full text-sm"
+            <a
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault()
+                navigate('contact')
+              }}
+              className="btn-primary px-5 py-2.5 rounded-full text-sm inline-block"
             >
               Get a Free Consultation
-            </button>
+            </a>
           </div>
 
           {/* Mobile hamburger */}
           <button
+            type="button"
             className="md:hidden p-2 text-white/80 hover:text-white transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle Menu"
           >
             {mobileOpen ? (
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
@@ -243,12 +292,22 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             onClick={() => setMobileOpen(false)}
           />
           <div className="relative glass-strong mx-4 mt-2 rounded-2xl p-6 animate-fadeUp">
-            <nav className="flex flex-col gap-1">
-              <button onClick={() => navigate('home')} className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors">Home</button>
+            <nav className="flex flex-col gap-1" aria-label="Mobile Navigation">
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate('home')
+                }}
+                className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors block"
+              >
+                Home
+              </a>
 
               <button
+                type="button"
                 onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors flex items-center justify-between"
+                className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors flex items-center justify-between w-full"
               >
                 Services
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`w-4 h-4 transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`}>
@@ -259,23 +318,46 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               {mobileServicesOpen && (
                 <div className="pl-4 flex flex-col gap-1">
                   {SERVICES.map((s) => (
-                    <button key={s.id} onClick={() => navigate(s.id)} className="text-left px-4 py-2.5 rounded-xl hover:bg-white/5 text-sm text-cyan-300 transition-colors flex items-center gap-2">
+                    <a
+                      key={s.id}
+                      href={getPathForPage(s.id)}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        navigate(s.id)
+                      }}
+                      className="text-left px-4 py-2.5 rounded-xl hover:bg-white/5 text-sm text-cyan-300 transition-colors flex items-center gap-2"
+                    >
                       <span className="text-cyan-400">{s.icon}</span> {s.label}
-                    </button>
+                    </a>
                   ))}
                 </div>
               )}
 
               {NAV_ITEMS.slice(1).map((item) => (
-                <button key={item} onClick={() => navigate(item.toLowerCase())} className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors">
-                  {item}
-                </button>
+                <a
+                  key={item.id}
+                  href={getPathForPage(item.id)}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate(item.id)
+                  }}
+                  className="text-left px-4 py-3 rounded-xl hover:bg-white/5 font-medium text-white/90 transition-colors block"
+                >
+                  {item.label}
+                </a>
               ))}
 
               <div className="pt-4 border-t border-white/10">
-                <button onClick={() => navigate('contact')} className="btn-primary w-full py-3 rounded-xl text-sm">
+                <a
+                  href="/contact"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate('contact')
+                  }}
+                  className="btn-primary w-full py-3 rounded-xl text-sm block text-center"
+                >
                   Get a Free Consultation
-                </button>
+                </a>
               </div>
             </nav>
           </div>
@@ -284,3 +366,4 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
     </>
   )
 }
+

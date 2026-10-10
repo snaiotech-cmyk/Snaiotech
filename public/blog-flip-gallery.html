@@ -101,9 +101,7 @@
     }
 
     #content h2 {
-      max-height: 132px;
       margin: 0;
-      overflow: hidden;
       color: #f7f9fc;
       font-size: clamp(28px, 3vw, 44px);
       font-weight: 700;
@@ -236,7 +234,7 @@
       pointer-events: auto;
     }
 
-    .mob #content h2 { max-height: 96px; font-size: clamp(25px, 7vw, 34px); }
+    .mob #content h2 { font-size: clamp(25px, 7vw, 34px); }
     .mob #content .meta { max-height: 24px; margin: 9px 0; font-size: 9px; }
     .mob #content .description { max-height: 96px; font-size: 13px; line-height: 1.6; }
     .mob #content .excerpt { max-height: 42px; margin-top: 8px; font-size: 11px; }
@@ -323,44 +321,52 @@
 
     const items = [
       {
+        title: "IT Infrastructure and Cybersecurity: Building a Resilient Digital Foundation",
+        meta: "IT & SECURITY · OCT 10, 2026 · 9 MIN READ",
+        description: "A resilient business depends on secure infrastructure. Explore practical foundations for protecting systems, connecting services, and keeping your organization ready for change.",
+        excerpt: "A practical foundation for more secure, resilient business systems.",
+        image: "/images/blog-it-cybersecurity.png",
+        alt: "Secure IT infrastructure with protected servers, cloud systems, and network monitoring",
+      },
+      {
         title: "What is GEO? How to Rank in AI-Generated Search Results",
         meta: "SEO / AI · SEP 2, 2026 · 7 MIN READ",
         description: "Generative Engine Optimization is the new frontier. Learn what it means and how to prepare your content for AI-generated answers.",
         excerpt: "A practical introduction to visibility across generative search.",
-        image: "https://images.unsplash.com/photo-1686061593213-98dad7c599b9?auto=format&fit=crop&w=1100&q=85",
-        alt: "A modern web development workspace",
+        image: "/images/blog-aeo-ai-search.png",
+        alt: "AI search results, cited sources, and structured content for answer engine optimization",
       },
       {
         title: "WCAG 2.2 - What Changed and Why It Matters for Your Business",
         meta: "ACCESSIBILITY · AUG 28, 2026 · 10 MIN READ",
         description: "The latest WCAG update brings nine new success criteria. We break down each change with practical remediation steps.",
         excerpt: "Understand the updates and what your organization should do next.",
-        image: "https://images.unsplash.com/photo-1778873750399-338b94f7feda?auto=format&fit=crop&w=1100&q=85",
-        alt: "A quality assurance dashboard with accessibility checks",
+        image: "/images/blog-pdf-accessibility-wcag.png",
+        alt: "A laptop displaying WCAG accessibility checks and inclusive design",
       },
       {
         title: "Zoho CRM vs Salesforce: The 2026 Honest Comparison",
         meta: "ZOHO · AUG 20, 2026 · 12 MIN READ",
         description: "We have implemented both platforms. Here is what teams actually experience, and when Zoho wins on value.",
         excerpt: "Compare the platforms based on implementation and day-to-day use.",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1100&q=85",
-        alt: "A connected business software ecosystem",
+        image: "/images/blog-zoho-crm-comparison.png",
+        alt: "Zoho CRM and Salesforce platform comparison",
       },
       {
         title: "Core Web Vitals in 2026: What Still Matters and What Changed",
         meta: "WEB DEVELOPMENT · AUG 12, 2026 · 8 MIN READ",
         description: "Google's ranking signals keep evolving. See the Core Web Vitals issues we find most often and the fixes that make a measurable difference.",
         excerpt: "A practical guide to improving speed, stability, and search performance.",
-        image: "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?auto=format&fit=crop&w=1100&q=85",
-        alt: "A developer working on a modern website",
+        image: "/images/blog-core-web-vitals.png",
+        alt: "Core Web Vitals performance dashboard showing loading, responsiveness, and layout stability",
       },
       {
         title: "Answer Engine Optimization: A Practical Guide for Non-Technical Teams",
         meta: "SEO / AI · AUG 5, 2026 · 9 MIN READ",
         description: "Answer engine optimization does not require an engineering team. Learn how to structure useful content so AI assistants can understand and cite it.",
         excerpt: "Make your expertise easier for people and AI tools to find.",
-        image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1100&q=85",
-        alt: "A team planning a digital content strategy",
+        image: "/images/blog-aeo-ai-search.png",
+        alt: "AI search results, cited sources, and structured content for answer engine optimization",
       },
     ];
 

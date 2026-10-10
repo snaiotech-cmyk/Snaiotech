@@ -4,6 +4,7 @@ const defaultLogoSrc = 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,
 
 const getLogoSrc = () => {
   try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return defaultLogoSrc
     return JSON.parse(localStorage.getItem('snaiotech-site-settings') || '{}').logoUrl || defaultLogoSrc
   } catch {
     return defaultLogoSrc
@@ -38,18 +39,18 @@ const SOCIALS = [
 ]
 
 const SERVICE_LINKS = [
-  { label: 'PDF Accessibility', page: 'pdf' },
-  { label: 'WCAG Compliance', page: 'pdf' },
-  { label: 'Zoho Implementation', page: 'zoho' },
-  { label: 'CRM Automation', page: 'zoho' },
-  { label: 'Web Development', page: 'webdev' },
-  { label: 'SEO, AEO & GEO', page: 'webdev' },
+  { label: 'PDF Accessibility', page: 'pdf', path: '/pdf' },
+  { label: 'WCAG Compliance', page: 'pdf', path: '/pdf' },
+  { label: 'Zoho Implementation', page: 'zoho', path: '/zoho' },
+  { label: 'CRM Automation', page: 'zoho', path: '/zoho' },
+  { label: 'Web Development', page: 'webdev', path: '/webdev' },
+  { label: 'SEO, AEO & GEO', page: 'webdev', path: '/webdev' },
 ]
 
 const COMPANY_LINKS = [
-  { label: 'About SNAiO Tech', page: 'about' },
-  { label: 'Insights & Blog', page: 'blog' },
-  { label: 'Contact', page: 'contact' },
+  { label: 'About SNAiO Tech', page: 'about', path: '/about' },
+  { label: 'Insights & Blog', page: 'blog', path: '/blog' },
+  { label: 'Contact', page: 'contact', path: '/contact' },
 ]
 
 interface FooterProps {
@@ -248,10 +249,17 @@ export default function Footer({ onNavigate }: FooterProps) {
               <ul>
                 {SERVICE_LINKS.map((link) => (
                   <li key={link.label}>
-                    <button className="sn-footer__link" onClick={() => navigate(link.page)}>
+                    <a
+                      className="sn-footer__link"
+                      href={link.path}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        navigate(link.page)
+                      }}
+                    >
                       <span>{link.label}</span>
                       <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 9.5l7-7M4 2.5h5.5V8" /></svg>
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -262,10 +270,17 @@ export default function Footer({ onNavigate }: FooterProps) {
               <ul>
                 {COMPANY_LINKS.map((link) => (
                   <li key={link.label}>
-                    <button className="sn-footer__link" onClick={() => navigate(link.page)}>
+                    <a
+                      className="sn-footer__link"
+                      href={link.path}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        navigate(link.page)
+                      }}
+                    >
                       <span>{link.label}</span>
                       <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 9.5l7-7M4 2.5h5.5V8" /></svg>
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -282,10 +297,17 @@ export default function Footer({ onNavigate }: FooterProps) {
                 +91 95850 10283
               </a>
               <p className="sn-footer__location">Choolaimedu, Chennai - 600094</p>
-              <button className="sn-footer__contact-cta" onClick={() => navigate('contact')}>
+              <a
+                className="sn-footer__contact-cta inline-flex items-center gap-2"
+                href="/contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate('contact')
+                }}
+              >
                 Start a conversation
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-              </button>
+              </a>
             </section>
           </div>
 

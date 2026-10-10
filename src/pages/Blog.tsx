@@ -1,21 +1,28 @@
 import { useState } from 'react'
 import PageHero from '@/components/PageHero'
 
-const img = (id: string, w: number, h: number) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&auto=format&q=80`
+const CATEGORIES = ['All', 'Web Dev', 'Accessibility', 'Zoho', 'SEO/AI', 'IT & Security']
 
-const CATEGORIES = ['All', 'Web Dev', 'Accessibility', 'Zoho', 'SEO/AI']
+interface BlogPost {
+  cat: string
+  date: string
+  title: string
+  excerpt: string
+  image: string
+  readTime: string
+}
 
-const POSTS = [
-  { cat: 'SEO/AI', date: 'Sep 2, 2026', title: 'What is GEO- How to Rank in AI-Generated Search Results', excerpt: "Generative Engine Optimization is the new frontier of search visibility. As Google SGE and Bing Copilot synthesize answers, being 'found' means being cited. Here's what it means and how to prepare your content now.", imgId: '1686061593213-98dad7c599b9', readTime: '7 min' },
-  { cat: 'Accessibility', date: 'Aug 28, 2026', title: 'WCAG 2.2 - What Changed and Why It Matters for Your Business', excerpt: 'The latest WCAG update introduces 9 new success criteria. We break down each with practical remediation steps, real-world impact examples, and a prioritization framework.', imgId: '1778873750399-338b94f7feda', readTime: '10 min' },
-  { cat: 'Zoho', date: 'Aug 20, 2026', title: 'Zoho CRM vs Salesforce: The 2026 Honest Comparison', excerpt: "We've implemented both extensively. Here's what teams actually experience, when Zoho wins on value and flexibility, and when Salesforce is genuinely the better choice.", imgId: '1551288049-bebda4e38f71', readTime: '12 min' },
-  { cat: 'Web Dev', date: 'Aug 12, 2026', title: 'Core Web Vitals in 2026: What Still Matters and What Changed', excerpt: "Google's ranking signals have evolved. We audit dozens of sites per year and see the same Core Web Vitals failures repeatedly. This is what actually moves the needle.", imgId: '1611078489935-0cb964de46d6', readTime: '8 min' },
-  { cat: 'SEO/AI', date: 'Aug 5, 2026', title: 'Answer Engine Optimization: A Practical Guide for Non-Technical Teams', excerpt: "AEO doesn't require an engineering team. It requires understanding how AI assistants select answers, and structuring your content to be chosen.", imgId: '1515879218367-8466d910aaa4', readTime: '9 min' },
-  { cat: 'Accessibility', date: 'Jul 28, 2026', title: 'The ADA PDF Lawsuit Landscape: What Businesses Need to Know', excerpt: 'Over 4,600 ADA digital accessibility lawsuits were filed in 2024. A significant portion target inaccessible PDFs. We explain the legal landscape and what remediation actually costs.', imgId: '1772588627342-5ec373e236d8', readTime: '11 min' },
-  { cat: 'Zoho', date: 'Jul 15, 2026', title: "Zoho Blueprint: How to Actually Use It (and Why Most Teams Don't)", excerpt: "Blueprint is one of Zoho CRM's most powerful features and one of the most underused. This step-by-step guide shows how to design and deploy a process your team will actually follow.", imgId: '1560472354-b33ff0c44a43', readTime: '13 min' },
-  { cat: 'Web Dev', date: 'Jul 8, 2026', title: "Headless CMS in 2026: When It's Worth It and When It's Overkill", excerpt: 'Headless architecture is often recommended for the wrong reasons. We lay out a decision framework based on team size, publishing frequency, personalization needs, and performance goals.', imgId: '1542831371-29b0f74f9713', readTime: '8 min' },
-  { cat: 'SEO/AI', date: 'Jun 30, 2026', title: "E-E-A-T: Google's Hidden Ranking Factor That Most Teams Get Wrong", excerpt: "Experience, Expertise, Authoritativeness, Trustworthiness - Google's quality rater guidelines describe what AI-era ranking actually rewards. Here's how to demonstrate all four.", imgId: '1461749280684-dccba630e2f6', readTime: '10 min' },
+const POSTS: BlogPost[] = [
+  { cat: 'IT & Security', date: 'Oct 10, 2026', title: 'IT Infrastructure and Cybersecurity: Building a Resilient Digital Foundation', excerpt: 'A resilient business depends on secure infrastructure. Explore practical foundations for protecting systems, connecting services, and keeping your organization ready for change.', image: '/images/blog-it-cybersecurity.png', readTime: '9 min' },
+  { cat: 'SEO/AI', date: 'Sep 2, 2026', title: 'What is GEO- How to Rank in AI-Generated Search Results', excerpt: "Generative Engine Optimization is the new frontier of search visibility. As Google SGE and Bing Copilot synthesize answers, being 'found' means being cited. Here's what it means and how to prepare your content now.", image: '/images/blog-aeo-ai-search.png', readTime: '7 min' },
+  { cat: 'Accessibility', date: 'Aug 28, 2026', title: 'WCAG 2.2 - What Changed and Why It Matters for Your Business', excerpt: 'The latest WCAG update introduces 9 new success criteria. We break down each with practical remediation steps, real-world impact examples, and a prioritization framework.', image: '/images/blog-pdf-accessibility-wcag.png', readTime: '10 min' },
+  { cat: 'Zoho', date: 'Aug 20, 2026', title: 'Zoho CRM vs Salesforce: The 2026 Honest Comparison', excerpt: "We've implemented both extensively. Here's what teams actually experience, when Zoho wins on value and flexibility, and when Salesforce is genuinely the better choice.", image: '/images/blog-zoho-crm-comparison.png', readTime: '12 min' },
+  { cat: 'Web Dev', date: 'Aug 12, 2026', title: 'Core Web Vitals in 2026: What Still Matters and What Changed', excerpt: "Google's ranking signals have evolved. We audit dozens of sites per year and see the same Core Web Vitals failures repeatedly. This is what actually moves the needle.", image: '/images/blog-core-web-vitals.png', readTime: '8 min' },
+  { cat: 'SEO/AI', date: 'Aug 5, 2026', title: 'Answer Engine Optimization: A Practical Guide for Non-Technical Teams', excerpt: "AEO doesn't require an engineering team. It requires understanding how AI assistants select answers, and structuring your content to be chosen.", image: '/images/blog-aeo-ai-search.png', readTime: '9 min' },
+  { cat: 'Accessibility', date: 'Jul 28, 2026', title: 'The ADA PDF Lawsuit Landscape: What Businesses Need to Know', excerpt: 'Over 4,600 ADA digital accessibility lawsuits were filed in 2024. A significant portion target inaccessible PDFs. We explain the legal landscape and what remediation actually costs.', image: '/images/blog-ada-pdf-accessibility.png', readTime: '11 min' },
+  { cat: 'Zoho', date: 'Jul 15, 2026', title: "Zoho Blueprint: How to Actually Use It (and Why Most Teams Don't)", excerpt: "Blueprint is one of Zoho CRM's most powerful features and one of the most underused. This step-by-step guide shows how to design and deploy a process your team will actually follow.", image: '/images/blog-zoho-crm-automation.png', readTime: '13 min' },
+  { cat: 'Web Dev', date: 'Jul 8, 2026', title: "Headless CMS in 2026: When It's Worth It and When It's Overkill", excerpt: 'Headless architecture is often recommended for the wrong reasons. We lay out a decision framework based on team size, publishing frequency, personalization needs, and performance goals.', image: '/images/blog-headless-cms.png', readTime: '8 min' },
+  { cat: 'SEO/AI', date: 'Jun 30, 2026', title: "E-E-A-T: Google's Hidden Ranking Factor That Most Teams Get Wrong", excerpt: "Experience, Expertise, Authoritativeness, Trustworthiness - Google's quality rater guidelines describe what AI-era ranking actually rewards. Here's how to demonstrate all four.", image: '/images/blog-eeat-seo-trust.png', readTime: '10 min' },
 ]
 
 const CAT_COLORS: Record<string, string> = {
@@ -23,6 +30,7 @@ const CAT_COLORS: Record<string, string> = {
   'Accessibility': '#00B4D8',
   'Zoho': '#2FD3E8',
   'SEO/AI': '#0B4F8A',
+  'IT & Security': '#1565C0',
 }
 
 interface BlogProps { onNavigate: (page: string) => void }
@@ -61,7 +69,7 @@ export default function Blog({ onNavigate }: BlogProps) {
           <div className="glass rounded-2xl overflow-hidden">
             <div className="grid lg:grid-cols-2">
               <div className="relative h-64 lg:h-auto overflow-hidden">
-                <img src={img(featured.imgId, 800, 500)} alt={featured.title} className="w-full h-full object-cover" />
+                <img src={featured.image} alt={featured.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, rgba(10,14,26,0.6))' }} />
                 <div className="absolute inset-0 lg:hidden" style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(10,14,26,0.88))' }} />
                 <span className="absolute top-4 left-4 eyebrow px-3 py-1 rounded-full"
@@ -131,7 +139,7 @@ export default function Blog({ onNavigate }: BlogProps) {
                 <button key={post.title} className="glass rounded-2xl overflow-hidden text-left flex flex-col h-full group hover:border-cyan-500/30 transition-all duration-200">
                   <div className="relative h-44 overflow-hidden flex-shrink-0">
                     <img
-                      src={img(post.imgId, 600, 352)}
+                      src={post.image}
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -179,7 +187,7 @@ export default function Blog({ onNavigate }: BlogProps) {
 
           <article className="blog-cta__feature">
             <img
-              src={img(POSTS[1].imgId, 760, 520)}
+              src={POSTS[1].image}
               alt=""
               className="blog-cta__feature-image"
               loading="lazy"
