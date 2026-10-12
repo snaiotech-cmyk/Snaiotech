@@ -51,7 +51,7 @@ const emptySite: SiteSetting = {
   site_name: 'Snaiotech',
   logo_url: '',
   favicon_url: '',
-  canonical_url: 'https://snaiotech.com',
+  canonical_url: 'https://www.snaiotech.com',
   default_description: '',
   og_image_url: '',
   instagram: 'https://www.instagram.com/snaiotech/',
@@ -669,7 +669,7 @@ export default function Admin({ onNavigate }: AdminProps) {
 
                 {/* SEO */}
                 <SectionCard title="🔍 SEO - Search Engine Optimization">
-                  <AdminInput label="Canonical base URL" value={site.canonical_url} onChange={v => setSite(s => ({ ...s, canonical_url: v }))} placeholder="https://snaiotech.com" />
+                  <AdminInput label="Canonical base URL" value={site.canonical_url} onChange={v => setSite(s => ({ ...s, canonical_url: v }))} placeholder="https://www.snaiotech.com" />
                   <AdminInput label="Robots directive" value={site.robots} onChange={v => setSite(s => ({ ...s, robots: v }))} placeholder="index, follow" />
                   <AdminInput label="Schema.org type" value={site.schema_type} onChange={v => setSite(s => ({ ...s, schema_type: v }))} placeholder="ProfessionalService" />
                   <AdminInput label="Google Analytics ID" value={site.ga_id} onChange={v => setSite(s => ({ ...s, ga_id: v }))} placeholder="G-XXXXXXXXXX" />

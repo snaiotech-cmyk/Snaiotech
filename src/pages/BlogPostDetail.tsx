@@ -596,7 +596,7 @@ if (rootElement.hasChildNodes()) {
                 Production Benchmarks: Before vs. After
               </h2>
               <p>
-                Here are the verified live metrics from our deployment to <code className="text-cyan-300">https://snaiotech.com/</code>:
+                Here are the verified live metrics from our deployment to <code className="text-cyan-300">https://www.snaiotech.com/</code>:
               </p>
 
               <div className="overflow-x-auto">

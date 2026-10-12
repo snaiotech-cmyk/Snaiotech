@@ -42,4 +42,4 @@ Allow: /
 User-agent: LinkedInBot
 Allow: /
 
-Sitemap: https://snaiotech.com/sitemap.xml
+Sitemap: https://www.snaiotech.com/sitemap.xml

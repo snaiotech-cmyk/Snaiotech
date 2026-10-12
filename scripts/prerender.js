@@ -49,10 +49,10 @@ const baseTemplate = readFileSync(templatePath, 'utf8')
 const ORGANIZATION_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  '@id': 'https://snaiotech.com/#organization',
+  '@id': 'https://www.snaiotech.com/#organization',
   name: 'SNAiO Tech',
   alternateName: ['Snaiotech', 'Snaiotech Chennai', 'SNAiO Tech Solutions'],
-  url: 'https://snaiotech.com',
+  url: 'https://www.snaiotech.com',
   logo: {
     '@type': 'ImageObject',
     url: 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo',
@@ -85,12 +85,12 @@ const ORGANIZATION_SCHEMA = {
 const WEBSITE_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  '@id': 'https://snaiotech.com/#website',
+  '@id': 'https://www.snaiotech.com/#website',
   name: 'SNAiO Tech',
   alternateName: 'Snaiotech',
-  url: 'https://snaiotech.com',
+  url: 'https://www.snaiotech.com',
   publisher: {
-    '@id': 'https://snaiotech.com/#organization',
+    '@id': 'https://www.snaiotech.com/#organization',
   },
 }
 
@@ -102,16 +102,16 @@ const ROUTES = [
     title: 'SNAiO Tech | Web Dev, PDF Accessibility & Zoho Solutions',
     description:
       'SNAiO Tech delivers premium web development, SEO/AEO/GEO, PDF accessibility (WCAG 2.2 AA), and Zoho deployment services from Chennai, India.',
-    canonical: 'https://snaiotech.com/',
+    canonical: 'https://www.snaiotech.com/',
     schemas: [
       ORGANIZATION_SCHEMA,
       WEBSITE_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
-        '@id': 'https://snaiotech.com/#service',
+        '@id': 'https://www.snaiotech.com/#service',
         name: 'SNAiO Tech',
-        url: 'https://snaiotech.com',
+        url: 'https://www.snaiotech.com',
         image: 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo',
         telephone: '+91-9585010283',
         priceRange: '$$',
@@ -131,7 +131,7 @@ const ROUTES = [
               itemOffered: {
                 '@type': 'Service',
                 name: 'PDF Accessibility & WCAG Compliance Remediation',
-                url: 'https://snaiotech.com/pdf',
+                url: 'https://www.snaiotech.com/pdf',
               },
             },
             {
@@ -139,7 +139,7 @@ const ROUTES = [
               itemOffered: {
                 '@type': 'Service',
                 name: 'Web Development & Modern SEO/AEO/GEO',
-                url: 'https://snaiotech.com/webdev',
+                url: 'https://www.snaiotech.com/webdev',
               },
             },
             {
@@ -147,7 +147,7 @@ const ROUTES = [
               itemOffered: {
                 '@type': 'Service',
                 name: 'Zoho Implementation & Workflow Automation',
-                url: 'https://snaiotech.com/zoho',
+                url: 'https://www.snaiotech.com/zoho',
               },
             },
           ],
@@ -161,25 +161,25 @@ const ROUTES = [
     title: 'Web Development & Modern SEO/AEO/GEO Services | SNAiO Tech',
     description:
       'High-performance React websites, technical SEO, Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO) engineered for top search & AI visibility.',
-    canonical: 'https://snaiotech.com/webdev',
+    canonical: 'https://www.snaiotech.com/webdev',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: 'Web Development & Technical SEO/AEO/GEO',
-        provider: { '@id': 'https://snaiotech.com/#organization' },
+        provider: { '@id': 'https://www.snaiotech.com/#organization' },
         serviceType: 'Web Development and AI Search Engine Optimization',
         description:
           'Engineering modern web applications with sub-second performance, accessible semantic HTML, and Answer Engine / Generative Engine Optimization.',
-        url: 'https://snaiotech.com/webdev',
+        url: 'https://www.snaiotech.com/webdev',
       },
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://snaiotech.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Web Development', item: 'https://snaiotech.com/webdev' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.snaiotech.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Web Development', item: 'https://www.snaiotech.com/webdev' },
         ],
       },
     ],
@@ -190,25 +190,25 @@ const ROUTES = [
     title: 'PDF Accessibility & WCAG 2.2 AA Compliance Services | SNAiO Tech',
     description:
       'Certified PDF accessibility remediation, Section 508, ADA, and WCAG 2.2 AA compliance audits with full screen reader verification & PAC compliance.',
-    canonical: 'https://snaiotech.com/pdf',
+    canonical: 'https://www.snaiotech.com/pdf',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: 'PDF Accessibility & WCAG Compliance Remediation',
-        provider: { '@id': 'https://snaiotech.com/#organization' },
+        provider: { '@id': 'https://www.snaiotech.com/#organization' },
         serviceType: 'Document Accessibility & Remediation',
         description:
           'Transforming inaccessible documents into certified, WCAG 2.2 AA, PDF/UA, and Section 508 compliant assets tested with screen readers.',
-        url: 'https://snaiotech.com/pdf',
+        url: 'https://www.snaiotech.com/pdf',
       },
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://snaiotech.com/' },
-          { '@type': 'ListItem', position: 2, name: 'PDF Accessibility', item: 'https://snaiotech.com/pdf' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.snaiotech.com/' },
+          { '@type': 'ListItem', position: 2, name: 'PDF Accessibility', item: 'https://www.snaiotech.com/pdf' },
         ],
       },
     ],
@@ -219,25 +219,25 @@ const ROUTES = [
     title: 'Zoho Implementation, Automation & Customization | SNAiO Tech',
     description:
       'Expert Zoho CRM deployment, Deluge scripting, workflow automation, and custom integrations tailored for modern business scalability.',
-    canonical: 'https://snaiotech.com/zoho',
+    canonical: 'https://www.snaiotech.com/zoho',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: 'Zoho CRM Implementation & Workflow Automation',
-        provider: { '@id': 'https://snaiotech.com/#organization' },
+        provider: { '@id': 'https://www.snaiotech.com/#organization' },
         serviceType: 'CRM Implementation and Business Automation',
         description:
           'Custom Zoho architecture, Deluge automation, Zoho Creator solutions, and third-party API integrations.',
-        url: 'https://snaiotech.com/zoho',
+        url: 'https://www.snaiotech.com/zoho',
       },
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://snaiotech.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Zoho Implementation', item: 'https://snaiotech.com/zoho' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.snaiotech.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Zoho Implementation', item: 'https://www.snaiotech.com/zoho' },
         ],
       },
     ],
@@ -248,22 +248,22 @@ const ROUTES = [
     title: 'About SNAiO Tech | Digital Agency in Chennai, India',
     description:
       'Discover SNAiO Tech: an agile digital agency delivering world-class web development, PDF document accessibility, and cloud workflow automation from Chennai.',
-    canonical: 'https://snaiotech.com/about',
+    canonical: 'https://www.snaiotech.com/about',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
         name: 'About SNAiO Tech',
-        url: 'https://snaiotech.com/about',
+        url: 'https://www.snaiotech.com/about',
         description: 'Who We Are — Digital services built for durability, clarity, and real-world results.',
       },
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://snaiotech.com/' },
-          { '@type': 'ListItem', position: 2, name: 'About', item: 'https://snaiotech.com/about' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.snaiotech.com/' },
+          { '@type': 'ListItem', position: 2, name: 'About', item: 'https://www.snaiotech.com/about' },
         ],
       },
     ],
@@ -274,22 +274,22 @@ const ROUTES = [
     title: 'Insights & Technology Blog | SNAiO Tech',
     description:
       'Actionable guides, in-depth case studies, and insights on WCAG accessibility, web performance engineering, generative engine optimization, and Zoho automation.',
-    canonical: 'https://snaiotech.com/blog',
+    canonical: 'https://www.snaiotech.com/blog',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'Blog',
         name: 'SNAiO Tech Insights & Blog',
-        url: 'https://snaiotech.com/blog',
+        url: 'https://www.snaiotech.com/blog',
         description: 'Industry insights, compliance walkthroughs, and technical breakdowns from our specialists.',
       },
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://snaiotech.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://snaiotech.com/blog' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.snaiotech.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.snaiotech.com/blog' },
         ],
       },
     ],
@@ -300,22 +300,22 @@ const ROUTES = [
     title: 'Contact SNAiO Tech | Start Your Project Today',
     description:
       'Contact SNAiO Tech in Chennai, India for custom web development, PDF accessibility remediation, or Zoho CRM deployment. Free consultation and fast response.',
-    canonical: 'https://snaiotech.com/contact',
+    canonical: 'https://www.snaiotech.com/contact',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'ContactPage',
         name: 'Contact SNAiO Tech',
-        url: 'https://snaiotech.com/contact',
+        url: 'https://www.snaiotech.com/contact',
         description: 'Reach our Chennai team directly via email, phone, or project consultation form.',
       },
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://snaiotech.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://snaiotech.com/contact' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.snaiotech.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://www.snaiotech.com/contact' },
         ],
       },
     ],
@@ -327,8 +327,8 @@ const ROUTES = [
     title: "Why AI Agents & Search Engines Can't Read Your React Website | SNAiO Tech",
     description:
       'Most modern React and Vite websites are completely invisible to AI search agents like Perplexity, ChatGPT, and Claude. Here is why client-side SPAs fail the AEO test, and how static pre-rendering bridges the gap.',
-    canonical: 'https://snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
-    image: 'https://snaiotech.com/images/blog-ai-react-indexing.png',
+    canonical: 'https://www.snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
+    image: 'https://www.snaiotech.com/images/blog-ai-react-indexing.png',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
@@ -337,33 +337,33 @@ const ROUTES = [
         headline: "Why AI Agents & Search Engines Can't Read Your React Website (And How We Solved It)",
         description:
           'Most modern React and Vite websites are completely invisible to AI search agents like Perplexity, ChatGPT, and Claude. Here is why client-side SPAs fail the AEO test, and how static pre-rendering bridges the gap.',
-        image: 'https://snaiotech.com/images/blog-ai-react-indexing.png',
+        image: 'https://www.snaiotech.com/images/blog-ai-react-indexing.png',
         author: {
           '@type': 'Organization',
           name: 'SNAiO Tech Engineering Team',
-          url: 'https://snaiotech.com',
+          url: 'https://www.snaiotech.com',
         },
         publisher: {
-          '@id': 'https://snaiotech.com/#organization',
+          '@id': 'https://www.snaiotech.com/#organization',
         },
         datePublished: '2026-10-11',
         dateModified: '2026-10-11',
         mainEntityOfPage: {
           '@type': 'WebPage',
-          '@id': 'https://snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
+          '@id': 'https://www.snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
         },
       },
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://snaiotech.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://snaiotech.com/blog' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.snaiotech.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.snaiotech.com/blog' },
           {
             '@type': 'ListItem',
             position: 3,
             name: "Why AI Agents Can't Read React Websites",
-            item: 'https://snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
+            item: 'https://www.snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
           },
         ],
       },
@@ -401,6 +401,16 @@ for (const route of ROUTES) {
     html = html.replace('</head>', `  <link rel="canonical" href="${route.canonical}" />\n</head>`)
   }
 
+  // Update Robots directive
+  if (/<meta\s+name=["']robots["']/i.test(html)) {
+    html = html.replace(
+      /<meta\s+name=["']robots["'][^>]*>/i,
+      `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />`,
+    )
+  } else {
+    html = html.replace('</head>', `  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />\n</head>`)
+  }
+
   // Update Open Graph tags
   html = html.replace(
     /<meta\s+property=["']og:title["'][^>]*>/i,
@@ -424,7 +434,6 @@ for (const route of ROUTES) {
     <meta name="twitter:title" content="${route.title}" />
     <meta name="twitter:description" content="${route.description}" />
     <meta name="twitter:image" content="${ogImage}" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 `
 
   // Inject Structured Data (JSON-LD)

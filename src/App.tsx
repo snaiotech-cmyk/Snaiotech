@@ -115,7 +115,7 @@ export default function App({ initialPage }: AppProps = {}) {
       description.setAttribute('content', pageSettings?.description || savedSite.defaultDescription || 'Premium digital services from Snaiotech.')
       
       // Always guarantee canonical tag matches current page route
-      const baseDomain = savedSite.canonicalUrl ? savedSite.canonicalUrl.replace(/\/$/, '') : 'https://snaiotech.com'
+      const baseDomain = savedSite.canonicalUrl ? savedSite.canonicalUrl.replace(/\/$/, '') : 'https://www.snaiotech.com'
       const pagePath = getPathForPage(page)
       const fullCanonicalUrl = `${baseDomain}${pagePath}`
       let canonical = document.querySelector('link[rel="canonical"]')
@@ -131,6 +131,15 @@ export default function App({ initialPage }: AppProps = {}) {
       if (ogUrl) {
         ogUrl.setAttribute('content', fullCanonicalUrl)
       }
+
+      // Admin portal must never be indexed
+      let robotsMeta = document.querySelector('meta[name="robots"]')
+      if (!robotsMeta) {
+        robotsMeta = document.createElement('meta')
+        robotsMeta.setAttribute('name', 'robots')
+        document.head.appendChild(robotsMeta)
+      }
+      robotsMeta.setAttribute('content', page === 'admin' ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
 
       if (savedSite.faviconUrl) {
         const favicon = document.querySelector('link[rel="icon"]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'icon' }))

@@ -61,5 +61,5 @@ insert into public.page_settings (page, title, slug, description, keywords) valu
 on conflict (page) do nothing;
 
 insert into public.site_settings (id, logo_url, canonical_url, default_description, instagram, facebook, linkedin, email)
-values (true, 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo', 'https://snaiotech.com', 'Premium digital services for businesses that demand excellence.', 'https://www.instagram.com/snaiotech/', 'https://www.facebook.com/snaiotech', 'https://www.linkedin.com/in/snaiotech/', 'Info@snaiotech.com')
+values (true, 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo', 'https://www.snaiotech.com', 'Premium digital services for businesses that demand excellence.', 'https://www.instagram.com/snaiotech/', 'https://www.facebook.com/snaiotech', 'https://www.linkedin.com/in/snaiotech/', 'Info@snaiotech.com')
 on conflict (id) do nothing;
