@@ -31,6 +31,19 @@
       ]
     }
   ],
+  "redirects": [
+    { "source": "/about.php", "destination": "/about", "permanent": true },
+    { "source": "/contact.php", "destination": "/contact", "permanent": true },
+    { "source": "/services.php", "destination": "/", "permanent": true },
+    { "source": "/privacy.php", "destination": "/", "permanent": true },
+    { "source": "/terms.php", "destination": "/", "permanent": true },
+    { "source": "/services/website-development.php", "destination": "/webdev", "permanent": true },
+    { "source": "/services/web-mobile-apps.php", "destination": "/webdev", "permanent": true },
+    { "source": "/services/seo-marketing.php", "destination": "/webdev", "permanent": true },
+    { "source": "/services/zoho-suite.php", "destination": "/zoho", "permanent": true },
+    { "source": "/services/branding-design.php", "destination": "/", "permanent": true },
+    { "source": "/services/hardware-it.php", "destination": "/", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/((?!api/|.*\\.[a-zA-Z0-9]+$).*)", "destination": "/index.html" }
   ]
