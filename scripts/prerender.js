@@ -87,7 +87,6 @@ const WEBSITE_SCHEMA = {
   '@type': 'WebSite',
   '@id': 'https://www.snaiotech.com/#website',
   name: 'Snaiotech',
-  alternateName: 'Snaiotech',
   url: 'https://www.snaiotech.com',
   publisher: {
     '@id': 'https://www.snaiotech.com/#organization',
@@ -420,15 +419,24 @@ for (const route of ROUTES) {
     /<meta\s+property=["']og:description["'][^>]*>/i,
     `<meta property="og:description" content="${route.description}" />`,
   )
+  html = html.replace(
+    /<meta\s+property=["']og:site_name["'][^>]*>/i,
+    `<meta property="og:site_name" content="Snaiotech" />`,
+  )
+  html = html.replace(
+    /<meta\s+property=["']og:type["'][^>]*>/i,
+    `<meta property="og:type" content="website" />`,
+  )
+  html = html.replace(
+    /<meta\s+property=["']og:url["'][^>]*>/i,
+    `<meta property="og:url" content="${route.canonical}" />`,
+  )
 
   const ogImage = route.image || 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo'
 
   const extraMeta = `
     <meta name="author" content="Snaiotech" />
-    <meta name="keywords" content="Snaiotech, Snaiotech, React SPA indexing, AI search engines, Perplexity SEO, ChatGPT Browse, AEO, GEO, static prerendering, Vite SSG" />
-    <meta property="og:url" content="${route.canonical}" />
-    <meta property="og:site_name" content="Snaiotech" />
-    <meta property="og:type" content="website" />
+    <meta name="keywords" content="Snaiotech, web development Chennai, PDF accessibility, WCAG compliance, Zoho implementation, SEO, AEO, GEO, Vite SSG" />
     <meta property="og:image" content="${ogImage}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${route.title}" />
