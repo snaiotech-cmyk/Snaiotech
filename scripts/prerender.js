@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * scripts/prerender.js
- * Static Site Generation (SSG) Pre-rendering Script for SNAiO Tech
+ * Static Site Generation (SSG) Pre-rendering Script for Snaiotech
  *
  * This script runs after `vite build` during deployment.
  * It compiles an SSR bundle, renders every route into rich, semantic HTML,
@@ -50,16 +50,16 @@ const ORGANIZATION_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   '@id': 'https://www.snaiotech.com/#organization',
-  name: 'SNAiO Tech',
-  alternateName: ['Snaiotech', 'Snaiotech Chennai', 'SNAiO Tech Solutions'],
+  name: 'Snaiotech',
+  alternateName: ['Snaiotech', 'Snaiotech Chennai', 'Snaiotech Solutions'],
   url: 'https://www.snaiotech.com',
   logo: {
     '@type': 'ImageObject',
     url: 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo',
-    caption: 'SNAiO Tech Logo',
+    caption: 'Snaiotech Logo',
   },
   description:
-    'SNAiO Tech delivers premium web development, SEO/AEO/GEO, PDF accessibility (WCAG 2.2 AA), and Zoho deployment services from Chennai, India.',
+    'Snaiotech delivers premium web development, SEO/AEO/GEO, PDF accessibility (WCAG 2.2 AA), and Zoho deployment services from Chennai, India.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Choolaimedu',
@@ -86,7 +86,7 @@ const WEBSITE_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   '@id': 'https://www.snaiotech.com/#website',
-  name: 'SNAiO Tech',
+  name: 'Snaiotech',
   alternateName: 'Snaiotech',
   url: 'https://www.snaiotech.com',
   publisher: {
@@ -99,9 +99,9 @@ const ROUTES = [
   {
     id: 'home',
     path: '/',
-    title: 'SNAiO Tech | Web Dev, PDF Accessibility & Zoho Solutions',
+    title: 'Snaiotech | Web Dev, PDF Accessibility & Zoho Solutions',
     description:
-      'SNAiO Tech delivers premium web development, SEO/AEO/GEO, PDF accessibility (WCAG 2.2 AA), and Zoho deployment services from Chennai, India.',
+      'Snaiotech delivers premium web development, SEO/AEO/GEO, PDF accessibility (WCAG 2.2 AA), and Zoho deployment services from Chennai, India.',
     canonical: 'https://www.snaiotech.com/',
     schemas: [
       ORGANIZATION_SCHEMA,
@@ -110,7 +110,7 @@ const ROUTES = [
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
         '@id': 'https://www.snaiotech.com/#service',
-        name: 'SNAiO Tech',
+        name: 'Snaiotech',
         url: 'https://www.snaiotech.com',
         image: 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo',
         telephone: '+91-9585010283',
@@ -158,7 +158,7 @@ const ROUTES = [
   {
     id: 'webdev',
     path: '/webdev',
-    title: 'Web Development & Modern SEO/AEO/GEO Services | SNAiO Tech',
+    title: 'Web Development & Modern SEO/AEO/GEO Services | Snaiotech',
     description:
       'High-performance React websites, technical SEO, Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO) engineered for top search & AI visibility.',
     canonical: 'https://www.snaiotech.com/webdev',
@@ -187,7 +187,7 @@ const ROUTES = [
   {
     id: 'pdf',
     path: '/pdf',
-    title: 'PDF Accessibility & WCAG 2.2 AA Compliance Services | SNAiO Tech',
+    title: 'PDF Accessibility & WCAG 2.2 AA Compliance Services | Snaiotech',
     description:
       'Certified PDF accessibility remediation, Section 508, ADA, and WCAG 2.2 AA compliance audits with full screen reader verification & PAC compliance.',
     canonical: 'https://www.snaiotech.com/pdf',
@@ -216,7 +216,7 @@ const ROUTES = [
   {
     id: 'zoho',
     path: '/zoho',
-    title: 'Zoho Implementation, Automation & Customization | SNAiO Tech',
+    title: 'Zoho Implementation, Automation & Customization | Snaiotech',
     description:
       'Expert Zoho CRM deployment, Deluge scripting, workflow automation, and custom integrations tailored for modern business scalability.',
     canonical: 'https://www.snaiotech.com/zoho',
@@ -245,16 +245,16 @@ const ROUTES = [
   {
     id: 'about',
     path: '/about',
-    title: 'About SNAiO Tech | Digital Agency in Chennai, India',
+    title: 'About Snaiotech | Digital Agency in Chennai, India',
     description:
-      'Discover SNAiO Tech: an agile digital agency delivering world-class web development, PDF document accessibility, and cloud workflow automation from Chennai.',
+      'Discover Snaiotech: an agile digital agency delivering world-class web development, PDF document accessibility, and cloud workflow automation from Chennai.',
     canonical: 'https://www.snaiotech.com/about',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
-        name: 'About SNAiO Tech',
+        name: 'About Snaiotech',
         url: 'https://www.snaiotech.com/about',
         description: 'Who We Are — Digital services built for durability, clarity, and real-world results.',
       },
@@ -271,7 +271,7 @@ const ROUTES = [
   {
     id: 'blog',
     path: '/blog',
-    title: 'Insights & Technology Blog | SNAiO Tech',
+    title: 'Insights & Technology Blog | Snaiotech',
     description:
       'Actionable guides, in-depth case studies, and insights on WCAG accessibility, web performance engineering, generative engine optimization, and Zoho automation.',
     canonical: 'https://www.snaiotech.com/blog',
@@ -280,7 +280,7 @@ const ROUTES = [
       {
         '@context': 'https://schema.org',
         '@type': 'Blog',
-        name: 'SNAiO Tech Insights & Blog',
+        name: 'Snaiotech Insights & Blog',
         url: 'https://www.snaiotech.com/blog',
         description: 'Industry insights, compliance walkthroughs, and technical breakdowns from our specialists.',
       },
@@ -297,16 +297,16 @@ const ROUTES = [
   {
     id: 'contact',
     path: '/contact',
-    title: 'Contact SNAiO Tech | Start Your Project Today',
+    title: 'Contact Snaiotech | Start Your Project Today',
     description:
-      'Contact SNAiO Tech in Chennai, India for custom web development, PDF accessibility remediation, or Zoho CRM deployment. Free consultation and fast response.',
+      'Contact Snaiotech in Chennai, India for custom web development, PDF accessibility remediation, or Zoho CRM deployment. Free consultation and fast response.',
     canonical: 'https://www.snaiotech.com/contact',
     schemas: [
       ORGANIZATION_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'ContactPage',
-        name: 'Contact SNAiO Tech',
+        name: 'Contact Snaiotech',
         url: 'https://www.snaiotech.com/contact',
         description: 'Reach our Chennai team directly via email, phone, or project consultation form.',
       },
@@ -324,7 +324,7 @@ const ROUTES = [
     id: 'blog-detail',
     path: '/blog/why-ai-agents-cant-read-your-react-website',
     outDir: 'blog/why-ai-agents-cant-read-your-react-website',
-    title: "Why AI Agents & Search Engines Can't Read Your React Website | SNAiO Tech",
+    title: "Why AI Agents & Search Engines Can't Read Your React Website | Snaiotech",
     description:
       'Most modern React and Vite websites are completely invisible to AI search agents like Perplexity, ChatGPT, and Claude. Here is why client-side SPAs fail the AEO test, and how static pre-rendering bridges the gap.',
     canonical: 'https://www.snaiotech.com/blog/why-ai-agents-cant-read-your-react-website',
@@ -340,7 +340,7 @@ const ROUTES = [
         image: 'https://www.snaiotech.com/images/blog-ai-react-indexing.png',
         author: {
           '@type': 'Organization',
-          name: 'SNAiO Tech Engineering Team',
+          name: 'Snaiotech Engineering Team',
           url: 'https://www.snaiotech.com',
         },
         publisher: {
@@ -424,10 +424,10 @@ for (const route of ROUTES) {
   const ogImage = route.image || 'https://res.cloudinary.com/piyrx4qi/image/upload/f_auto,q_auto/logo'
 
   const extraMeta = `
-    <meta name="author" content="SNAiO Tech" />
-    <meta name="keywords" content="SNAiO Tech, Snaiotech, React SPA indexing, AI search engines, Perplexity SEO, ChatGPT Browse, AEO, GEO, static prerendering, Vite SSG" />
+    <meta name="author" content="Snaiotech" />
+    <meta name="keywords" content="Snaiotech, Snaiotech, React SPA indexing, AI search engines, Perplexity SEO, ChatGPT Browse, AEO, GEO, static prerendering, Vite SSG" />
     <meta property="og:url" content="${route.canonical}" />
-    <meta property="og:site_name" content="SNAiO Tech" />
+    <meta property="og:site_name" content="Snaiotech" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="${ogImage}" />
     <meta name="twitter:card" content="summary_large_image" />

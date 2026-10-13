@@ -145,7 +145,7 @@ function ConformanceModal({ doc, onClose }: { doc: typeof SAMPLES[0]; onClose: (
 
   const handleCopySpec = () => {
     navigator.clipboard?.writeText(
-      `SNAiO Tech Conformance Spec - ${doc.title} (${doc.org}) - Compliance: ${doc.badge} / PDF/UA-1 ISO 14289-1. Status: PASS (21/21 criteria verified).`
+      `Snaiotech Conformance Spec - ${doc.title} (${doc.org}) - Compliance: ${doc.badge} / PDF/UA-1 ISO 14289-1. Status: PASS (21/21 criteria verified).`
     )
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -412,7 +412,7 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
         accent="can use."
         description="We remediate and audit PDFs for full WCAG 2.2 Level AA & PDF/UA-1 compliance. Zero automated guesswork—human-tested with NVDA, JAWS, and PAC 2024."
         image="/images/discipline-pdf-accessibility.png"
-        imageAlt="SNAiO Tech illustration for accessible documents"
+        imageAlt="Snaiotech illustration for accessible documents"
         highlights={['WCAG 2.2 AA', 'PDF/UA-1 ISO 14289', 'VPAT 2.5 Certified']}
         primaryLabel="Request a PDF audit"
         secondaryLabel="Try live inspector"
@@ -433,7 +433,7 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
                 Hear the Difference <span className="gradient-text">Screen Readers Experience</span>
               </h2>
               <p className="mt-4 text-sm sm:text-base text-white/60 max-w-2xl mx-auto">
-                Toggle below to experience how a blind or visually impaired user hears an untagged broken document versus a SNAiO-certified accessible PDF.
+                Toggle below to experience how a blind or visually impaired user hears an untagged broken document versus a Snaiotech-certified accessible PDF.
               </p>
             </div>
 
@@ -469,7 +469,7 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
                           : 'text-white/50 hover:text-white'
                       }`}
                     >
-                      ✓ SNAiO Remediated
+                      ✓ Snaiotech Remediated
                     </button>
                   </div>
 
@@ -595,7 +595,7 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
                   <div className="flex items-center gap-2">
                     <img
                       src="/images/mascot-laptop.png"
-                      alt="SNAiO Lead Accessibility Auditor"
+                      alt="Snaiotech Lead Accessibility Auditor"
                       className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(0,180,216,0.5)]"
                     />
                     <div>
@@ -843,7 +843,7 @@ export default function PDFAccess({ onNavigate }: PDFAccessProps) {
                 Featured <span className="gradient-text">Remediation Case Studies</span>
               </h2>
               <p className="text-white/50 text-sm mt-3 max-w-lg mx-auto">
-                Explore actual enterprise documents remediated by SNAiO. Click to inspect the full PAC 2024 compliance certificate and audit telemetry.
+                Explore actual enterprise documents remediated by Snaiotech. Click to inspect the full PAC 2024 compliance certificate and audit telemetry.
               </p>
             </div>
 

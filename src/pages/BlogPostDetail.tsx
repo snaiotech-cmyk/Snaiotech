@@ -148,12 +148,12 @@ export default function BlogPostDetail({ onNavigate }: BlogPostDetailProps) {
             <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex-shrink-0 overflow-hidden shadow-[0_0_10px_rgba(0,180,216,0.3)]">
               <img
                 src="/images/mascot-portrait.png"
-                alt="SNAiO Tech author avatar"
+                alt="Snaiotech author avatar"
                 className="w-full h-full object-cover rounded-full"
               />
             </div>
             <div>
-              <div className="text-white font-semibold">SNAiO Tech Engineering Team</div>
+              <div className="text-white font-semibold">Snaiotech Engineering Team</div>
               <div className="text-xs text-white/45 flex items-center gap-2" style={{ fontFamily: 'Space Mono, monospace' }}>
                 <span>Oct 11, 2026</span>
                 <span>·</span>
@@ -217,7 +217,7 @@ export default function BlogPostDetail({ onNavigate }: BlogPostDetailProps) {
           <div className="absolute bottom-5 left-6 right-6 flex items-center justify-between text-xs text-white/60">
             <span className="flex items-center gap-2 bg-[#070B14]/80 px-3 py-1.5 rounded-lg border border-white/10">
               <span className="w-2 h-2 rounded-full bg-cyan-400" />
-              SNAiO Architecture Blueprint · AI Web Crawler Diagnostics
+              Snaiotech Architecture Blueprint · AI Web Crawler Diagnostics
             </span>
             <span className="hidden sm:inline font-mono text-[11px] text-white/40">Visualized in Chennai Lab</span>
           </div>
@@ -381,7 +381,7 @@ export default function BlogPostDetail({ onNavigate }: BlogPostDetailProps) {
                       <div>&lt;!doctype html&gt;</div>
                       <div>&lt;html lang=&quot;en&quot;&gt;</div>
                       <div>&nbsp;&nbsp;&lt;head&gt;</div>
-                      <div>&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;SNAiO Tech | Web Dev, PDF Accessibility...&lt;/title&gt;</div>
+                      <div>&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Snaiotech | Web Dev, PDF Accessibility...&lt;/title&gt;</div>
                       <div>&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name=&quot;description&quot; content=&quot;...&quot;&gt;</div>
                       <div>&nbsp;&nbsp;&lt;/head&gt;</div>
                       <div>&nbsp;&nbsp;&lt;body&gt;</div>
@@ -695,16 +695,16 @@ if (rootElement.hasChildNodes()) {
                 <div className="w-16 h-16 rounded-2xl overflow-hidden p-0.5 bg-gradient-to-tr from-cyan-400 to-blue-600 flex-shrink-0 shadow-[0_0_15px_rgba(0,180,216,0.4)]">
                   <img
                     src="/images/mascot-portrait.png"
-                    alt="SNAiO Tech Engineering Mascot"
+                    alt="Snaiotech Engineering Mascot"
                     className="w-full h-full object-cover rounded-[14px]"
                   />
                 </div>
                 <div>
                   <h4 className="text-base font-bold text-white mb-1" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                    Engineered by SNAiO Tech
+                    Engineered by Snaiotech
                   </h4>
                   <p className="text-xs text-white/60 leading-relaxed">
-                    SNAiO Tech is an agile digital engineering studio based in Chennai, India. We specialize in accessible web architectures (WCAG 2.2 AA), modern technical SEO / AEO / GEO, and enterprise Zoho business automation.
+                    Snaiotech is an agile digital engineering studio based in Chennai, India. We specialize in accessible web architectures (WCAG 2.2 AA), modern technical SEO / AEO / GEO, and enterprise Zoho business automation.
                   </p>
                 </div>
               </div>

@@ -208,7 +208,7 @@ export default function Home({ onNavigate }: HomeProps) {
     <div className="overflow-x-hidden">
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="hero-slider relative isolate h-[100vh] h-[100svh] w-screen overflow-hidden bg-[#050912]" aria-label="SNAiO Tech services">
+      <section className="hero-slider relative isolate h-[100vh] h-[100svh] w-screen overflow-hidden bg-[#050912]" aria-label="Snaiotech services">
         <video
           key={`hero-video-${activeHeroService.id}`}
           className="hero-slider__video absolute inset-0 h-full w-full object-cover"
@@ -319,7 +319,7 @@ export default function Home({ onNavigate }: HomeProps) {
           </div>
       </section>
 
-      {/* ── WHY SNAIOTECH ─────────────────────────────────────────────── */}
+      {/* ── WHY Snaiotech ─────────────────────────────────────────────── */}
       <section className="stats-showcase-section gradient-mesh relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div ref={statsRef as React.RefObject<HTMLDivElement>}>

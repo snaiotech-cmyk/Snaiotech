@@ -48,7 +48,7 @@ const SERVICE_LINKS = [
 ]
 
 const COMPANY_LINKS = [
-  { label: 'About SNAiO Tech', page: 'about', path: '/about' },
+  { label: 'About Snaiotech', page: 'about', path: '/about' },
   { label: 'Insights & Blog', page: 'blog', path: '/blog' },
   { label: 'Contact', page: 'contact', path: '/contact' },
 ]
@@ -190,7 +190,7 @@ export default function Footer({ onNavigate }: FooterProps) {
 
   return (
     <>
-      <div className="sn-footer__marquee" aria-label="SNAiO Tech services">
+      <div className="sn-footer__marquee" aria-label="Snaiotech services">
         <div className="sn-footer__marquee-track" aria-hidden="true">
           {[0, 1].map((copy) => (
             <div className="sn-footer__marquee-group" key={copy}>
@@ -221,10 +221,10 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="sn-footer__inner">
           <div className="sn-footer__grid">
             <section className="sn-footer__brand">
-              <p className="sn-footer__label">© {new Date().getFullYear()} SNAiO Tech</p>
-              <button onClick={() => navigate('home')} className="sn-footer__logo" aria-label="SNAiO Tech home">
+              <p className="sn-footer__label">© {new Date().getFullYear()} Snaiotech</p>
+              <button onClick={() => navigate('home')} className="sn-footer__logo" aria-label="Snaiotech home">
                 <img src={getLogoSrc()} alt="" />
-                <span>SNAiO <b>Tech</b></span>
+                <span>Snaiotech</span>
               </button>
               <p className="sn-footer__tagline">Digital work that works for everyone.</p>
               <p className="sn-footer__description">
@@ -312,15 +312,15 @@ export default function Footer({ onNavigate }: FooterProps) {
           </div>
 
           <div className="sn-footer__bottom">
-            <span>© {new Date().getFullYear()} SNAiO Tech. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Snaiotech. All rights reserved.</span>
             <span>Built with care in Chennai, India</span>
           </div>
         </div>
 
-        <div className="sn-footer__wordmark" aria-label="SNAiO Tech">
-          <span className="sr-only">SNAiO Tech</span>
+        <div className="sn-footer__wordmark" aria-label="Snaiotech">
+          <span className="sr-only">Snaiotech</span>
           <div className="sn-footer__wordmark-inner" aria-hidden="true">
-            {Array.from('SNAIOTECH').map((letter, index) => (
+            {Array.from('Snaiotech').map((letter, index) => (
               <span
                 key={`${letter}-${index}`}
                 className="sn-footer__letter-wrap"

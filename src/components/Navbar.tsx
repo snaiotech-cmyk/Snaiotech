@@ -132,11 +132,11 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               navigate('home')
             }}
             className="flex items-center gap-3 group"
-            aria-label="SNAiO Tech Home"
+            aria-label="Snaiotech Home"
           >
             <img
               src={getLogoSrc()}
-              alt="SNAiO Tech logo"
+              alt="Snaiotech logo"
               className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-110"
               width={36}
               height={36}
@@ -303,7 +303,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
                 }}
                 className="flex items-center gap-3"
               >
-                <img src={getLogoSrc()} alt="SNAiO Tech" className="w-8 h-8 object-contain" />
+                <img src={getLogoSrc()} alt="Snaiotech" className="w-8 h-8 object-contain" />
                 <span className="font-bold text-lg tracking-tight gradient-text" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
                   Snaiotech
                 </span>

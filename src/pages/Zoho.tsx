@@ -452,7 +452,7 @@ export default function Zoho({ onNavigate }: ZohoProps) {
         accent="actually works."
         description="We configure, automate, and integrate Zoho systems to fit your business mechanics—with clean data, enforced guardrails, and hands-on team training."
         image="/images/discipline-zoho-implementation.png"
-        imageAlt="SNAiO Tech illustration for Zoho implementation"
+        imageAlt="Snaiotech illustration for Zoho implementation"
         highlights={['Zoho CRM & One', 'Blueprint automation', 'Custom Deluge APIs']}
         primaryLabel="Explore Zoho setup"
         secondaryLabel="View capabilities"
@@ -535,7 +535,7 @@ export default function Zoho({ onNavigate }: ZohoProps) {
                     <div className="absolute -inset-4 bg-cyan-400/15 rounded-full blur-2xl pointer-events-none" />
                     <img
                       src="/images/mascot-backpack.png"
-                      alt="SNAiO Tech wolf mascot walking with backpack"
+                      alt="Snaiotech wolf mascot walking with backpack"
                       className="w-36 sm:w-44 h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
@@ -836,7 +836,7 @@ export default function Zoho({ onNavigate }: ZohoProps) {
                       </div>
 
                       <pre className="p-4 text-[11px] font-mono text-cyan-200 overflow-x-auto leading-relaxed max-h-52">
-                        <code>{`// SNAiO Tech Deluge Automation
+                        <code>{`// Snaiotech Deluge Automation
 dealRecord = zoho.crm.getRecordById("Deals", dealId);
 if (dealRecord.get("Stage") == "Closed Won") {
   invoiceData = {
@@ -1048,7 +1048,7 @@ if (dealRecord.get("Stage") == "Closed Won") {
                     <tr>
                       <th className="p-4 sm:p-5">Platform Attribute</th>
                       <th className="p-4 sm:p-5 text-red-300">Salesforce / HubSpot</th>
-                      <th className="p-4 sm:p-5 text-cyan-300">Zoho One with SNAiO</th>
+                      <th className="p-4 sm:p-5 text-cyan-300">Zoho One with Snaiotech</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5 font-sans">

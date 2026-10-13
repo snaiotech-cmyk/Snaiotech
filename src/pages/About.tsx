@@ -74,12 +74,12 @@ export default function About({ onNavigate }: AboutProps) {
   return (
     <div className="overflow-x-hidden">
       <PageHero
-        service="SNAiO Tech"
+        service="Snaiotech"
         title="Digital work that"
         accent="works for everyone."
         description="We bring PDF accessibility (WCAG 2.2 AA), connected Zoho business automation, and search-optimized web development together under one roof in Chennai, India."
         image="/images/mascot-arms-crossed.png"
-        imageAlt="SNAiO Tech wolf mascot standing with arms crossed"
+        imageAlt="Snaiotech wolf mascot standing with arms crossed"
         highlights={['PDF accessibility', 'Zoho systems', 'Websites & apps']}
         primaryLabel="Talk with our team"
         secondaryLabel="What we stand for"
@@ -152,7 +152,7 @@ export default function About({ onNavigate }: AboutProps) {
                   <div className="rounded-3xl overflow-hidden border border-cyan-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.7)] group">
                     <img
                       src={img('1681949103006-70066fb25dfe', 900, 560)}
-                      alt="SNAiO Tech engineering team in session"
+                      alt="Snaiotech engineering team in session"
                       className="w-full h-80 sm:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div
@@ -257,12 +257,12 @@ export default function About({ onNavigate }: AboutProps) {
         </div>
       </section>
 
-      {/* ── Delivery Comparison: Typical Agency vs SNAiO Tech ── */}
+      {/* ── Delivery Comparison: Typical Agency vs Snaiotech ── */}
       <section className="py-24 gradient-mesh">
         <div className="max-w-5xl mx-auto px-6">
           <div ref={compRef as React.RefObject<HTMLDivElement>}>
             <div className={`text-center mb-12 reveal ${compVis ? 'visible' : ''}`}>
-              <p className="eyebrow mb-2">The SNAiO Difference</p>
+              <p className="eyebrow mb-2">The Snaiotech Difference</p>
               <h3 className="text-3xl sm:text-4xl font-extrabold text-white" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
                 How We Operate <span className="gradient-text">vs. Traditional Agencies</span>
               </h3>
@@ -275,7 +275,7 @@ export default function About({ onNavigate }: AboutProps) {
                     <tr>
                       <th className="p-4 sm:p-5">Dimension</th>
                       <th className="p-4 sm:p-5 text-red-300">Typical Agency</th>
-                      <th className="p-4 sm:p-5 text-cyan-300">SNAiO Tech</th>
+                      <th className="p-4 sm:p-5 text-cyan-300">Snaiotech</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5 font-sans">

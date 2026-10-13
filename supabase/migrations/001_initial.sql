@@ -1,5 +1,5 @@
 -- ============================================================
--- SNAiO Tech — Initial Supabase Schema
+-- Snaiotech — Initial Supabase Schema
 -- Safe to run on every deploy: uses IF NOT EXISTS + ON CONFLICT
 -- ============================================================
 

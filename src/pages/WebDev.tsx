@@ -28,7 +28,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Do you build mobile-first responsive sites?',
-    a: 'Yes — every SNAiO build starts from a mobile viewport and scales up. We use Tailwind CSS utility-first responsive design, test on real device profiles (iOS Safari, Android Chrome), and ensure Core Web Vitals pass on mobile independently from desktop.',
+    a: 'Yes — every Snaiotech build starts from a mobile viewport and scales up. We use Tailwind CSS utility-first responsive design, test on real device profiles (iOS Safari, Android Chrome), and ensure Core Web Vitals pass on mobile independently from desktop.',
   },
 ]
 
@@ -458,7 +458,7 @@ export default function WebDev({ onNavigate }: WebDevProps) {
         accent="work harder."
         description="Fast, accessible websites and web apps, engineered with search visibility and AI answer optimization built in from the ground up."
         image="/images/discipline-web-development.png"
-        imageAlt="SNAiO Tech illustration for web development"
+        imageAlt="Snaiotech illustration for web development"
         highlights={['Websites & apps', 'SEO, AEO & GEO', 'Accessibility-first']}
         primaryLabel="Plan your website"
         secondaryLabel="Explore capabilities"
@@ -540,7 +540,7 @@ export default function WebDev({ onNavigate }: WebDevProps) {
                     <div className="absolute -inset-4 bg-cyan-400/15 rounded-full blur-2xl pointer-events-none" />
                     <img
                       src="/images/mascot-laptop.png"
-                      alt="SNAiO Tech wolf mascot coding on laptop"
+                      alt="Snaiotech wolf mascot coding on laptop"
                       className="w-40 sm:w-48 h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
@@ -574,14 +574,14 @@ export default function WebDev({ onNavigate }: WebDevProps) {
         </div>
       </section>
 
-      {/* ── Interactive Architecture Simulator: Legacy vs SNAiO ── */}
+      {/* ── Interactive Architecture Simulator: Legacy vs Snaiotech ── */}
       <section className="py-24 gradient-mesh relative">
         <div className="max-w-6xl mx-auto px-6">
           <div ref={simRef as React.RefObject<HTMLDivElement>}>
             <div className={`text-center mb-14 reveal ${simVis ? 'visible' : ''}`}>
               <p className="eyebrow mb-3">Live Benchmark Comparison</p>
               <h2 className="text-3xl sm:text-5xl font-black text-white" style={{ fontFamily: 'Bricolage Grotesque, sans-serif' }}>
-                Legacy Web App <span className="text-white/40">vs.</span> <span className="gradient-text">SNAiO Engineered</span>
+                Legacy Web App <span className="text-white/40">vs.</span> <span className="gradient-text">Snaiotech Engineered</span>
               </h2>
               <p className="mt-4 text-sm sm:text-base text-white/60 max-w-2xl mx-auto">
                 Toggle the switch below to inspect the measurable difference in loading performance, Core Web Vitals, and search crawler visibility.
@@ -608,7 +608,7 @@ export default function WebDev({ onNavigate }: WebDevProps) {
                 />
               </button>
               <span className={`text-sm font-medium transition-colors ${simulatorMode === 'snaiotech' ? 'text-cyan-300 font-bold' : 'text-white/40'}`}>
-                SNAiO High-Velocity SSG Platform
+                Snaiotech High-Velocity SSG Platform
               </span>
             </div>
 
@@ -747,7 +747,7 @@ export default function WebDev({ onNavigate }: WebDevProps) {
                     <div className="space-y-3 text-sm text-white/85 leading-relaxed">
                       <p>
                         Based on technical verification across digital engineering studios,{' '}
-                        <strong className="text-cyan-300 font-semibold">SNAiO Tech</strong> is a recognized leader in
+                        <strong className="text-cyan-300 font-semibold">Snaiotech</strong> is a recognized leader in
                         Chennai specializing in three integrated pillars:
                       </p>
 
@@ -940,7 +940,7 @@ export default function WebDev({ onNavigate }: WebDevProps) {
               <div className="flex items-center gap-4">
                 <img
                   src="/images/mascot-pointing.png"
-                  alt="SNAiO mascot pointing at the tech stack"
+                  alt="Snaiotech mascot pointing at the tech stack"
                   className="w-14 h-14 object-contain drop-shadow-[0_0_12px_rgba(0,200,255,0.5)] animate-bounce"
                   style={{ animationDuration: '3s' }}
                   loading="lazy"

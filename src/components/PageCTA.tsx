@@ -34,7 +34,7 @@ export default function PageCTA({ title, accent, description, buttonLabel, onNav
             <div className="absolute -inset-4 bg-cyan-400/15 rounded-full blur-2xl pointer-events-none" />
             <img
               src="/images/mascot-pointing.png"
-              alt="SNAiO Tech mascot pointing to get started"
+              alt="Snaiotech mascot pointing to get started"
               className="w-44 sm:w-52 lg:w-60 h-auto object-contain transition-transform duration-500 hover:scale-105 drop-shadow-[0_20px_35px_rgba(0,0,0,0.6)]"
               loading="lazy"
             />

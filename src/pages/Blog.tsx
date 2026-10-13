@@ -60,12 +60,12 @@ export default function Blog({ onNavigate }: BlogProps) {
   return (
     <div className="overflow-x-hidden">
       <PageHero
-        service="SNAiO Tech journal"
+        service="Snaiotech journal"
         title="Ideas for"
         accent="better digital work."
         description="Practical thinking on accessible documents, connected systems, web development, and the changing search landscape."
         image="/images/discipline-web-development.png"
-        imageAlt="SNAiO Tech illustration for web development"
+        imageAlt="Snaiotech illustration for web development"
         highlights={["Accessibility", "Zoho", "Web & search"]}
         primaryLabel="Talk about a project"
         secondaryLabel="Browse the articles"
