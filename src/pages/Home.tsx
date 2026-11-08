@@ -121,6 +121,16 @@ export default function Home({ onNavigate }: HomeProps) {
 
   const heroServices = [
     {
+      id: 'webdev',
+      tab: 'Web',
+      eyebrow: 'WEB DEVELOPMENT',
+      title: 'Websites built to be found.',
+      description: 'Fast, accessible websites and apps, built for search from day one.',
+      action: 'Explore web development',
+      poster: img('1498050108023-c5249f4df085', 1800, 1000),
+      video: '/videos/web-development.mp4',
+    },
+    {
       id: 'pdf',
       tab: 'Documents',
       eyebrow: 'PDF ACCESSIBILITY',
@@ -139,16 +149,6 @@ export default function Home({ onNavigate }: HomeProps) {
       action: 'Explore Zoho services',
       poster: img('1551288049-bebda4e38f71', 1800, 1000),
       video: '/videos/zoho-implementation.mp4',
-    },
-    {
-      id: 'webdev',
-      tab: 'Web',
-      eyebrow: 'WEB DEVELOPMENT',
-      title: 'Websites built to be found.',
-      description: 'Fast, accessible websites and apps, built for search from day one.',
-      action: 'Explore web development',
-      poster: img('1498050108023-c5249f4df085', 1800, 1000),
-      video: '/videos/web-development.mp4',
     },
   ]
   const activeHeroService = heroServices[heroSlide]

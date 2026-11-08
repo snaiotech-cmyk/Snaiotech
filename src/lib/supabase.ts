@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Fallback to project defaults if environment variables are not injected at build time
-const DEFAULT_SUPABASE_URL = 'https://fiicryblohagmfcvshcw.supabase.co'
-const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_7CR16dc-HoOh3kLGCDAB_w_xTs5FU_7'
+const DEFAULT_SUPABASE_URL = 'https://eloqsfhbhnbzjyjtfyru.supabase.co'
+const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_P0iN_58f246OCuRNyNQwkg_g7FwqX3m'
 
 // Support VITE_, NEXT_PUBLIC_, and provided defaults
 const supabaseUrl =
